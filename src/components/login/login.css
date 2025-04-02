@@ -1,0 +1,135 @@
+.login-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  height: 100vh;
+  background-color: #F8F6F6;
+  @media (max-width: 768px) {
+    height: calc(100vh - 50px);
+    overflow: hidden !important;
+  }
+
+}	
+
+.login-container{
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  flex-direction: column;
+  border: solid 1px #635b5b;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 30px;
+}
+
+.formualrio{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 90%;
+}
+
+.form-group input{
+  margin-bottom: 19px;
+  height: 38px;
+  border: 1px solid #6B6767;
+  width: 100%;
+  border-radius: 3px;
+  padding-left: 10px;
+  font-size: 0.9em !important; 
+}
+
+.custom-input {
+  color: #6B6767;
+  background-color: #ffffff;
+}
+
+.title-login h3,.title-login-principal h3{
+  font-weight: 700;
+}
+.title-login-principal {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center; 
+  margin-bottom: 30px;
+  gap: 10px;
+}
+
+.icono {
+  width: 47px; /* Ajusta el tamaño del icono */
+  height: auto;
+}
+
+
+.username, .password{
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 5px;
+  @media (max-width: 768px) {
+    font-size: 1.2em;
+  }
+}
+.forgot-password{
+color: #6B6767;
+}
+
+.content-forgot-password{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+ 
+}
+
+.login-caption{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 38px;
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
+}
+
+.login-caption h4{
+  font-weight: 600;
+  color: #6B6767;
+}
+
+
+
+.button-container {
+  margin-top: 10px;
+  width: 100%;
+  height: 35px;
+  margin-bottom: 20px;
+
+}
+
+.login-btn {
+  background-color: #000000;
+  color: #fff;
+  border: none;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  font-size: 0.9em; 
+  border-radius: 5px;
+}
+
+
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-btn:hover {
+  background-color: #706060 !important; /* Color al pasar el mouse */
+}
+
+/* Color al hacer clic */
+.login-btn:active {
+  background-color: #726060 !important; /* Color al hacer clic */
+}
+
