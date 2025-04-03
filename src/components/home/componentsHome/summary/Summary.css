@@ -1,0 +1,68 @@
+/* Estilo para las tarjetas de resumen */
+.card-summary {
+    padding: 15px;
+    background-color: #f8f9fa; 
+    border: 1px solid #000000; 
+    border-radius: 6px;
+    text-align: left;
+    margin-bottom: 10px;
+    
+    gap: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    min-height: 96px;
+}
+
+.card-summary:hover {
+    background-color: #000000; 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); 
+    transform: translateY(-5px); 
+}
+
+.card-summary h5 {
+    font-size: 13px;
+    font-weight: bold;
+    
+    color: #000000; 
+}
+
+.card-summary:hover h5 {
+    color: #ffffff; 
+}
+
+.card-summary p {
+    font-size: 14px;
+    color: #666666; 
+    margin: 0;
+}
+
+.card-summary:hover p {
+    color: #c4c2c2;
+}
+/*  contenedor estadisticas*/
+
+.content-statistics {
+    padding-top: 12px;
+    border: solid 1px #000000;
+    border-radius: 6px;
+}
+
+.content-statistics h5{
+    color: #000000;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+/* contenedor actividad reciente*/
+.content-recent-activity {
+    padding-top: 15px;
+   padding-left: 10px;
+    border: solid 1px #000000;
+    border-radius: 6px;
+}
+
+.content-recent-activity h5{
+    color: #000000;
+    font-size: 1em;
+    font-weight: 600;
+}
+

@@ -162,7 +162,7 @@ function AdminDashboard() {
       }
 
     } else {
-      navigate(`/admin${path}`);
+      navigate(`/admin${path}`,  { state: { key: Date.now() } });
     }
   };
 
@@ -214,7 +214,7 @@ function AdminDashboard() {
           <Nav className=" menuU h-100">
             <div className="section-1">
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/home')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/home/summary')}>
                 <FontAwesomeIcon className="icon-margin" icon={faHouse} />Inicio
               </Nav.Link>
 

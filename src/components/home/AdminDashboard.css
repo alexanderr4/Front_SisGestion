@@ -81,9 +81,9 @@
 
     overflow-y: auto;       /* Habilita el desplazamiento vertical */
     overflow-x: hidden;  /*Evita el scroll horizontal */
-    padding-right: 20px;    /* Evita que el contenido se superponga con la barra de desplazamiento */
+    padding-right: 40px;    /* Evita que el contenido se superponga con la barra de desplazamiento */
     padding-bottom: 25px;
-    padding-left: 30px;
+    padding-left: 40px;
     padding-top: 18px;
 
 }
