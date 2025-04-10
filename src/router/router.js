@@ -4,7 +4,8 @@ import AdminDashboard from '../components/home/AdminDashboard';
 import Welcome from '../components/home/Welcome';
 import Summary from '../components/home/componentsHome/summary/Summary';
 import Cancellations from '../components/home/componentsHome/cancellations/Cancellations';
-import Electives from '../components/home/componentsHome/electives/electives';
+import Electives from '../components/home/componentsHome/electives/Electives';
+import Reports from '../components/home/componentsHome/reports/Reports';
 
 function AppRouter() {
   return (
@@ -15,6 +16,7 @@ function AppRouter() {
           <Route path="summary" element={<Summary />} />
           <Route path="cancellations" element={<Cancellations />} />
           <Route path="electives" element={<Electives />} />
+          <Route path="reports" element={<Reports />} />
         </Route>
       </Route>
       

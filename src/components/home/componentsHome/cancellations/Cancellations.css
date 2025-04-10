@@ -1,0 +1,54 @@
+.cancellations {
+    border: solid 1px #000000;
+    padding: 10px !important;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    height: 99%;
+}
+
+.cancellations h4 {
+    font-weight: 600;
+    
+}
+
+.cards {
+    background-color: #ffffff;
+    border: solid 1px #000000;
+    border-radius: 5px;
+    padding: 20px;
+    width: 30%;
+    text-align: center;
+    color :#000000;
+    transition: transform 0.2s ease;
+    font-size: 10px;
+}
+.cards h6{
+    font-weight: 600;
+}
+
+.cards:hover {
+    transform: translateY(-5px);
+}
+
+.cards-icono {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cards:hover {
+    transform: translateY(-5px);
+}
+
+.cards-icono {
+    margin-bottom: 10px;
+    color: #555;
+}

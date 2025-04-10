@@ -1,25 +1,33 @@
-function Cancellations(){
-    return(
-        <div className="cancellations">
-            <h1>Cancellations</h1>
-            <p>We are sorry to hear that you want to cancel your order. Please fill out the form below and we will process your cancellation as soon as possible.</p>
-            <form>
-                <label htmlFor="order-number">Order Number:</label>
-                <input type="text" id="order-number" name="order-number" required />
-                
-                <label htmlFor="reason">Reason for Cancellation:</label>
-                <select id="reason" name="reason" required>
-                    <option value="">Select a reason</option>
-                    <option value="changed-my-mind">Changed my mind</option>
-                    <option value="found-a-better-price">Found a better price</option>
-                    <option value="product-not-as-described">Product not as described</option>
-                    <option value="other">Other</option>
-                </select>
+import "./Cancellations.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faSheetPlastic, faChartColumn } from '@fortawesome/free-solid-svg-icons';
 
-                <button type="submit">Submit Cancellation Request</button>
-            </form>
+
+function Cancellations() {
+
+    const cards = [
+        { title: "Nueva cancelación", icon: faPlus },
+        { title: "Solicitudes pendientes", icon: faSheetPlastic },
+        { title: "Historial de cancelaciones", icon: faChartColumn },
+    ];
+
+    return (
+        <div className="cancellations row">
+            <h4>Gestión de Cancelaciones</h4>
+            <p>Administre las solicitudes de cancelacion de asignaturas</p>
+            <p>Seleccione una acción para gestionar las cancelaciones de asignaturas </p>
+            <div className='cards-container'>
+                {cards.map((card, index) => (
+                    <div key={index} className="cards">
+                        <FontAwesomeIcon icon={card.icon} size="2x" className="cards-icono" />
+                        <h6>{card.title}</h6>
+                    </div>
+                ))}
+            </div>
         </div>
-    )   
+    )
 }
 
 export default Cancellations;
+
+

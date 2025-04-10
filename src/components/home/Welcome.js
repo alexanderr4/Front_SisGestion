@@ -10,8 +10,15 @@ import { Nav, Spinner } from 'react-bootstrap';
 const Welcome = () => {
     // Estado para manejar la carga
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("resumen");
-
+    const [activeTab, setActiveTab] = useState("summary");
+    
+    useEffect(() => {
+        const path = window.location.pathname.split('/').pop();
+        setActiveTab((path === 'home'? 'summary': path));
+        console.log(path);
+        console.log(window.location.pathname);
+        console.log(path === 'home');
+    }, []);
 
 
     const handleNavigation = async (path) => {
@@ -28,16 +35,16 @@ const Welcome = () => {
                 <div className='col-12 col-md-7 content-sub-menu'>
                     <Nav className='custom-sub-menu' variant="tabs" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)}>
                         <Nav.Item>
-                            <Nav.Link eventKey="resumen" onClick={() => handleNavigation('/summary')}>Resumen</Nav.Link>
+                            <Nav.Link eventKey="summary" onClick={() => handleNavigation('/summary')}>Resumen</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="cancelaciones" onClick={() => handleNavigation('/cancellations')}>Cancelaciones</Nav.Link>
+                            <Nav.Link eventKey="cancellations" onClick={() => handleNavigation('/cancellations')}>Cancelaciones</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="electivas"onClick={() => handleNavigation('/electives')}>Electivas</Nav.Link>
+                            <Nav.Link eventKey="electives"onClick={() => handleNavigation('/electives')}>Electivas</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="reportes">Reportes</Nav.Link>
+                            <Nav.Link eventKey="reports" onClick={() => handleNavigation('/reports')}>Reportes</Nav.Link>
                         </Nav.Item>
                     </Nav>
                 </div>
