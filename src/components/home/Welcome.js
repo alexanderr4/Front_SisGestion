@@ -11,14 +11,12 @@ const Welcome = () => {
     // Estado para manejar la carga
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("summary");
+    const pathInitial = window.location.pathname;
     
     useEffect(() => {
         const path = window.location.pathname.split('/').pop();
         setActiveTab((path === 'home'? 'summary': path));
-        console.log(path);
-        console.log(window.location.pathname);
-        console.log(path === 'home');
-    }, []);
+    }, [pathInitial]);
 
 
     const handleNavigation = async (path) => {

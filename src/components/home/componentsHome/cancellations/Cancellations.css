@@ -1,21 +1,26 @@
 .cancellations {
     border: solid 1px #000000;
-    padding: 10px !important;
+    border-radius: 5px;
+    padding: 30px 10px 30px 10px !important;
     display: flex;
     justify-content: center;
     margin-top: 30px;
     flex-wrap: wrap;
-    height: 99%;
+   
 }
 
 .cancellations h4 {
     font-weight: 600;
-    
+    color: #000000;
+}
+.cancellations p {
+    color: #6B6767;
+    font-size: 0.8em;
 }
 
 .cards {
     background-color: #ffffff;
-    border: solid 1px #000000;
+    border: solid 1px #ff3636;
     border-radius: 5px;
     padding: 20px;
     width: 30%;
@@ -23,6 +28,7 @@
     color :#000000;
     transition: transform 0.2s ease;
     font-size: 10px;
+    margin-top: 20px;
 }
 .cards h6{
     font-weight: 600;

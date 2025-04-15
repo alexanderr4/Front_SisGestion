@@ -18,7 +18,11 @@ function AppRouter() {
           <Route path="electives" element={<Electives />} />
           <Route path="reports" element={<Reports />} />
         </Route>
+        <Route path="cancellations" element={<Cancellations />}/>
+        <Route path="electives" element={<Electives />} />
+        <Route path="reports" element={<Reports />} />
       </Route>
+      
       
       {/* {localStorage.getItem('authToken')?  
         <Route index element={<Navigate to="/admin/welcome" />}/>:

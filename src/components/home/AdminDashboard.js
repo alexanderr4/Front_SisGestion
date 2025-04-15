@@ -218,15 +218,15 @@ function AdminDashboard() {
                 <FontAwesomeIcon className="icon-margin" icon={faHouse} />Inicio
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/users')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/cancellations')}>
                 <FontAwesomeIcon className="icon-margin" icon={faSheetPlastic} />        Cancelaciones
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/equipments')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/electives')}>
                 <FontAwesomeIcon className="icon-margin" icon={faBookOpen} />
                 Electivas
               </Nav.Link>
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/clients')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/reports')}>
                 <FontAwesomeIcon className="icon-margin" icon={faChartColumn} />
                 Reportes
               </Nav.Link>
