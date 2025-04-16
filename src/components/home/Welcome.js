@@ -22,6 +22,10 @@ const Welcome = () => {
     const handleNavigation = async (path) => {
         navigate(`/admin/home${path}`);
     }
+    
+    const hadleButton = () => {
+        navigate('/admin/cancellations/newCancellation');
+    }
 
     return (
         <div className='row'>
@@ -47,7 +51,7 @@ const Welcome = () => {
                     </Nav>
                 </div>
                 <div className='col-12 col-md-5 content-button-add' >
-                    <button>+ Nueva cancelación</button>
+                    <button onClick={() => hadleButton()}>+ Nueva cancelación</button>
                 </div>
             </div>
             <div className='col-12 contet'>

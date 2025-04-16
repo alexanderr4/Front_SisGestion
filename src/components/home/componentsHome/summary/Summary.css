@@ -63,7 +63,6 @@
     padding-top: 12px;
     border: solid 1px #000000;
     border-radius: 6px;
-    
     @media (max-width: 768px) {
         width: auto;
         margin: 9px;

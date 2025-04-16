@@ -6,6 +6,7 @@ import Summary from '../components/home/componentsHome/summary/Summary';
 import Cancellations from '../components/home/componentsHome/cancellations/Cancellations';
 import Electives from '../components/home/componentsHome/electives/Electives';
 import Reports from '../components/home/componentsHome/reports/Reports';
+import FormNewCancellation from '../components/newCancellation/FormNewCancellation';
 
 function AppRouter() {
   return (
@@ -18,7 +19,9 @@ function AppRouter() {
           <Route path="electives" element={<Electives />} />
           <Route path="reports" element={<Reports />} />
         </Route>
-        <Route path="cancellations" element={<Cancellations />}/>
+        <Route path="cancellations" element={<Cancellations />}>
+          <Route path='newCancellation' element={<FormNewCancellation />} />
+        </Route>
         <Route path="electives" element={<Electives />} />
         <Route path="reports" element={<Reports />} />
       </Route>

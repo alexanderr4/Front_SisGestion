@@ -1,0 +1,22 @@
+.content-title{
+    display: flex;
+    gap: 20px;
+}
+.content-title button{
+    background-color: #ffffffff;
+    height: 30px;
+    width: 30px;
+    border: solid 1px #6B6767;
+    border-radius: 5px;
+    padding: 0px;
+    
+}
+.content-title h3{
+    font-weight: 600;
+}
+
+.icon-faArrowLeft{
+    margin: 1px;
+    font-size: 26px;
+
+}
