@@ -1,22 +1,143 @@
-.content-title{
+.content-title {
     display: flex;
     gap: 20px;
 }
-.content-title button{
+
+.content-title button {
     background-color: #ffffffff;
     height: 30px;
     width: 30px;
     border: solid 1px #6B6767;
     border-radius: 5px;
     padding: 0px;
-    
+
 }
-.content-title h3{
+
+.content-title h3 {
     font-weight: 600;
 }
 
-.icon-faArrowLeft{
+.icon-faArrowLeft {
     margin: 1px;
     font-size: 26px;
 
+}
+
+/* titulo formulario*/
+
+.content-formulary {
+    overflow-y: auto !important;
+    border: solid 1px #000000;
+    border-radius: 5px;
+    padding: 10px 30px 10px 40px;
+    height: 76% !important;
+
+}
+
+.content-formulary h3 {
+    font-weight: 600;
+}
+
+.content-formulary p {
+    color: #6B6767;
+    font-size: 0.9em;
+    margin-bottom: 40px;
+}
+
+
+/* formulario */
+
+.formulary h5 {
+    margin-top: 20px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.form-field {
+    position: relative;
+    padding: 0px;
+    padding-right: 10px;
+}
+
+.form-field input,
+.form-field select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 3px;
+    border: solid 1px #a58e8e;
+    margin-bottom: 10px;
+    font-size: 0.8em;
+    height: 35px;
+
+}
+
+.form-field select {
+    padding: 0px 0px 0px 10px !important;
+}
+
+.form-field label {
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.form-field input::placeholder {
+    color: #C8CDCC;
+}
+
+.content-title-reason-cancellation {
+    margin-top: 50px;
+}
+
+.input-description {
+    width: 100%;
+    height: 150px !important;
+    resize: vertical;
+    font-size: 0.8em;
+}
+
+.content-buttons {
+    margin-top: 20px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.btn-send, .btn-cancel{
+   
+    border-radius: 5px;
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.btn-send{
+    background-color: #000000;
+    color: #ffffffff;
+    border: solid 1px #000000;
+}
+
+.btn-cancel{
+    background-color: #ffffff;
+    color: #000000;
+    border: solid 1px #000000;
+}
+
+@media (max-width: 768px) {
+    .content-formulary{
+        padding-left: 8px !important;
+        padding-right: 4px !important;
+    }
+}
+
+/* botones por defecto campos numerico*/
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

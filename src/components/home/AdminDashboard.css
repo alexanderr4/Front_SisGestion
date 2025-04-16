@@ -76,7 +76,7 @@
 
 
 .container-content-scrollable {
-     height: auto;
+     height: 92vh;
     /* Ajusta la altura según lo necesario, restando la altura del encabezado o la barra superior si la tienes */ 
 
     overflow-y: auto;       /* Habilita el desplazamiento vertical */
@@ -284,6 +284,6 @@
     }
 
     .container-content-scrollable{
-        height: calc(100vh - 50px); /* Ajusta la altura según lo necesario, restando la altura del encabezado o la barra superior si la tienes */
+        height: calc(100vh - 104px); /* Ajusta la altura según lo necesario, restando la altura del encabezado o la barra superior si la tienes */
     }
   }
