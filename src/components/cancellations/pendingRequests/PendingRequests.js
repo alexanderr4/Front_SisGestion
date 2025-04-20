@@ -105,8 +105,8 @@ function PendingRequests() {
       </div>
 
       <div className='content-body'>
-        <h3>Formulario de Cancelación de Asignatura</h3>
-        <p>Complete los datos del estudiante y la asignatura a cancelar</p>
+        <h3>Gestión de Solicitudes</h3>
+        <p>Revise y apruebe o rechace las solicitudes de cancelación pendientes</p>
         <div className='row'>
           <div className='content-search col-6'>
             <FontAwesomeIcon className="icon-faSearch" icon={faMagnifyingGlass} />
