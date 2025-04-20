@@ -1,25 +1,41 @@
-import { useNavigate, Outlet } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
+import { Spinner } from 'react-bootstrap';
 import "./FormNewCancellation.css";
 
-function FormNewCancellation() {
-    const navigate = useNavigate();
+function FormNewCancellation({ formData,
+    setFormData,
+    handleInputChange,
+    handleSubmit,
+    loadData,
+    setLoadData,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    image,
+    loading,
+    hadleButtonClickBack,
+    handleCancel,
+    handleRegister,
+    showModal,
+    handleCloseModal,
+    handleConfirmAction,
+    isEditingButtons,
+    modalType }) {
 
-    const hadleButtonClick = () => {
-        navigate(-1)
-    }
     return (
-        <div className='scroll'>
+        <div className='content-new-cancellation'>
             <div className='content-title'>
-                <button onClick={() => hadleButtonClick()}> <FontAwesomeIcon className="icon-faArrowLeft" icon={faArrowLeft} /> </button>
+                <button onClick={() => hadleButtonClickBack()}> <FontAwesomeIcon className="icon-faArrowLeft" icon={faArrowLeft} /> </button>
                 <h3>Nueva Solicitud de Cancelación</h3>
             </div>
+
 
             <div className='content-formulary'>
                 <h3>Formulario de Cancelación de Asignatura</h3>
                 <p>Complete los datos del estudiante y la asignatura a cancelar</p>
-                <form className="formulary" >
+                <form className="formulary" onSubmit={handleSubmit} >
                     <h5>Información del Estudiante</h5>
                     <div className='row'>
                         <div className='col-12 col-md-6 form-field'>
@@ -27,8 +43,16 @@ function FormNewCancellation() {
                             <input
                                 type="number"
                                 name="codigoEstudiante"
+                                id='codigoEstudiante'
                                 placeholder="Ej: 201921257"
-                                onWheel={(e) => e.target.blur()} 
+                                value={loadData.codigoEstudiante}
+                                onChange={handleInputChange}
+                                onWheel={(e) => e.target.blur()}
+                                onKeyDown={(e) => {
+                                    if (['e', 'E', '+', '-'].includes(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                                 required
                             // value={formData.nombre}
                             // onChange={handleChange}
@@ -39,8 +63,13 @@ function FormNewCancellation() {
                             <label>Nombre del Estudiante</label>
                             <input
                                 type="text"
-                                name="NombreEstudiante"
+                                name="nombreEstudiante"
+                                id='nombreEstudiante'
                                 placeholder="Nombre Completo"
+                                onChange={handleInputChange}
+                                value={loadData.nombreEstudiante}
+
+                                required
                             // value={formData.correo}
                             // onChange={handleChange}
                             />
@@ -55,7 +84,10 @@ function FormNewCancellation() {
                             <input
                                 type="text"
                                 name="codigoAsignatura"
+                                id='codigoAsignatura'
                                 placeholder="Ej: ART12368"
+                                value={loadData.codigoAsignatura}
+                                onChange={handleInputChange}
                                 required
                             // value={formData.nombre}
                             // onChange={handleChange}
@@ -64,8 +96,11 @@ function FormNewCancellation() {
                             <label>Grupo</label>
                             <input
                                 type="text"
-                                name="Grupo"
+                                name="grupoAsignatura"
+                                id='grupoAsignatura'
                                 placeholder="Ej: 01"
+                                value={loadData.grupoAsignatura}
+                                onChange={handleInputChange}
                                 required
                             // value={formData.nombre}
                             // onChange={handleChange}
@@ -76,8 +111,12 @@ function FormNewCancellation() {
                             <label>Nombre de la asignatura</label>
                             <input
                                 type="text"
-                                name="NombreAsignatura"
+                                name="nombreAsignatura"
+                                id='nombreAsignatura'
                                 placeholder="Nombre de la asignatura"
+                                value={loadData.nombreAsignatura}
+                                onChange={handleInputChange}
+                                required
                             // value={formData.correo}
                             // onChange={handleChange}
                             />
@@ -85,9 +124,18 @@ function FormNewCancellation() {
                             <label>Creditos</label>
                             <input
                                 type="number"
-                                name="Creditos"
+                                name="creditosAsignatura"
+                                id='creditosAsignatura'
                                 placeholder="Ej: 3"
-                                onWheel={(e) => e.target.blur()} 
+                                onWheel={(e) => e.target.blur()}
+                                value={loadData.creditosAsignatura}
+                                onChange={handleInputChange}
+                                onKeyDown={(e) => {
+                                    if (['e', 'E', '+', '-'].includes(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                required
                             // value={formData.correo}
                             // onChange={handleChange}
                             />
@@ -102,12 +150,16 @@ function FormNewCancellation() {
 
                     <div className=' form-field'>
                         <label>Seleccione el motivo</label>
-                        <select
-                            id="desplegable"
+                        <select id="desplegable"
+                            name='tipeAsignatura'
+
+                            value={loadData.tipeAsignatura}
+                            onChange={handleInputChange}
+                            required
                         // value={opcionSeleccionada}
                         // onChange={handleChange}
                         >
-                            <option value="">Seleccione un motivo</option>
+                            <option value="" disabled>Seleccione un motivo</option>
                             <option value="opcion1">Opción 1</option>
                             <option value="opcion2">Opción 2</option>
                             <option value="opcion3">Opción 3</option>
@@ -117,8 +169,11 @@ function FormNewCancellation() {
                         <textarea
                             className='input-description'
                             type="text"
-                            name="Grupo"
+                            name="descripcion"
+                            id='descripcion'
                             placeholder="Explique detalladamente el motivo de la cancelación..."
+                            value={loadData.descripcion}
+                            onChange={handleInputChange}
                             required
                         // value={formData.nombre}
                         // onChange={handleChange}
@@ -133,16 +188,39 @@ function FormNewCancellation() {
                         </div>
                     </div> */}
                     <div className='content-buttons'>
-                        <button type="secodary" className='btn-cancel'>Cancelar</button>
-                        <button type="submit" className='btn-send'>Enviar Solicitud</button>
+                        <button type='button' className='btn-cancel' onClick={handleCancel}>
+                            {loading ? (<Spinner animation="border" size="sm" />) : ("Cancelar")}
+                        </button>
+                        <button type="submit" className='btn-send'>
+                            {loading ? (<div><Spinner animation="border" size="sm" /></div>) : ("Enviar Solicitud")}
+                        </button>
                     </div>
 
+                   
 
                 </form>
-            </div>
 
-            {/* Form fields and submission logic will go here */}
-        </div>
+                {loading && (
+                        <div className="loading-overlay">
+                            <Spinner animation="grow" role="status">
+                                <span className="visually-hidden">Cargando...</span>
+                            </Spinner>
+                        </div>
+                    )}
+            </div>
+            <ConfirmationModal
+                show={showModal}
+                onHide={handleCloseModal}
+                onConfirm={handleConfirmAction}
+                title={modalType === 'cancel' ? "Cancelar registro" : "Confirmar registro"}
+                bodyText={modalType === 'cancel'
+                    ? "¿Estás seguro de que deseas cancelar el registro? Se perderán todos los datos."
+                    : "¿Estás seguro de que deseas registrar la nueva solicitud de cancelación?"}
+                confirmText={modalType === 'cancel' ? "Sí" : "Sí"}
+                cancelText="No"
+                containerId="modal-container"
+            />
+        </div >
     );
 }
 

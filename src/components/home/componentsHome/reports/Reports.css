@@ -18,8 +18,3 @@
     font-size: 0.8em;
 }
 
-@media (max-width: 768px) {
-    .cards{
-        width: 90% !important;
-    }
-}

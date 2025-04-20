@@ -133,3 +133,16 @@ color: #6B6767;
   background-color: #726060 !important; /* Color al hacer clic */
 }
 
+.loading-overlay {
+  position: absolute; /* Fija el overlay */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.6); /* Fondo blanco con opacidad */
+  display: flex; /* Utiliza flexbox para centrar el contenido */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+

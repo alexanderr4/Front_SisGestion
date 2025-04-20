@@ -1,0 +1,92 @@
+.content-body {
+    border: solid 1px #000000;
+    padding: 30px 30px 10px 40px;
+    border-radius: 5px;
+}
+
+.content-body h3 {
+    font-weight: 600;
+}
+
+.content-body p {
+    color: #6B6767;
+    font-size: 0.9em;
+    margin-bottom: 40px;
+    margin-bottom: 9px;
+}
+
+/* tabla*/
+.content-table {
+    margin-top: 20px;
+}
+
+.icon-check {
+    color: #02BC7D;
+
+}
+
+.icon-Xmark {
+    color: #F44336;
+
+}
+
+.buttons-pending-requests {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+}
+
+.buttons-pending-requests button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: solid 1px #000000;
+    border-radius: 5px;
+    padding: 0px;
+    width: 16px;
+    height: 16px;
+}
+
+/*busqueda*/
+.content-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid 1px #000000;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+
+.content-search input {
+    border: none;
+    margin-left: 6px;
+    outline: none;
+    box-shadow: none;
+    width: 100%;
+    height: 26px;
+    font-size: 0.8em;
+
+
+}
+
+.content-search input::placeholder {
+    font-size: 1.1em;
+}
+
+.asignature-pending{
+    display: flex;
+    justify-content: right;
+    align-items: left;
+  
+}
+
+.asignature-pending p{
+    display: flex;
+    align-items: center;
+    border: solid 1px #000000;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 3px;
+  
+}

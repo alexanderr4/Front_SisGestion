@@ -1,6 +1,16 @@
+.content-new-cancellation{
+    height: 99% !important;
+    overflow-y: auto !important;
+
+}
+
 .content-title {
     display: flex;
+    position: sticky;
+    top: 0;
     gap: 20px;
+    z-index: 100;
+    background-color: #ffffff;
 }
 
 .content-title button {
@@ -26,13 +36,12 @@
 /* titulo formulario*/
 
 .content-formulary {
-    overflow-y: auto !important;
     border: solid 1px #000000;
     border-radius: 5px;
-    padding: 10px 30px 10px 40px;
-    height: 76% !important;
+    padding: 30px 30px 10px 40px;   
 
 }
+
 
 .content-formulary h3 {
     font-weight: 600;
@@ -46,6 +55,8 @@
 
 
 /* formulario */
+
+
 
 .formulary h5 {
     margin-top: 20px;
@@ -106,6 +117,7 @@
    
     border-radius: 5px;
     height: 40px;
+    width: 180px;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -120,6 +132,10 @@
     background-color: #ffffff;
     color: #000000;
     border: solid 1px #000000;
+}
+
+input:invalid {
+    scroll-margin-top: 99px; /* Margen desde arriba al enfocarse automáticamente */
 }
 
 @media (max-width: 768px) {
@@ -141,3 +157,4 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
