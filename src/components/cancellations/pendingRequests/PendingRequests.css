@@ -1,7 +1,11 @@
+.content-pending-requests{
+height: 91%;
+}
 .content-body {
     border: solid 1px #000000;
     padding: 30px 30px 10px 40px;
     border-radius: 5px;
+    height: 100%;
 }
 
 .content-body h3 {

@@ -98,7 +98,7 @@ function PendingRequests() {
   };
 
   return (
-    <div>
+    <div className='content-pending-requests'>
       <div className='content-title'>
         <button onClick={() => hadleButtonClickBack()}> <FontAwesomeIcon className="icon-faArrowLeft" icon={faArrowLeft} /> </button>
         <h3>Solicitudes de Cancelación Pendientes</h3>
