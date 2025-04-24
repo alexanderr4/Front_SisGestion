@@ -8,9 +8,9 @@ function NewCancellation() {
     const [loading, setLoading] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState('');
+    const [optionStundent, setOptionStudent] = useState(true);
+    const [optionAsignature, setOptionAsignature] = useState(true);
     const navigate = useNavigate();
-    const options = ["Juan Camilo", "Juan Felipe", "Cristian Fernando"]
-
     const formData = {
         codigoEstudiante: "",
         nombreEstudiante: "",
@@ -26,39 +26,6 @@ function NewCancellation() {
     const [loadData, setLoadData] = useState(formData);
 
 
-    // parte desplegabe//
-
-    const [showSuggestions, setShowSuggestions] = useState(false);
-    const [filteredOptions, setFilteredOptions] = useState([]);
-
-    const handleChangeSelect = (e) => {
-        const value = e.target.value;
-        setLoadData({
-            ...loadData,
-            nombreEstudiante: value,
-        });
-
-        if (value.length > 0) {
-            const filtered = options.filter((option) =>
-                option.toLowerCase().includes(value.toLowerCase())
-            );
-            setFilteredOptions(filtered);
-            setShowSuggestions(true);
-        } else {
-            setFilteredOptions([]);
-            setShowSuggestions(false);
-        }
-    };
-
-    const handleSelect = (value) => {
-
-        setLoadData({
-            ...loadData,
-            nombreEstudiante: value,
-        });
-        setShowSuggestions(false);
-    };
-    //    
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -109,6 +76,7 @@ function NewCancellation() {
     };
 
 
+
     return (
         <FormNewCancellation
             loading={loading}
@@ -122,15 +90,10 @@ function NewCancellation() {
             setLoadData={setLoadData}
             handleInputChange={handleInputChange}
             hadleButtonClickBack={hadleButtonClickBack}
-
-            setShowSuggestions={setShowSuggestions}
-            showSuggestions={showSuggestions}
-            handleChangeSelect={handleChangeSelect}
-            handleSelect={handleSelect}
-            filteredOptions={filteredOptions}
-            options={options}
-            setFilteredOptions={setFilteredOptions}
-
+            setOptionStudent={setOptionStudent}
+            optionStundent={optionStundent}
+            setOptionAsignature={setOptionAsignature}
+            optionAsignature={optionAsignature}
         />
     );
 }

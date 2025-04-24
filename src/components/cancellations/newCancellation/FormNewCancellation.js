@@ -1,23 +1,21 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
-import { Spinner } from 'react-bootstrap';
+import { Nav, Spinner } from 'react-bootstrap';
 import "./FormNewCancellation.css";
+import AutoCompleteInput from './AutoCompleteInput ';
+
 
 function FormNewCancellation({ formData,
     setFormData,
     handleInputChange,
     handleSubmit,
     loadData,
-
-    setShowSuggestions,
-    showSuggestions,
-    handleChangeSelect,
-    handleSelect,
-    filteredOptions,
-    options,
-    setFilteredOptions,
-
+    optionStundent,
+    setOptionStudent,
+    setOptionAsignature,
+    optionAsignature,
     dataStudentName,
     setLoadData,
     getRootProps,
@@ -34,6 +32,11 @@ function FormNewCancellation({ formData,
     isEditingButtons,
     modalType }) {
 
+    const [activeTabStudent, setActiveTabStudent] = useState("studentCode");
+    const [activeTabAsignature, setActiveTabAsignature] = useState("AsignatureCode");
+    const options = ['Bajo rendimiento académico', 'Conflicto de horario', 'Problemas de salud', "Motivos personales", "Compromisos laborales", "Dificultades económicas", "Dificultades con la metodología del curso", "Otro motivo"];
+    const [selectedOption, setSelectedOption] = useState('');
+
     return (
         <div className='content-new-cancellation'>
             <div className='content-title'>
@@ -48,8 +51,28 @@ function FormNewCancellation({ formData,
                 <form className="formulary" onSubmit={handleSubmit} >
                     <h5>Información del Estudiante</h5>
                     <div className='row'>
-                        <div className=' form-field'>
-                            <label>Codigo del Etudiante</label>
+                        <div className='content-sub-menu'>
+                            <Nav className='custom-sub-menu' variant="tabs" activeKey={activeTabStudent} onSelect={(selectedKey) => setActiveTabStudent(selectedKey)}>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="studentCode" onClick={() => setOptionStudent(true)}>Buscar por Código</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="studentName" onClick={() => setOptionStudent(false)} >Buscar por Nombre</Nav.Link>
+                                </Nav.Item>
+
+                            </Nav>
+                        </div>
+                        {optionStundent ? (<div className=' form-field'>
+                            <AutoCompleteInput
+                                label="Código del Etudiante"
+                                name="codigoEstudiante"
+                                value={loadData.codigoEstudiante}
+                                onChange={handleInputChange}
+                                options={['201922538', '2019874', '2584155']}
+                                type={"number"}
+                                placeholder={"estudiante por código"}
+                            />
+                            {/* <label>Codigo del Etudiante</label>
                             <input
                                 type="number"
                                 name="codigoEstudiante"
@@ -64,15 +87,22 @@ function FormNewCancellation({ formData,
                                     }
                                 }}
                                 required
-                            // value={formData.nombre}
-                            // onChange={handleChange}
-                            />
+                          
+                            /> */}
 
 
-                        </div>
-
-                        <div className='form-field'>
-                            <label>Nombre del Estudiante</label>
+                        </div>) : (
+                            <div className='form-field'>
+                                <AutoCompleteInput
+                                    label="Nombre del Estudiante"
+                                    name="nombreEstudiante"
+                                    value={loadData.nombreEstudiante}
+                                    onChange={handleInputChange}
+                                    options={['Juan Pérez', 'María Gómez', 'Carlos Ruiz']}
+                                    type={"text"}
+                                    placeholder={"estudiante por nombre"}
+                                />
+                                {/* <label>Nombre del Estudiante</label>
                             <input
                                 type="text"
                                 name="nombreEstudiante"
@@ -89,8 +119,7 @@ function FormNewCancellation({ formData,
                                     setShowSuggestions(filtered.length > 0);
                                   }}
                                 required
-                            // value={formData.correo}
-                            // onChange={handleChange}
+                        
                             />
                             {showSuggestions && (
                                 <ul className="suggestions-list">
@@ -100,15 +129,40 @@ function FormNewCancellation({ formData,
                                         </li>
                                     ))}
                                 </ul>
-                            )}
-                        </div>
+                            )} */}
+                            </div>
+                        )}
+
+
+
 
                     </div>
                     <h5>Información de la Asignatura</h5>
 
                     <div className='row'>
-                        <div className='col-12 col-md-6 form-field'>
-                            <label>Codigo de la asignatura</label>
+                        <div className='content-sub-menu'>
+                            <Nav className='custom-sub-menu' variant="tabs" activeKey={activeTabAsignature} onSelect={(selectedKey) => setActiveTabAsignature(selectedKey)}>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="AsignatureCode" onClick={() => setOptionAsignature(true)}>Buscar por Código</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="AsignatureName" onClick={() => setOptionAsignature(false)} >Buscar por Nombre</Nav.Link>
+                                </Nav.Item>
+
+                            </Nav>
+                        </div>
+                        {optionAsignature ? (
+                            <div className='form-field'>
+                                <AutoCompleteInput
+                                    label="Codigo de la asignatura"
+                                    name="codigoAsignatura"
+                                    value={loadData.codigoAsignatura}
+                                    onChange={handleInputChange}
+                                    options={['8005554', '88566742', '805555475']}
+                                    type={"number"}
+                                    placeholder={"materia por código"}
+                                />
+                                {/* <label>Codigo de la asignatura</label>
                             <input
                                 type="text"
                                 name="codigoAsignatura"
@@ -117,10 +171,9 @@ function FormNewCancellation({ formData,
                                 value={loadData.codigoAsignatura}
                                 onChange={handleInputChange}
                                 required
-                            // value={formData.nombre}
-                            // onChange={handleChange}
-                            />
-                            {/* 
+                           
+                            /> */}
+                                {/* 
                             <label>Grupo</label>
                             <input
                                 type="text"
@@ -132,10 +185,21 @@ function FormNewCancellation({ formData,
                                 required
                            
                             /> */}
-                        </div>
+                            </div>
 
-                        <div className='col-12 col-md-6 form-field'>
-                            <label>Nombre de la asignatura</label>
+                        ) : (
+                            <div className='form-field'>
+
+                                <AutoCompleteInput
+                                    label="Nombre de la asignatura"
+                                    name="nombreAsignatura"
+                                    value={loadData.nombreAsignatura}
+                                    onChange={handleInputChange}
+                                    options={['Electiva I', 'Electiva II', 'Electiva III']}
+                                    type={"text"}
+                                    placeholder={"materia por nombre"}
+                                />
+                                {/* <label>Nombre de la asignatura</label>
                             <input
                                 type="text"
                                 name="nombreAsignatura"
@@ -144,12 +208,14 @@ function FormNewCancellation({ formData,
                                 value={loadData.nombreAsignatura}
                                 onChange={handleInputChange}
                                 required
-                            // value={formData.correo}
-                            // onChange={handleChange}
-                            />
+                          
+                            /> */}
 
 
-                        </div>
+                            </div>
+                        )}
+
+
 
                     </div>
 
@@ -160,34 +226,37 @@ function FormNewCancellation({ formData,
 
                     <div className=' form-field'>
                         <label>Seleccione el motivo</label>
-                        <select id="desplegable"
-                            name='tipeAsignatura'
+                        {options.map((option, index) => (
+                            <div>
+                                <label key={index} className="radio-container">
+                                    <input
+                                        type="radio"
+                                        name="opciones"
+                                        value={option}
+                                        checked={selectedOption === option}
+                                        onChange={(e) => (setSelectedOption(e.target.value))}
+                                    />
+                                    {option}
+                                </label>
+                            </div>
+                        ))}
 
-                            value={loadData.tipeAsignatura}
-                            onChange={handleInputChange}
-                            required
-                        // value={opcionSeleccionada}
-                        // onChange={handleChange}
-                        >
-                            <option value="" disabled>Seleccione un motivo</option>
-                            <option value="opcion1">Opción 1</option>
-                            <option value="opcion2">Opción 2</option>
-                            <option value="opcion3">Opción 3</option>
-                        </select>
+                        <div className='content-description'>
+                            <label>Descripción detallada del motivo</label>
+                            <textarea
+                                className='input-description'
+                                type="text"
+                                name="descripcion"
+                                id='descripcion'
+                                placeholder="Explique detalladamente el motivo de la cancelación..."
+                                value={loadData.descripcion}
+                                onChange={handleInputChange}
+                                required
+                            // value={formData.nombre}
+                            // onChange={handleChange}
+                            />
+                        </div>
 
-                        <label>Descripción detallada del motivo</label>
-                        <textarea
-                            className='input-description'
-                            type="text"
-                            name="descripcion"
-                            id='descripcion'
-                            placeholder="Explique detalladamente el motivo de la cancelación..."
-                            value={loadData.descripcion}
-                            onChange={handleInputChange}
-                            required
-                        // value={formData.nombre}
-                        // onChange={handleChange}
-                        />
                     </div>
                     {/* <div className='row'>
                         <div className='content-button-send col-md-6'>
