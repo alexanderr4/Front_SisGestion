@@ -73,16 +73,20 @@
     padding-right: 10px;
 }
 
-.form-field input,
-.form-field select {
+.form-field input{
+    border: none;
+    outline: none;
+    box-shadow: none;
     width: 100%;
-    padding: 10px;
-    border-radius: 3px;
-    border: solid 1px #a58e8e;
-    margin-bottom: 10px;
-    font-size: 0.8em;
+}
+.content-input-with-icon{
+    display: flex;
+    align-items: center;
+    border: solid 1px #000000;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-right: 8px;
     height: 35px;
-
 }
 
 /* .form-field select {

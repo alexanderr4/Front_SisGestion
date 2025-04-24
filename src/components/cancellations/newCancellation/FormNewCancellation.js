@@ -235,6 +235,7 @@ function FormNewCancellation({ formData,
                                         value={option}
                                         checked={selectedOption === option}
                                         onChange={(e) => (setSelectedOption(e.target.value))}
+                                        required
                                     />
                                     {option}
                                 </label>
@@ -242,7 +243,7 @@ function FormNewCancellation({ formData,
                         ))}
 
                         <div className='content-description'>
-                            <label>Descripción detallada del motivo</label>
+                            <label>Descripción detallada del motivo (Opcional)</label>
                             <textarea
                                 className='input-description'
                                 type="text"
@@ -251,7 +252,7 @@ function FormNewCancellation({ formData,
                                 placeholder="Explique detalladamente el motivo de la cancelación..."
                                 value={loadData.descripcion}
                                 onChange={handleInputChange}
-                                required
+                               
                             // value={formData.nombre}
                             // onChange={handleChange}
                             />
