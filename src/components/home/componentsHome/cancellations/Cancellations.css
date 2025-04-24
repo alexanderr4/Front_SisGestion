@@ -6,13 +6,15 @@
     justify-content: center;
     margin-top: 30px;
     flex-wrap: wrap;
-   
+    height: auto;
+
 }
 
 .cancellations h4 {
     font-weight: 600;
     color: #000000;
 }
+
 .cancellations p {
     color: #6B6767;
     font-size: 0.8em;
@@ -23,14 +25,15 @@
     border: solid 1px #ff3636;
     border-radius: 5px;
     padding: 12px;
-    width: 30% ;
+    width: 30%;
     text-align: center;
-    color :#000000;
+    color: #000000;
     transition: transform 0.2s ease;
     font-size: 10px;
     margin-top: 20px;
 }
-.cards h6{
+
+.cards h6 {
     font-weight: 600;
 }
 
@@ -60,12 +63,11 @@
 }
 
 @media (max-width: 768px) {
-    .cards{
-        width: 100% !important  
+    .cards {
+        width: 100% !important
     }
 
-    .cards-container{
+    .cards-container {
         padding-left: 0px;
     }
 }
-

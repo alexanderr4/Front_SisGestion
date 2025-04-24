@@ -30,7 +30,7 @@ const Login = () => {
                             />
                         </div>
                         <div className='resett-password row'>
-                            <div className='col-5 col-md-6'>
+                            <div className='col-5 col-md-6 contetn-label-resett-password'>
                                 <label className="password">Contraseña</label>
                             </div>
 

@@ -1,3 +1,6 @@
+.main-container{
+height: auto;
+}
 /* Estilo para el contenedor principal */
 .customer-selection-container {
     min-height: 0vh;

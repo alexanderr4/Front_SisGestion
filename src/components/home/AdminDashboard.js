@@ -4,6 +4,7 @@ import { faUsers, faGear, faHouse, faSheetPlastic, faBookOpen, faChartColumn, fa
 import { Nav, Spinner } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import iconoTitle from '../../assets/icono.png';
+import IconSelection from '../../assets/IconSelection.png';
 import './AdminDashboard.css';
 import axios from 'axios';
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
@@ -162,7 +163,7 @@ function AdminDashboard() {
       }
 
     } else {
-      navigate(`/admin${path}`,  { state: { key: Date.now() } });
+      navigate(`/admin${path}`, { state: { key: Date.now() } });
     }
   };
 
@@ -203,6 +204,19 @@ function AdminDashboard() {
   return (
 
     <div className="container-fluid"  >
+      <div className='content-current-semester row'>
+        <div className='seccion-current-semester col-12 col-md-8'>
+          <img src={IconSelection} alt="Icono selecion de semestre" className="icon-current-semester" />
+          <h3>Semestre Actual:</h3>
+          <div className='current-semester'>
+            <h3>2025 - 1</h3>
+          </div>
+        </div>
+        <div className='button-current-semester col-12 col-md-3'>
+          <button>Cambiar</button>
+        </div>
+
+      </div>
       <div className='title-principal'>
         <img src={iconoTitle} alt="Icono" className="icono" />
         <h3>SisGestión Académica</h3>
@@ -218,20 +232,22 @@ function AdminDashboard() {
                 <FontAwesomeIcon className="icon-margin" icon={faHouse} />Inicio
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/cancellations')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/cancellations/cancellationManagement')}>
                 <FontAwesomeIcon className="icon-margin" icon={faSheetPlastic} />        Cancelaciones
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/electives')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/electives/electiveManagement')}>
                 <FontAwesomeIcon className="icon-margin" icon={faBookOpen} />
                 Electivas
               </Nav.Link>
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/reports')}>
+
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/reports/reportsAndStatistics')}>
                 <FontAwesomeIcon className="icon-margin" icon={faChartColumn} />
                 Reportes
               </Nav.Link>
+
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/requestMaintenance')}>
-                <FontAwesomeIcon className="icon-margin" icon={faPeopleGroup} />Estudiantes
+                <FontAwesomeIcon className="icon-margin" icon={faPeopleGroup} />Materias
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/settings')}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Welcome.css';
+import './ControlPanel.css';
 import { useNavigate, Outlet } from 'react-router-dom';
 import { Nav, Spinner } from 'react-bootstrap';
 //import "../../components/general.css";
@@ -7,7 +7,7 @@ import { Nav, Spinner } from 'react-bootstrap';
 
 
 
-const Welcome = () => {
+const ControlPanel = () => {
     // Estado para manejar la carga
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("summary");
@@ -20,7 +20,7 @@ const Welcome = () => {
 
 
     const handleNavigation = async (path) => {
-        navigate(`/admin/home${path}`);
+        navigate(`/admin${path}`);
     }
     
     const hadleButton = () => {
@@ -28,7 +28,7 @@ const Welcome = () => {
     }
 
     return (
-        <div className='row'>
+        <div className='row main-container'>
 
             <div className='col-12 mb-2 row' style={{ padding: '0px', margin: '0px' }}>
                 <div className='header-title'>
@@ -37,16 +37,16 @@ const Welcome = () => {
                 <div className='col-12 col-md-7 content-sub-menu'>
                     <Nav className='custom-sub-menu' variant="tabs" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)}>
                         <Nav.Item>
-                            <Nav.Link eventKey="summary" onClick={() => handleNavigation('/summary')}>Resumen</Nav.Link>
+                            <Nav.Link eventKey="summary" onClick={() => handleNavigation('/home/summary')}>Resumen</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="cancellations" onClick={() => handleNavigation('/cancellations')}>Cancelaciones</Nav.Link>
+                            <Nav.Link eventKey="cancellationManagement" onClick={() => handleNavigation('/cancellations/cancellationManagement')}>Cancelaciones</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="electives"onClick={() => handleNavigation('/electives')}>Electivas</Nav.Link>
+                            <Nav.Link eventKey="electiveManagement"onClick={() => handleNavigation('/electives/electiveManagement')}>Electivas</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="reports" onClick={() => handleNavigation('/reports')}>Reportes</Nav.Link>
+                            <Nav.Link eventKey="reportsAndStatistics" onClick={() => handleNavigation('/reports/reportsAndStatistics')}>Reportes</Nav.Link>
                         </Nav.Item>
                     </Nav>
                 </div>
@@ -61,4 +61,4 @@ const Welcome = () => {
     );
 }
 
-export default Welcome;
+export default ControlPanel;
