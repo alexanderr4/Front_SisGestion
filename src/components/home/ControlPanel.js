@@ -12,19 +12,27 @@ const ControlPanel = () => {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("summary");
     const pathInitial = window.location.pathname;
-    
+
     useEffect(() => {
         const path = window.location.pathname.split('/').pop();
-        setActiveTab((path === 'home'? 'summary': path));
+        setActiveTab((path === 'home' ? 'summary' : path));
     }, [pathInitial]);
 
 
     const handleNavigation = async (path) => {
         navigate(`/admin${path}`);
     }
-    
+
     const hadleButton = () => {
-        navigate('/admin/cancellations/newCancellation');
+        navigate('/admin/cancellations/cancellationManagement/newCancellation');
+    }
+    console.log(window.location.pathname.split('/'))
+    console.log(window.location.pathname.split('/').length)
+    if (window.location.pathname.split('/').length >4) {
+        return (
+            <Outlet />
+        )
+
     }
 
     return (
@@ -43,7 +51,7 @@ const ControlPanel = () => {
                             <Nav.Link eventKey="cancellationManagement" onClick={() => handleNavigation('/cancellations/cancellationManagement')}>Cancelaciones</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="electiveManagement"onClick={() => handleNavigation('/electives/electiveManagement')}>Electivas</Nav.Link>
+                            <Nav.Link eventKey="electiveManagement" onClick={() => handleNavigation('/electives/electiveManagement')}>Electivas</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link eventKey="reportsAndStatistics" onClick={() => handleNavigation('/reports/reportsAndStatistics')}>Reportes</Nav.Link>

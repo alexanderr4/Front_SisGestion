@@ -1,4 +1,4 @@
-.content-new-cancellation{
+.content-new-cancellation {
     height: 99% !important;
     overflow-y: auto !important;
 
@@ -38,7 +38,7 @@
 .content-formulary {
     border: solid 1px #000000;
     border-radius: 5px;
-    padding: 30px 30px 10px 40px;   
+    padding: 30px 30px 10px 40px;
 
 }
 
@@ -113,8 +113,10 @@
     justify-content: space-between;
     margin-bottom: 20px;
 }
-.btn-send, .btn-cancel{
-   
+
+.btn-send,
+.btn-cancel {
+
     border-radius: 5px;
     height: 40px;
     width: 180px;
@@ -122,24 +124,25 @@
     padding-right: 10px;
 }
 
-.btn-send{
+.btn-send {
     background-color: #000000;
     color: #ffffffff;
     border: solid 1px #000000;
 }
 
-.btn-cancel{
+.btn-cancel {
     background-color: #ffffff;
     color: #000000;
     border: solid 1px #000000;
 }
 
 input:invalid {
-    scroll-margin-top: 99px; /* Margen desde arriba al enfocarse automáticamente */
+    scroll-margin-top: 99px;
+    /* Margen desde arriba al enfocarse automáticamente */
 }
 
 @media (max-width: 768px) {
-    .content-formulary{
+    .content-formulary {
         padding-left: 8px !important;
         padding-right: 4px !important;
     }
@@ -149,12 +152,44 @@ input:invalid {
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type="number"] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
+
+/*    */
+
+.autocomplete-container {
+    position: relative;
+    width: 300px;
+}
+
+.suggestions-list {
+    position: absolute;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-top: none;
+    background: white;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.suggestions-list li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #eee;
+}
+
+/**/

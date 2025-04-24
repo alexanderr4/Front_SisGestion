@@ -32,11 +32,11 @@ function Cancellations() {
         switch (index) {
             case 0:
                 setActiveTab(true);
-                navigate('/admin/cancellations/newCancellation');
+                navigate('/admin/cancellations/cancellationManagement/newCancellation');
                 break;
             case 1:
                 setActiveTab(true);
-                navigate('/admin/cancellations/pendingRequests');
+                navigate('/admin/cancellations/cancellationManagement/pendingRequests');
                 break;
             default:
                 break;

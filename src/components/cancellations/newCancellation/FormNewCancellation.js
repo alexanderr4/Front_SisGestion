@@ -9,6 +9,16 @@ function FormNewCancellation({ formData,
     handleInputChange,
     handleSubmit,
     loadData,
+
+    setShowSuggestions,
+    showSuggestions,
+    handleChangeSelect,
+    handleSelect,
+    filteredOptions,
+    options,
+    setFilteredOptions,
+
+    dataStudentName,
     setLoadData,
     getRootProps,
     getInputProps,
@@ -38,7 +48,7 @@ function FormNewCancellation({ formData,
                 <form className="formulary" onSubmit={handleSubmit} >
                     <h5>Información del Estudiante</h5>
                     <div className='row'>
-                        <div className='col-12 col-md-6 form-field'>
+                        <div className=' form-field'>
                             <label>Codigo del Etudiante</label>
                             <input
                                 type="number"
@@ -57,22 +67,40 @@ function FormNewCancellation({ formData,
                             // value={formData.nombre}
                             // onChange={handleChange}
                             />
+
+
                         </div>
 
-                        <div className='col-12 col-md-6 form-field'>
+                        <div className='form-field'>
                             <label>Nombre del Estudiante</label>
                             <input
                                 type="text"
                                 name="nombreEstudiante"
                                 id='nombreEstudiante'
                                 placeholder="Nombre Completo"
-                                onChange={handleInputChange}
+                                onChange={handleChangeSelect}
                                 value={loadData.nombreEstudiante}
-
+                                onBlur={() => setTimeout(() => setShowSuggestions(false), 1000)}
+                                onFocus={() => {
+                                    const filtered = options.filter((option) =>
+                                      option.toLowerCase().includes(loadData.nombreEstudiante.toLowerCase())
+                                    );
+                                    setFilteredOptions(filtered);
+                                    setShowSuggestions(filtered.length > 0);
+                                  }}
                                 required
                             // value={formData.correo}
                             // onChange={handleChange}
                             />
+                            {showSuggestions && (
+                                <ul className="suggestions-list">
+                                    {filteredOptions.map((item, index) => (
+                                        <li key={index} onClick={() => handleSelect(item)}>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
 
                     </div>
@@ -92,7 +120,7 @@ function FormNewCancellation({ formData,
                             // value={formData.nombre}
                             // onChange={handleChange}
                             />
-
+                            {/* 
                             <label>Grupo</label>
                             <input
                                 type="text"
@@ -102,9 +130,8 @@ function FormNewCancellation({ formData,
                                 value={loadData.grupoAsignatura}
                                 onChange={handleInputChange}
                                 required
-                            // value={formData.nombre}
-                            // onChange={handleChange}
-                            />
+                           
+                            /> */}
                         </div>
 
                         <div className='col-12 col-md-6 form-field'>
@@ -121,24 +148,7 @@ function FormNewCancellation({ formData,
                             // onChange={handleChange}
                             />
 
-                            <label>Creditos</label>
-                            <input
-                                type="number"
-                                name="creditosAsignatura"
-                                id='creditosAsignatura'
-                                placeholder="Ej: 3"
-                                onWheel={(e) => e.target.blur()}
-                                value={loadData.creditosAsignatura}
-                                onChange={handleInputChange}
-                                onKeyDown={(e) => {
-                                    if (['e', 'E', '+', '-'].includes(e.key)) {
-                                        e.preventDefault();
-                                    }
-                                }}
-                                required
-                            // value={formData.correo}
-                            // onChange={handleChange}
-                            />
+
                         </div>
 
                     </div>
@@ -196,17 +206,17 @@ function FormNewCancellation({ formData,
                         </button>
                     </div>
 
-                   
+
 
                 </form>
 
                 {loading && (
-                        <div className="loading-overlay">
-                            <Spinner animation="grow" role="status">
-                                <span className="visually-hidden">Cargando...</span>
-                            </Spinner>
-                        </div>
-                    )}
+                    <div className="loading-overlay">
+                        <Spinner animation="grow" role="status">
+                            <span className="visually-hidden">Cargando...</span>
+                        </Spinner>
+                    </div>
+                )}
             </div>
             <ConfirmationModal
                 show={showModal}
