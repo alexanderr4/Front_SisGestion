@@ -78,6 +78,7 @@
     outline: none;
     box-shadow: none;
     width: 100%;
+    font-size: 0.8em;
 }
 .content-input-with-icon{
     display: flex;
