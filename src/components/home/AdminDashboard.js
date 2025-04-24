@@ -5,6 +5,7 @@ import { Nav, Spinner } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import iconoTitle from '../../assets/icono.png';
 import IconSelection from '../../assets/IconSelection.png';
+import iconPaperCancell from '../../assets/icon-paper-cancell.svg';
 import './AdminDashboard.css';
 import axios from 'axios';
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
@@ -233,7 +234,7 @@ function AdminDashboard() {
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/cancellations/cancellationManagement')}>
-                <FontAwesomeIcon className="icon-margin" icon={faSheetPlastic} />        Cancelaciones
+              <img src={iconPaperCancell} alt="Mi ícono" width="20" height="20" />     Cancelaciones
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/electives/electiveManagement')}>
@@ -247,7 +248,7 @@ function AdminDashboard() {
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/requestMaintenance')}>
-                <FontAwesomeIcon className="icon-margin" icon={faPeopleGroup} />Materias
+                <FontAwesomeIcon className="icon-margin" icon={faSheetPlastic} />Materias
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/settings')}>
