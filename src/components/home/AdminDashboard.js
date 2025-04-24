@@ -234,7 +234,7 @@ function AdminDashboard() {
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/cancellations/cancellationManagement')}>
-              <img src={iconPaperCancell} alt="Mi ícono" width="20" height="20" />     Cancelaciones
+              <img src={iconPaperCancell} alt="Mi ícono" width="19" height="19" />     Cancelaciones
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/electives/electiveManagement')}>

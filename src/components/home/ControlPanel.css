@@ -81,13 +81,14 @@ height: auto;
     justify-content: flex-end;
     align-items: center;
     padding-right: 0px;
+    
 }
 
 .content-button-add button{
     background-color: #000000;
     color: #ffffff;
     border: none;
-    height: 90%;
+    height: 40px;
     width: 70%;
     border-radius: 4px;
 }
