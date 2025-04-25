@@ -8,6 +8,7 @@ import Electives from '../components/home/componentsHome/electives/Electives';
 import Reports from '../components/home/componentsHome/reports/Reports';
 import FormNewCancellation from '../components/cancellations/newCancellation/NewCancellation';
 import PendingRequests from '../components/cancellations/pendingRequests/PendingRequests';
+import GenerateReport from '../components/reports/generateReport/GenerateReport';
 
 function AppRouter() {
   return (
@@ -27,7 +28,9 @@ function AppRouter() {
           <Route path="electiveManagement" element={<Electives />} />
         </Route>
         <Route path="reports" element={<ControlPanel />} >
-          <Route path="reportsAndStatistics" element={<Reports />} />
+          <Route path="reportsAndStatistics" element={<Reports />} >
+            <Route path="generateReport" element={<GenerateReport />} />  
+          </Route>
         </Route>
       </Route>
 

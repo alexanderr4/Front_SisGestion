@@ -51,7 +51,7 @@ function FormNewCancellation({ formData,
                 <form className="formulary" onSubmit={handleSubmit} >
                     <h5>Información del Estudiante</h5>
                     <div className='row'>
-                        <div className='content-sub-menu'>
+                        <div className='content-sub-menu-cance'>
                             <Nav className='custom-sub-menu' variant="tabs" activeKey={activeTabStudent} onSelect={(selectedKey) => setActiveTabStudent(selectedKey)}>
                                 <Nav.Item>
                                     <Nav.Link eventKey="studentCode" onClick={() => setOptionStudent(true)}>Buscar por Código</Nav.Link>
@@ -140,7 +140,7 @@ function FormNewCancellation({ formData,
                     <h5>Información de la Asignatura</h5>
 
                     <div className='row'>
-                        <div className='content-sub-menu'>
+                        <div className='content-sub-menu-cance'>
                             <Nav className='custom-sub-menu' variant="tabs" activeKey={activeTabAsignature} onSelect={(selectedKey) => setActiveTabAsignature(selectedKey)}>
                                 <Nav.Item>
                                     <Nav.Link eventKey="AsignatureCode" onClick={() => setOptionAsignature(true)}>Buscar por Código</Nav.Link>

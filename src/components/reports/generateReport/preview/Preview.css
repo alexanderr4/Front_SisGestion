@@ -1,0 +1,17 @@
+.preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    background-color: #f3ebeb;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    gap: 20px;
+}
+
+.icon-faSheetPlastic-preview{
+    height: 80px;
+}
+
