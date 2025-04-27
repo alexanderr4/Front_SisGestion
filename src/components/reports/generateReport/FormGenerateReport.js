@@ -31,7 +31,7 @@ function FormGenerateReport({
                 <h3>Generación de reportes</h3>
                 <p>Configure los parametros para generar reportes de cancelación</p>
                 <div className='content-sub-menu-report'>
-                    <Nav className='custom-sub-menu' variant="tabs" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)}>
+                    <Nav className='custom-sub-menu-report' variant="tabs" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)}>
                         <Nav.Item>
                             <Nav.Link eventKey="parameters">Parámetros</Nav.Link>
                         </Nav.Item>
@@ -57,10 +57,10 @@ function FormGenerateReport({
                 </div>
 
                 <div className="row content-button">
-                    <div className='col-md-6 format-button-one' >
-                        <button >cancelar</button>
+                    <div className='col-md-6 col-3 format-button-one' >
+                        <button >Cancelar</button>
                     </div>
-                    <div className='col-md-6 format-button-second' >
+                    <div className='col-md-6 col-9 format-button-second' >
                         <button  >Exportar</button>
                         <button className='button-generate-report' >Generar Reporte</button>
                     </div>

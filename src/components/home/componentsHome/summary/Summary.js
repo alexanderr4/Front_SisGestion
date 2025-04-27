@@ -1,6 +1,23 @@
+import { useState } from "react";
+import {getCancellations} from "../../../../api/Cancellations";
 import "./Summary.css";
 
+
 function Summary() {
+    const [loading, setLoading] = useState(true);
+    const calculatePendingCancellations =() => {
+        setLoading(true);
+        const requests = getCancellations().then((response) => {
+
+        })
+        .catch((error) => {
+            console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+            setLoading(false);
+        });
+    }
+
     return (
 
         <div className='row'>
