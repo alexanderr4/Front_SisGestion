@@ -1,7 +1,7 @@
 {
     "rewrites": [
       {
-        "source": "api/api/v1/auth/login",
+        "source": "/api/api/v1/auth/login",
         "destination": "http://3.21.240.104:8080/api/v1/auth/login"
       }
     ]
