@@ -1,41 +1,31 @@
 import React, { createContext, useState } from 'react';
-
+import { apiFactory } from '../../api/config/ApiFactory';
 
 export const AuthContext = createContext();
-
 export const AuthProvider = ({ children }) => {
     const [authToken, setAuthToken] = useState(null);
 
-    
 
-    // const handleLogin = async (userName, password) => {
-    //     try {
-    //         const response = await axios.post('/login', { userName, password }, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Accept': '*/*'
-    //             }
-    //         });
-    //         return response.data.token; // Retorna el token si la solicitud es exitosa
-    //     } catch (error) {
-    //         // Manejo de errores para que se pueda capturar en Login
-        
-    //         if (error.response) {
-    //             if (error.response.status === 403) {
-    //                 throw new Error('Credenciales incorrectas. Por favor, intenta nuevamente.');
-    //             } else {
-    //                 throw new Error(error.response.data.message || 'Error en la solicitud.'); // Mensaje genérico para otros errores
-    //             }
-    //         } else if (error.request) {
-    //             throw new Error('El servidor no respondió. Por favor, verifica tu conexión.');
-    //         } else {
-    //             throw new Error('Error al realizar la solicitud: ' + error.message);
-    //         }
-    //     }
-    // };
+
+    const handleLogin = async (username, password) => {
+        try {
+            const response = await apiFactory(false).post('/api/api/v1/auth/login', { username, password }).then(
+                (response) => {
+                    return { ok: true, response: response }; // Retorna la respuesta para que pueda ser manejada en el bloque then
+                }
+            ).catch((error) => {
+                return { ok: false, error: error }
+            });
+
+            return response; // Retorna el token si la solicitud es exitosa
+        } catch (error) {
+            // Manejo de errores para que se pueda capturar en Login
+            console.error(error);
+        }
+    };
 
     return (
-        <AuthContext.Provider value={{ authToken, NaN }}>
+        <AuthContext.Provider value={{ authToken, handleLogin }}>
             {children}
         </AuthContext.Provider>
     );

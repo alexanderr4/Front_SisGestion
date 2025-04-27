@@ -16,8 +16,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 
 
 function AdminDashboard() {
-  const [userData, setUserData] = useState({ name: '', lastName: '', email: '' });
-  const [logout, setLogout] = useState(false);
+
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isTokenChecked, setIsTokenChecked] = useState(false);
@@ -25,90 +24,27 @@ function AdminDashboard() {
   const [isMenuVisible, setMenuVisible] = useState(true);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
 
-  const loadInfoUser = async () => {
-    const token = localStorage.getItem('authToken');
-    let response;
-    try {
-      response = jwtDecode(token);
-      setUserData({
-        name: response.name,
-        lastName: response.lastName,
-      });
-      return response;
-    } catch (error) {
-      console.error("Error al cargar los datos del usuario", error);
-      return {};
-    }
-  }
 
-  // useEffect(() => {
-  //   try {
-  //     const token = localStorage.getItem('authToken');
-  //     if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
-  //       loadInfoUser();
-  //       setIsTokenChecked(true);
-  //     } else {
-  //       localStorage.removeItem('authToken');
-  //       window.location.href = '/login';
-  //     }
-  //   } catch (error) {
-  //     console.error('Error al verificar el token:', error);
-  //     localStorage.removeItem('authToken');
-  //     window.location.href = '/login';
-  //   }
-
-  // }, []);
 
   useEffect(() => {
-    const handleLogout = async () => {
-      try {
-        setLoading(true);  // Mostrar el spinner
-        const response = await axios.get(`/users/logout`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Si necesitas enviar el token de autenticación
-          }
-        });
-        console.log('Logout successful:', response.data);
-        localStorage.removeItem('authToken');  // Eliminar el token de localStorage
-        console.log("sale correctamente")
-        navigate('/login');    // Redirigir a la página de login
-      } catch (error) {
-        console.log("sale por error")
-        if (error.response && error.response.status === 403) {
-          console.error('Token vencido:', error);
-          localStorage.removeItem('authToken');
-          // Eliminar el token de localStorage
-          navigate(`/login`); // Redirigir a la página de login
-        } else {
-          console.error('Error durante el logout:', error);
-        }
-      } finally {
-        setLoading(false);  // Ocultar el spinner cuando termine
+    try {
+      const token = localStorage.getItem('authToken');
+      if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
+        setIsTokenChecked(true);
+      } else {
+        localStorage.removeItem('authToken');
+        window.location.href = '/login';
       }
-    };
-
-
-
-
-
-
-
-
-    if (logout) {
-      handleLogout();
+    } catch (error) {
+      console.error('Error al verificar el token:', error);
+      localStorage.removeItem('authToken');
+      window.location.href = '/login';
     }
-  }, [logout, navigate]);
 
+  }, []);
 
+ 
 
-  const handleLogoutClick = () => {
-    setShowLogoutModal(true);  // Mostrar el modal de confirmación
-  };
-
-  const handleConfirmLogout = () => {
-    setShowLogoutModal(false);  // Ocultar el modal
-    setLogout(true);  // Iniciar el proceso de logout
-  };
 
   const handleCancelLogout = () => {
     setShowLogoutModal(false);  // Ocultar el modal sin hacer logout
@@ -117,55 +53,8 @@ function AdminDashboard() {
 
 
 
-  const handleNavigation = async (path) => {
-    if (path === '/profile-info') {
-      const token = localStorage.getItem('authToken'); // Obtener el token desde el localStorage
-
-
-      try {
-        const decodedToken = jwtDecode(token);
-        const userId = decodedToken.id;
-
-
-
-        const userData = {}//await getUserById(userId, token);
-
-        // Formatear los datos recibidos
-        const formattedData = {
-          name: userData.name,
-          lastName: userData.lastName,
-          typeIdentification: userData.typeIdentification,
-          numberIdentification: userData.numberIdentification,
-          email: userData.email,
-          phoneNumber: userData.phoneNumber,
-          address: userData.address,
-          pathImage: userData.pathImage,
-          userStatus: userData.userStatus,
-          roles: userData.roles && userData.roles.length > 0 ? userData.roles[0].name : null
-        };
-
-        console.log("Respuesta: ", formattedData);
-
-        // Navegar y pasar los datos en el estado
-        navigate(`/admin${path}`, { state: { user: formattedData } });
-      } catch (error) {
-        console.error("Error al cargar los datos del usuario", error);
-        // Opcional: Mostrar un mensaje de error al usuario
-      }
-    } else if (path === '/settings') {
-      const token = localStorage.getItem('authToken'); // Obtener el token desde el localStorage
-      try {
-        const decodedToken = jwtDecode(token);
-        const userId = decodedToken.id;
-        const userData = {}//await getUserById(userId, token);
-        navigate(`/admin${path}`, { state: { user: userData } });
-      } catch (error) {
-        console.error("Error al cargar los datos del usuario", error);
-      }
-
-    } else {
+  const handleNavigation = async (path) => { 
       navigate(`/admin${path}`, { state: { key: Date.now() } });
-    }
   };
 
 
@@ -196,12 +85,9 @@ function AdminDashboard() {
     });
   };
 
-
-
-  // if (!isTokenChecked) {
-  //   return null;
-  // }
-
+  if (!isTokenChecked) {
+    return null;
+  }
   return (
 
     <div className="container-fluid"  >
@@ -316,7 +202,7 @@ function AdminDashboard() {
       <ConfirmationModal
         show={showLogoutModal}
         onHide={handleCancelLogout}
-        onConfirm={handleConfirmLogout}
+        //onConfirm={handleConfirmLogout}
         title="Cierre de Sesión"
         bodyText="¿Estás seguro de que deseas cerrar sesión?"
         confirmText={loading ? <Spinner animation="border" size="sm" /> : "Sí"}

@@ -35,12 +35,12 @@ function AppRouter() {
       </Route>
 
 
-      {/* {localStorage.getItem('authToken')?  
-        <Route index element={<Navigate to="/admin/welcome" />}/>:
+      {localStorage.getItem('authToken')?  
+        <Route index element={<Navigate to="admin/home/summary" />}/>:
         <Route index element={<Navigate to="/login" />} /> 
-      } */}
-      <Route index element={<Navigate to="/login" />} />
-      <Route path="*" element={<Navigate to="/admin/home" />} />
+      } 
+      {/* <Route index element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/admin/home" />} /> */}
       {/* <Route path="*" element={<h2>404 Not Found</h2>} /> */}
 
     </Routes>
