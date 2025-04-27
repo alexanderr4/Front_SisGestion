@@ -42,7 +42,7 @@ const ControlPanel = () => {
                 <div className='header-title'>
                     <h3 className="header ">Panel de control</h3>
                 </div>
-                <div className='col-12 col-md-7 content-sub-menu'>
+                <div className='col-12 col-md-6 content-sub-menu'>
                     <Nav className='custom-sub-menu' variant="tabs" activeKey={activeTab} onSelect={(selectedKey) => setActiveTab(selectedKey)}>
                         <Nav.Item>
                             <Nav.Link eventKey="summary" onClick={() => handleNavigation('/home/summary')}>Resumen</Nav.Link>
@@ -58,7 +58,7 @@ const ControlPanel = () => {
                         </Nav.Item>
                     </Nav>
                 </div>
-                <div className='col-12 col-md-5 content-button-add' >
+                <div className='col-12 col-md-6 content-button-add' >
                     <button onClick={() => hadleButton()}>+ Nueva cancelación</button>
                 </div>
             </div>
