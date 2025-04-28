@@ -95,7 +95,7 @@ function Summary() {
             });
             return { countStudents: studentsThisSemester.length, countStudentsThisSemester: studentsThisSemester.length }
         }
-
+        return { countStudents: 0, countStudentsThisSemester: 0 }
     }
 
 
