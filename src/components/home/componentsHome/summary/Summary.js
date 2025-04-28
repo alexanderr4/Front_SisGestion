@@ -112,7 +112,7 @@ function Summary() {
 
     const sortedRequests = () => {
         try {
-            if (dataCancellations.current && dataCancellations.current.data.length > 0) {
+            if (dataCancellations.current && dataCancellations.current.data ) {
 
                 const sortedRequests = [...dataCancellations.current.data].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
     
