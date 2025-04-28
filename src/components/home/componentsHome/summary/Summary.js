@@ -45,7 +45,7 @@ function Summary() {
     const loadDataPending = () => {
 
         const oneDayAgo = new Date(actualDate.getTime() - (24 * 60 * 60 * 1000));
-        if (dataCancellations.current) {
+        if (dataCancellations.current.data) {
             const countRequest = dataCancellations.current.data.filter(request => request.status === 'pending');
             const recentRequests = countRequest.filter(request => {
                 const createdAt = new Date(request.created_at);
@@ -61,7 +61,7 @@ function Summary() {
         firstDayOfWeek.setDate(actualDate.getDate() - actualDate.getDay() + 0); // Domingo es 0, Lunes es 1
         firstDayOfWeek.setHours(0, 0, 0, 0);
         console.log(firstDayOfWeek, "fecha lunes")
-        if (dataCancellations.current) {
+        if (dataCancellations.current.data) {
             const countRequestApproved = dataCancellations.current.data.filter(request => request.status === 'approved');
 
             const weeklyRequests = countRequestApproved.filter(request => {
@@ -83,7 +83,7 @@ function Summary() {
 
     const loadDataStudents = () => {
         //     console.log(dataStudents.current, "ffff2")
-        if (dataStudents.current) {
+        if (dataStudents.current.data) {
             const countStudents = dataStudents.current.data;
             const { startOfSemester, endOfSemester } = calculatesemeter();
             const studentsThisSemester = countStudents.filter(student => {
