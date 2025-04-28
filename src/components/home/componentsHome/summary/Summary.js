@@ -72,6 +72,9 @@ function Summary() {
             return { countRequestApproved: countRequestApproved.length, countWeeklyRequests: weeklyRequests.length }
         }
 
+        return { countRequestApproved: 0, countWeeklyRequests: 0 }
+
+
         // console.log(dataCancellations.current.data.filter(request => request.status === 'approved').length, "ffff")
     }
 
@@ -112,21 +115,21 @@ function Summary() {
 
     const sortedRequests = () => {
         try {
-            if (dataCancellations.current && dataCancellations.current.data ) {
+            if (dataCancellations.current && dataCancellations.current.data) {
 
                 const sortedRequests = [...dataCancellations.current.data].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-    
+
                 // 2. Tomar las primeras 5 solicitudes
                 const latestFiveRequests = sortedRequests.slice(0, 5);
                 return latestFiveRequests;
             }
             return [];
-        }catch (error) {
+        } catch (error) {
             console.error("Error sorting requests:", error);
             return [];
         }
-      
-     
+
+
 
     }
 
