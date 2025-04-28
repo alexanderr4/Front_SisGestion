@@ -1,17 +1,24 @@
-.content-wrapper{
+.content-summary {
+    width: 100%;
+
+}
+
+.content-wrapper {
     margin: 0px !important;
     padding: 0px;
+
 }
 
-.content-targets{
+.content-targets {
     margin: 0px !important;
 }
 
 
-.target-group{
+.target-group {
     padding: 0px;
-    
+
 }
+
 .row {
     margin: 0px !important;
     padding: 0px !important;
@@ -20,8 +27,8 @@
 /* Estilo para las tarjetas de resumen */
 .card-summary {
     padding: 10px;
-    background-color: #f8f9fa; 
-    border: 1px solid #000000; 
+    background-color: #f8f9fa;
+    border: 1px solid #000000;
     border-radius: 6px;
     text-align: left;
     margin: 10px;
@@ -31,31 +38,41 @@
 }
 
 .card-summary:hover {
-    background-color: #000000; 
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); 
-    transform: translateY(-5px); 
+    background-color: #000000;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    color: #ffffff;
 }
 
 .card-summary h5 {
     font-size: 13px;
     font-weight: bold;
-    
-    color: #000000; 
+
+    color: #000000;
+}
+
+.card-summary h3 {
+    font-weight: 600;
+}
+
+.card-summary p {
+    font-weight: 500;
 }
 
 .card-summary:hover h5 {
-    color: #ffffff; 
+    color: #ffffff !important;
 }
 
 .card-summary p {
     font-size: 14px;
-    color: #666666; 
+    color: #666666;
     margin: 0;
 }
 
 .card-summary:hover p {
     color: #c4c2c2;
 }
+
 /*  contenedor estadisticas*/
 
 .content-statistics {
@@ -63,16 +80,18 @@
     padding-top: 12px;
     border: solid 1px #000000;
     border-radius: 6px;
-    @media (max-width: 768px) {
-        width: auto;
-        margin: 9px;
-        
+
+    @media (max-width: 992px) {
+        width: 97%;
+        margin: 20px;
+        margin-left: 9px !important;
+
     }
-   
-   
+
+
 }
 
-.content-statistics h5{
+.content-statistics h5 {
     color: #000000;
     font-size: 1em;
     font-weight: 600;
@@ -81,15 +100,44 @@
 /* contenedor actividad reciente*/
 .content-recent-activity {
     padding-top: 15px;
-   padding-left: 10px;
+    padding-left: 10px;
     border: solid 1px #000000;
     border-radius: 6px;
     margin: 0px 10px;
 }
 
-.content-recent-activity h5{
+.content-recent-activity h4 {
     color: #000000;
-    font-size: 1em;
     font-weight: 600;
 }
 
+.recent-activity-card{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recent-activity-title,
+.recent-activity-text,
+.recent-activity-date {
+    font-weight: bolder;
+    font-size: 0.8em;
+    margin: 0px;
+}
+
+.recent-activity-title {
+    color: #000000;
+}
+
+.recent-activity-text {
+    color: #6B6767;
+}
+
+.recent-activity-date {
+    margin-left: 12px;
+    margin-right: 12px;
+    width: auto;
+    color: #000000;
+    white-space: nowrap;
+}
