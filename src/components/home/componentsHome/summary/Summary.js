@@ -78,7 +78,7 @@ function Summary() {
     const loadDataElectives = () => {
         sortedRequests()
         //console.log(dataElectives.current.filter(request => request.status === 'pending').length , "ffff")
-        return dataElectives.current ? dataElectives.current.data.length : 0;
+        return dataElectives.current.data ? dataElectives.current.data.length : 0;
     }
 
     const loadDataStudents = () => {
