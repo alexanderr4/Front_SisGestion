@@ -111,15 +111,22 @@ function Summary() {
     }
 
     const sortedRequests = () => {
-        if (dataCancellations.current) {
+        try {
+            if (dataCancellations.current) {
 
-            const sortedRequests = [...dataCancellations.current.data].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-
-            // 2. Tomar las primeras 5 solicitudes
-            const latestFiveRequests = sortedRequests.slice(0, 5);
-            return latestFiveRequests;
+                const sortedRequests = [...dataCancellations.current.data].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    
+                // 2. Tomar las primeras 5 solicitudes
+                const latestFiveRequests = sortedRequests.slice(0, 5);
+                return latestFiveRequests;
+            }
+            return [];
+        }catch (error) {
+            console.error("Error sorting requests:", error);
+            return [];
         }
-        return [];
+      
+     
 
     }
 

@@ -5,8 +5,8 @@
         "destination": "http://34.66.218.182:8080/api/v1/auth/login"
       },
       {
-        "source": "/api/api/v1/cancellation-requests",
-        "destination": "http://34.66.218.182:8080/api/v1/auth/login"
+        "source": "/api/api/v1/cancellation-requests/",
+        "destination": "http://34.66.218.182:8080/api/v1/cancellation-requests"
       }
     ]
   }
