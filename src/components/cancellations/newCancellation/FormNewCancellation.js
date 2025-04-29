@@ -7,6 +7,7 @@ import "./FormNewCancellation.css";
 import AutoCompleteInput from './AutoCompleteInput ';
 
 
+
 function FormNewCancellation({ formData,
     setFormData,
     handleInputChange,
@@ -16,6 +17,8 @@ function FormNewCancellation({ formData,
     setOptionStudent,
     setOptionAsignature,
     optionAsignature,
+    mapNameStudent,
+    mapNameSubjects,
     dataStudentName,
     setLoadData,
     getRootProps,
@@ -57,7 +60,7 @@ function FormNewCancellation({ formData,
                                     <Nav.Link eventKey="studentCode" onClick={() => setOptionStudent(true)}>Buscar por Código</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="studentName" onClick={() => setOptionStudent(false)} >Buscar por Nombre</Nav.Link>
+                                    <Nav.Link eventKey="studentName" onClick={() => setOptionStudent(false)}>Buscar por Nombre</Nav.Link>
                                 </Nav.Item>
 
                             </Nav>
@@ -65,40 +68,27 @@ function FormNewCancellation({ formData,
                         {optionStundent ? (<div className=' form-field'>
                             <AutoCompleteInput
                                 label="Código del Etudiante"
-                                name="codigoEstudiante"
-                                value={loadData.codigoEstudiante}
+                                name="student"
+                                value={loadData.student}
                                 onChange={handleInputChange}
-                                options={['201922538', '2019874', '2584155']}
+                                options={mapNameStudent()}
+                                searchField="code"
                                 type={"number"}
+
                                 placeholder={"estudiante por código"}
                             />
-                            {/* <label>Codigo del Etudiante</label>
-                            <input
-                                type="number"
-                                name="codigoEstudiante"
-                                id='codigoEstudiante'
-                                placeholder="Ej: 201921257"
-                                value={loadData.codigoEstudiante}
-                                onChange={handleInputChange}
-                                onWheel={(e) => e.target.blur()}
-                                onKeyDown={(e) => {
-                                    if (['e', 'E', '+', '-'].includes(e.key)) {
-                                        e.preventDefault();
-                                    }
-                                }}
-                                required
-                          
-                            /> */}
+
 
 
                         </div>) : (
                             <div className='form-field'>
                                 <AutoCompleteInput
                                     label="Nombre del Estudiante"
-                                    name="nombreEstudiante"
-                                    value={loadData.nombreEstudiante}
+                                    name="student"
+                                    value={loadData.student}
                                     onChange={handleInputChange}
-                                    options={['Juan Pérez', 'María Gómez', 'Carlos Ruiz']}
+                                    options={mapNameStudent()}
+                                    searchField="name"
                                     type={"text"}
                                     placeholder={"estudiante por nombre"}
                                 />
@@ -155,10 +145,11 @@ function FormNewCancellation({ formData,
                             <div className='form-field'>
                                 <AutoCompleteInput
                                     label="Codigo de la asignatura"
-                                    name="codigoAsignatura"
-                                    value={loadData.codigoAsignatura}
+                                    name="subject"
+                                    value={loadData.subject}
                                     onChange={handleInputChange}
-                                    options={['8005554', '88566742', '805555475']}
+                                    options={mapNameSubjects()}
+                                    searchField="code"
                                     type={"number"}
                                     placeholder={"materia por código"}
                                 />
@@ -192,10 +183,11 @@ function FormNewCancellation({ formData,
 
                                 <AutoCompleteInput
                                     label="Nombre de la asignatura"
-                                    name="nombreAsignatura"
-                                    value={loadData.nombreAsignatura}
+                                    name="subject"
+                                    value={loadData.subject}
                                     onChange={handleInputChange}
-                                    options={['Electiva I', 'Electiva II', 'Electiva III']}
+                                    options={mapNameSubjects()}
+                                    searchField="name"
                                     type={"text"}
                                     placeholder={"materia por nombre"}
                                 />
@@ -231,10 +223,10 @@ function FormNewCancellation({ formData,
                                 <label key={index} className="radio-container">
                                     <input
                                         type="radio"
-                                        name="opciones"
+                                        name="justification"
                                         value={option}
-                                        checked={selectedOption === option}
-                                        onChange={(e) => (setSelectedOption(e.target.value))}
+                                        checked={loadData.justification === option}
+                                        onChange={handleInputChange}
                                         required
                                     />
                                     {option}
@@ -247,12 +239,12 @@ function FormNewCancellation({ formData,
                             <textarea
                                 className='input-description'
                                 type="text"
-                                name="descripcion"
+                                name="comments"
                                 id='descripcion'
                                 placeholder="Explique detalladamente el motivo de la cancelación..."
-                                value={loadData.descripcion}
+                                value={loadData.comments}
                                 onChange={handleInputChange}
-                               
+
                             // value={formData.nombre}
                             // onChange={handleChange}
                             />

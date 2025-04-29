@@ -1,7 +1,11 @@
-import { useState } from "react";
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useState, useRef, useEffect } from "react";
+import { useNavigate, Outlet, data } from 'react-router-dom';
 import FormNewCancellation from "./FormNewCancellation";
-
+import { getStudents } from "../../../api/Students";
+import { getElectives } from "../../../api/Electives";
+import { createCancellation } from "../../../api/Cancellations";
+import CustomToast from '../../toastMessage/CustomToast';
+import { set } from "date-fns";
 
 function NewCancellation() {
 
@@ -10,22 +14,53 @@ function NewCancellation() {
     const [modalType, setModalType] = useState('');
     const [optionStundent, setOptionStudent] = useState(true);
     const [optionAsignature, setOptionAsignature] = useState(true);
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('');
+
+
+    const dataElectives = useRef(null)
+    const dataStudents = useRef(null)
+
     const navigate = useNavigate();
     const formData = {
-        codigoEstudiante: "",
-        nombreEstudiante: "",
-        codigoAsignatura: "",
-        nombreAsignatura: "",
-        grupoAsignatura: "",
-        creditosAsignatura: "",
-        tipeAsignatura: "",
-        descripcion: ""
-
+        student: {},
+        subject: {},
+        justification: "",
+        comments: ""
     }
 
     const [loadData, setLoadData] = useState(formData);
 
 
+    useEffect(() => {
+        const fetch = async () => {
+            await fetchAndStoreData(getElectives, dataElectives);
+            await fetchAndStoreData(getStudents, dataStudents);
+        }
+
+        fetch();
+    }, []);
+
+    const fetchAndStoreData = async (fetchFunction, dataRef) => {
+        try {
+            setLoading(true);
+            const response = await fetchFunction();
+            dataRef.current = response.data;
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const mapNameStudent = () => {
+        return dataStudents.current && dataStudents.current.data ? dataStudents.current.data : []
+    }
+
+    const mapNameSubjects = () => {
+        return dataElectives.current && dataElectives.current.data ? dataElectives.current.data : []
+    }
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -42,7 +77,6 @@ function NewCancellation() {
 
 
     const handleSubmit = (e) => {
-        console.log('handleSubmit')
         e.preventDefault();
         setModalType('register');
         setShowModal(true);
@@ -55,22 +89,36 @@ function NewCancellation() {
     };
 
     const handleCloseModal = () => {
-        setShowModal(false); // Cerrar el modal sin realizar acción
+        setShowModal(false);
     };
 
     const handleConfirmAction = async () => {
-        setShowModal(false);  // Cerramos el modal primero
-        setLoading(true);
+        setShowModal(false);
         if (modalType === 'cancel') {
-
-            setLoading(false);  // Detenemos el spinner
-            // Mostramos el componente ListUsers
+            setLoading(false);
+            setLoadData(formData);
+            navigate(-1)
         } else if (modalType === 'register') {
-            setTimeout(() => {
-                setLoading(false);  // Detenemos el spinner después de 2 segundos
-            }, 2000);
-
-            console.log(loadData)
+            const sendData = {
+                student_id: loadData.student.id,
+                subject_id: loadData.subject.id,
+                justification: loadData.justification,
+                comments: loadData.comments
+            }
+            createCancellation(sendData).then((response) => {
+                setLoading(false);
+                setShowToast(true)
+                setToastMessage("Solicitud de cancelación creada con éxito")
+                setToastType('success')
+                setLoadData(formData);
+              
+            }).catch((error) => {
+                setLoading(false);
+                console.log(error, "error enviar solicitud")
+                setShowToast(true)
+                setToastMessage("Error al crear la solicitud de cancelación")
+                setToastType('error')
+             }).finally(() => {   setLoading(false);})
 
         }
     };
@@ -78,23 +126,34 @@ function NewCancellation() {
 
 
     return (
-        <FormNewCancellation
-            loading={loading}
-            modalType={modalType}
-            showModal={showModal}
-            handleSubmit={handleSubmit}
-            handleConfirmAction={handleConfirmAction}
-            handleCancel={handleCancel}
-            handleCloseModal={handleCloseModal}
-            loadData={loadData}
-            setLoadData={setLoadData}
-            handleInputChange={handleInputChange}
-            hadleButtonClickBack={hadleButtonClickBack}
-            setOptionStudent={setOptionStudent}
-            optionStundent={optionStundent}
-            setOptionAsignature={setOptionAsignature}
-            optionAsignature={optionAsignature}
-        />
+        <>
+            <FormNewCancellation
+                loading={loading}
+                modalType={modalType}
+                showModal={showModal}
+                handleSubmit={handleSubmit}
+                handleConfirmAction={handleConfirmAction}
+                handleCancel={handleCancel}
+                handleCloseModal={handleCloseModal}
+                loadData={loadData}
+                setLoadData={setLoadData}
+                handleInputChange={handleInputChange}
+                hadleButtonClickBack={hadleButtonClickBack}
+                setOptionStudent={setOptionStudent}
+                optionStundent={optionStundent}
+                setOptionAsignature={setOptionAsignature}
+                optionAsignature={optionAsignature}
+                mapNameStudent={mapNameStudent}
+                mapNameSubjects={mapNameSubjects}
+            />
+
+            <CustomToast
+                showToast={showToast}
+                setShowToast={setShowToast}
+                toastMessage={toastMessage}
+                toastType={toastType}
+            />
+        </>
     );
 }
 
