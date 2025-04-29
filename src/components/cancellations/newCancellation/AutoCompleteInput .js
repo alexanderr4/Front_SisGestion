@@ -98,6 +98,9 @@ const AutoCompleteInput = ({ label, name, options, value, onChange, type, placeh
                     placeholder={`Buscar ${placeholder}`}
                     onKeyDown={handleKeyDown}
                     onWheel={(e) => e.target.blur()}
+                    autoComplete="off"
+                    autoCorrect="off"        // iOS/Safari
+                    spellCheck="false"       // desactiva sugerencias de texto
                     required
                 />
                 <FontAwesomeIcon size="xs" icon={faSort} />
