@@ -23,7 +23,7 @@ function Summary() {
         }
 
         fetch();
-
+        sortedRequests()
         // (¿Debería ser getStudents aquí?)
     }, []);
 
@@ -79,9 +79,9 @@ function Summary() {
     }
 
     const loadDataElectives = () => {
-        sortedRequests()
+        const electives = dataElectives.current.data ? dataElectives.current.data : []
         //console.log(dataElectives.current.filter(request => request.status === 'pending').length , "ffff")
-        return dataElectives.current.data ? dataElectives.current.data.length : 0;
+        return electives.filter(sub => sub.is_elective).length;
     }
 
     const loadDataStudents = () => {
@@ -202,15 +202,21 @@ function Summary() {
                 <div className="content-recent-activity">
                     <h4>Actividad reciente</h4>
                     <p className="recent-activity-text">Últimas solicitudes y actualizaciones en el sistema</p>
-                    {sortedRequests().map((request) => (
-                        <div key={request.id} className="recent-activity-card">
-                            <div>
-                                <h3 className="recent-activity-title">Solicitud de cancelación #{request.id}</h3>
-                                <p className="recent-activity-text">Estudiante: {request.student.name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} - Asignatura: {request.subject.name}</p>
+                    {loading ? (
+                        <Spinner animation="border" size="sm" /> // Muestra el spinner mientras carga
+                    ) : (
+                        sortedRequests().map((request) => (
+                            <div key={request.id} className="recent-activity-card">
+                                <div>
+                                    <h3 className="recent-activity-title">Solicitud de cancelación #{request.id}</h3>
+                                    <p className="recent-activity-text">Estudiante: {request.student.name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} - Asignatura: {request.subject.name}</p>
+                                </div>
+                                <p className="recent-activity-date">{getTimeAgo(request.updated_at)}</p>
                             </div>
-                            <p className="recent-activity-date">{getTimeAgo(request.updated_at)}</p>
-                        </div>
-                    ))}
+                        ))
+                    )
+                    }
+
                 </div>
             </div>
             <div className=" col-12 col-lg-4 content-statistics">
