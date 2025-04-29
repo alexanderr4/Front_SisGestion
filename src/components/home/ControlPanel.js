@@ -26,8 +26,7 @@ const ControlPanel = () => {
     const hadleButton = () => {
         navigate('/admin/cancellations/cancellationManagement/newCancellation');
     }
-    console.log(window.location.pathname.split('/'))
-    console.log(window.location.pathname.split('/').length)
+
     if (window.location.pathname.split('/').length >4) {
         return (
             <Outlet />
