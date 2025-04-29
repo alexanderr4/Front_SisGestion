@@ -9,6 +9,8 @@ import Reports from '../components/home/componentsHome/reports/Reports';
 import FormNewCancellation from '../components/cancellations/newCancellation/NewCancellation';
 import PendingRequests from '../components/cancellations/pendingRequests/PendingRequests';
 import GenerateReport from '../components/reports/generateReport/GenerateReport';
+import SubjectManagement from '../components/subjects/SubjecManagement';
+import Settings from '../components/settings/Settings';
 
 function AppRouter() {
   return (
@@ -32,6 +34,9 @@ function AppRouter() {
             <Route path="generateReport" element={<GenerateReport />} />  
           </Route>
         </Route>
+
+        <Route path="subjectManagement" element={<SubjectManagement />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
 
 

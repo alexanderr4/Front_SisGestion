@@ -133,7 +133,7 @@ function AdminDashboard() {
                 Reportes
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/requestMaintenance')}>
+              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/subjectManagement')}>
                 <FontAwesomeIcon className="icon-margin" icon={faSheetPlastic} />Materias
               </Nav.Link>
 
