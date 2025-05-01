@@ -79,7 +79,7 @@ const Login = () => {
     };
 
     if (isTokenChecked.current) {
-        return null // Si el token es válido, redirige a la página de inicio
+        return navigation // Si el token es válido, redirige a la página de inicio
     } else {
 
         return (
