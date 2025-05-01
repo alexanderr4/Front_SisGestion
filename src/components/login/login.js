@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { AuthContext } from './AuthContext';
 import { Navigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
@@ -13,6 +13,7 @@ const Login = () => {
     const [toastType, setToastType] = useState('');
     const [navigation, setNavigation] = useState(null);
     const [loading, setLoading] = useState(false);
+    const isTokenChecked = useRef(false);
     const [dataLogin, setDataLogin] = useState({
         username: '',
         password: ''
@@ -21,15 +22,16 @@ const Login = () => {
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         if (token !== null) {
+            isTokenChecked.current = true;
             setNavigation(<Navigate to="/admin/home/summary" />);
         } else {
             setNavigation(null);
         }
-    },[])
+    }, [])
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true); 
+        setLoading(true);
         // setLoading(true); // Inicia la carga
         try {
             //console.log(dataLogin, "dataLogin")
@@ -66,7 +68,7 @@ const Login = () => {
             //setError("Acceso denegado comuniquese con el administrador");
         } catch (err) {
             console.error(err)
-            setLoading(false); 
+            setLoading(false);
             // setShowToast(true);
             //setToastMessage(err.message);
             // setToastType('error');
@@ -75,90 +77,96 @@ const Login = () => {
             setLoading(false); // Detiene la carga independientemente de si hubo un error o no
         }
     };
-    return (
-        <div className='login-page'>
-            <div className='title-login-principal'>
-                <img src={iconoTitle} alt="Icono" className="icono" />
-                <h3>SisGestión Académica</h3>
-            </div>
-            <div className='login-container' >
-                <div className='title-login'>
-                    <h3>Iniciar Sesión</h3>
+
+    if (isTokenChecked.current) {
+        return null // Si el token es válido, redirige a la página de inicio
+    } else {
+
+        return (
+            <div className='login-page'>
+                <div className='title-login-principal'>
+                    <img src={iconoTitle} alt="Icono" className="icono" />
+                    <h3>SisGestión Académica</h3>
                 </div>
-                <div className='login-caption'>
-                    <h4>Ingrese sus credenciales para acceder al sistema</h4>
-                </div>
-                <div className="formualrio">
-                    <form onSubmit={onSubmit}>
-                        <label className="username">Usuario</label>
-                        <div className="form-group">
-                            <input
-                                className="custom-input"
-                                placeholder="Nombre de usuario"
-                                value={dataLogin.username}
-                                onChange={(e) => setDataLogin({ ...dataLogin, username: e.target.value })}
-                                required
-                            />
-                        </div>
-                        <div className='resett-password row'>
-                            <div className='col-5 col-md-6 contetn-label-resett-password'>
-                                <label className="password">Contraseña</label>
+                <div className='login-container' >
+                    <div className='title-login'>
+                        <h3>Iniciar Sesión</h3>
+                    </div>
+                    <div className='login-caption'>
+                        <h4>Ingrese sus credenciales para acceder al sistema</h4>
+                    </div>
+                    <div className="formualrio">
+                        <form onSubmit={onSubmit}>
+                            <label className="username">Usuario</label>
+                            <div className="form-group">
+                                <input
+                                    className="custom-input"
+                                    placeholder="Nombre de usuario"
+                                    value={dataLogin.username}
+                                    onChange={(e) => setDataLogin({ ...dataLogin, username: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <div className='resett-password row'>
+                                <div className='col-5 col-md-6 contetn-label-resett-password'>
+                                    <label className="password">Contraseña</label>
+                                </div>
+
+                                {/* Segunda columna */}
+                                <div className='col-7 col-md-6 content-forgot-password'>
+                                    <small>
+                                        <a
+                                            href="/forgot-password"
+                                            className="forgot-password"
+                                            onClick={(e) => e.preventDefault()}
+                                        >
+                                            ¿Olvidó su contraseña?
+                                        </a>
+                                    </small>
+                                </div>
                             </div>
 
-                            {/* Segunda columna */}
-                            <div className='col-7 col-md-6 content-forgot-password'>
-                                <small>
-                                    <a
-                                        href="/forgot-password"
-                                        className="forgot-password"
-                                        onClick={(e) => e.preventDefault()}
-                                    >
-                                        ¿Olvidó su contraseña?
-                                    </a>
-                                </small>
+                            <div className="form-group">
+                                <input
+
+                                    type="password"
+                                    value={dataLogin.password}
+                                    onChange={(e) => setDataLogin({ ...dataLogin, password: e.target.value })}
+
+                                    placeholder="Contraseña"
+
+                                    required
+                                />
                             </div>
-                        </div>
+                            {/* {error && <div className="alert alert-danger">{error}</div>} Mostrar el error aquí */}
 
-                        <div className="form-group">
-                            <input
+                            <div className="button-container">
+                                <button type="submit" className="login-btn">Ingresar</button>
+                                {navigation}
+                                {/* {navigation} */}
+                            </div>
 
-                                type="password"
-                                value={dataLogin.password}
-                                onChange={(e) => setDataLogin({ ...dataLogin, password: e.target.value })}
+                        </form>
 
-                                placeholder="Contraseña"
+                    </div>
+                    <div className="row"></div>
 
-                                required
-                            />
-                        </div>
-                        {/* {error && <div className="alert alert-danger">{error}</div>} Mostrar el error aquí */}
-
-                        <div className="button-container">
-                            <button type="submit" className="login-btn">Ingresar</button>
-                            {navigation}
-                            {/* {navigation} */}
-                        </div>
-
-                    </form>
 
                 </div>
-                <div className="row"></div>
-
-
+                {loading && ( // Si está cargando, muestra el overlay y el spinner
+                    <div className="loading-overlay">
+                        <Spinner animation="grow" size="lg" /> {/* Tamaño grande para mayor visibilidad */}
+                    </div>
+                )}
+                <CustomToast
+                    showToast={showToast}
+                    setShowToast={setShowToast}
+                    toastMessage={toastMessage}
+                    toastType={toastType}
+                />
             </div>
-            {loading && ( // Si está cargando, muestra el overlay y el spinner
-                <div className="loading-overlay">
-                    <Spinner animation="grow" size="lg" /> {/* Tamaño grande para mayor visibilidad */}
-                </div>
-            )}
-            <CustomToast
-                showToast={showToast}
-                setShowToast={setShowToast}
-                toastMessage={toastMessage}
-                toastType={toastType}
-            />
-        </div>
-    );
+        );
+    }
 }
 
 export default Login;
