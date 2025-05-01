@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from './AuthContext';
 import { Navigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
@@ -17,6 +17,15 @@ const Login = () => {
         username: '',
         password: ''
     });
+
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (token !== null) {
+            setNavigation(<Navigate to="/admin/home/summary" />);
+        } else {
+            setNavigation(null);
+        }
+    },[])
 
     const onSubmit = async (e) => {
         e.preventDefault();

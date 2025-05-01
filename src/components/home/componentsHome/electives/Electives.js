@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faPeopleGroup, faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import {faSheetPlastic, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import "./Electives.css";
 
 function Electives() {
   const cards = [
 
-    { title: "Consultar inscripciones", icon: faPeopleGroup },
-    { title: "Verificar duplicados", icon: faBookOpen },
+    { title: "Verificar duplicados", icon: faSheetPlastic },
+    { title: "Consultar Electivas", icon: faBookOpen },
   ];
 
 
