@@ -1,0 +1,102 @@
+.content-subject-student-by-subject {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.card-students-by-subject {
+    display: grid;
+    gap: 2rem;
+    margin-top: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    @media screen and (max-width: 768px) {
+        gap: 1rem;
+
+    }
+}
+
+.card-students-by-subject .card {
+    display: flex;
+    align-items: baseline;
+    background-color: #ffffff;
+    border: solid 1px #000000;
+    padding: 20px;
+    border-radius: 8px;
+    color: #000000;
+    font-weight: 500;
+
+}
+
+.card-students-by-subject .card h3 {
+    margin-top: 3px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.custom-student-by-subject-table {
+    margin-top: 30px !important;
+    border: solid 1px #000000;
+    border-radius: 6px;
+    padding: 20px 10px 0px 10px !important;
+
+}
+
+.custom-student-by-subject-table h3 {
+    font-weight: 600;
+    color: #000000;
+    padding-left: 0px;
+
+}
+
+.button-update-list {
+    display: flex;
+    justify-content: end;
+    height: 29px;
+    @media screen and (max-width: 768px) {
+        justify-content: center;
+        margin-bottom: 10px;
+        
+    }
+}
+
+.button-update-list button {
+    background-color: #ddd8d8;
+    border: solid 1px #000000;
+    border-radius: 5px;
+    color: #000000;
+
+}
+
+.contet-area-subject {
+    width: 100%;
+    font-weight: 600;
+    margin-left: 0px;
+    @media screen and (max-width: 768px) {
+        display: flex;
+        justify-content: center;
+        
+    }
+}
+
+.contet-area-subject p {
+    width: 180px;
+    color: #000000;
+    border: solid 1px #000000;
+    border-radius: 9px;
+    padding-left: 8px;
+}
+
+.content-table-student-by-subject {
+    display: flex;
+    position: relative;
+    top: 50%;
+    left: 17%;
+    border: solid 1px #000000;
+    width: 65%;
+    padding: 1px;
+    border-radius: 5px;
+    @media screen and (max-width: 768px) {
+        left: 3%;
+        width: 96%;
+    }
+}

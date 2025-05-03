@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, use, act } from "react";
 import { getCancellations } from "../../../../api/Cancellations";
-import { getElectives } from "../../../../api/Electives";
+import { getSubjects } from "../../../../api/Subjects";
 import { getStudents } from "../../../../api/Students";
 import { getTimeAgo } from "./Util";
 import { Spinner } from 'react-bootstrap';
@@ -18,7 +18,7 @@ function Summary() {
     useEffect(() => {
         const fetch = async () => {
             await fetchAndStoreData(getCancellations, dataCancellations);
-            await fetchAndStoreData(getElectives, dataElectives);
+            await fetchAndStoreData(getStudents, dataElectives);
             await fetchAndStoreData(getStudents, dataStudents);
         }
 

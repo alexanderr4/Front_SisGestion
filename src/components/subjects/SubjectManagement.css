@@ -1,0 +1,158 @@
+.content-subject-management {
+    height: 100%;
+    overflow-y: auto !important;
+}
+
+.content-subject-management-sub-menu {
+    border: solid 1px #000000;
+    border-radius: 5px;
+    padding: 30px 30px 10px 40px;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        padding-left: 7px;
+        padding-right: 7px;
+
+    }
+}
+
+
+.content-subject-management-sub-menu h3 {
+    font-weight: 600;
+}
+
+.content-subject-management-sub-menu p {
+    color: #6B6767;
+    font-size: 0.9em;
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+
+.ccontent-sub-menu-subject-management {
+    width: 100%;
+}
+
+.content-sub-menu-subject-management .custom-sub-menu-subject {
+    width: auto;
+    display: flex;
+}
+
+.content-sub-menu-subject-management .custom-sub-menu-subject .nav-item {
+    flex: 1 1 auto;
+    text-align: center;
+
+    @media screen and (max-width: 768px) {
+        flex: 3 3 33%;
+
+    }
+
+
+}
+
+/* tabla*/
+
+.content-table-subject-management {
+    margin-top: 10px;
+    border: solid 1px #000000;
+    border-radius: 5px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+}
+
+.loading-overlay-table {
+    margin-top: 20px;
+    height: auto;
+    width: auto;
+}
+
+.content-button-subject {
+    display: flex;
+    gap: 10px;
+}
+
+.content-button-subject button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    gap: 5px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.button-load,
+.button-view {
+    width: 80px;
+}
+
+.button-load:disabled {
+    background-color: #ffffff;
+    color: #88d34a;
+    border: none;
+}
+
+.button-load:disabled .icon-check {
+    height: 25px;
+}
+
+.content-table-area {
+    display: flex;
+    justify-content: center;
+    padding-top: 2px;
+    width: 140px;
+    height: 25px;
+    border: solid 1px #000000;
+    border-radius: 10px;
+}
+
+.content-table-area p {
+    color: #000000;
+    font-weight: 900;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.content-traparent-file-dropzone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.content-file-dropzone {
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    border: solid 1px #000000;
+    border-radius: 5px;
+    padding-top: 15px;
+    padding-left: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: last baseline;
+    pointer-events: all;
+}
+
+.content-file-dropzone h4, .content-file-dropzone p {
+    color: #000000;
+    font-weight: 600;
+  
+}
+
+.content-file-dropzone .content-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}

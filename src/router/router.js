@@ -9,8 +9,9 @@ import Reports from '../components/home/componentsHome/reports/Reports';
 import FormNewCancellation from '../components/cancellations/newCancellation/NewCancellation';
 import PendingRequests from '../components/cancellations/pendingRequests/PendingRequests';
 import GenerateReport from '../components/reports/generateReport/GenerateReport';
-import SubjectManagement from '../components/subjects/SubjecManagement';
+import SubjectManagement from '../components/subjects/SubjectManagement';
 import Settings from '../components/settings/Settings';
+import ShowStudentsBySubject from '../components/subjects/showStudentsBySubject/ShowStudentsBySubject';
 
 function AppRouter() {
   return (
@@ -31,19 +32,21 @@ function AppRouter() {
         </Route>
         <Route path="reports" element={<ControlPanel />} >
           <Route path="reportsAndStatistics" element={<Reports />} >
-            <Route path="generateReport" element={<GenerateReport />} />  
+            <Route path="generateReport" element={<GenerateReport />} />
           </Route>
         </Route>
 
-        <Route path="subjectManagement" element={<SubjectManagement />} />
+        <Route path="subjectManagement" element={<SubjectManagement />} >
+          <Route path="showStudentsBySubject" element={<ShowStudentsBySubject />} />
+        </Route>
         <Route path="settings" element={<Settings />} />
       </Route>
 
 
-      {localStorage.getItem('authToken')?  
-        <Route index element={<Navigate to="admin/home/summary" />}/>:
-        <Route index element={<Navigate to="/login" />} /> 
-      } 
+      {localStorage.getItem('authToken') ?
+        <Route index element={<Navigate to="admin/home/summary" />} /> :
+        <Route index element={<Navigate to="/login" />} />
+      }
       {/* <Route index element={<Navigate to="/login" />} />
       <Route path="*" element={<Navigate to="/admin/home" />} /> */}
       {/* <Route path="*" element={<h2>404 Not Found</h2>} /> */}

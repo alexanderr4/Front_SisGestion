@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faCheck, faXmark, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import DataTable from 'react-data-table-component';
 import { useNavigate, } from 'react-router-dom';
@@ -49,14 +49,12 @@ function PendingRequests() {
   };
 
   const formatDate = (dateString) => {
-    const originalDate  = "2025-04-25T18:24:00.917536Z";
-    const date = new Date(originalDate);
+    const date = new Date(dateString);
     const formattedDate  = date.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
     });
-
     return formattedDate ;
   }
 

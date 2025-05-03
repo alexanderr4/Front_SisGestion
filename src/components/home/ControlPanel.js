@@ -13,10 +13,20 @@ const ControlPanel = () => {
     const [activeTab, setActiveTab] = useState("summary");
     const pathInitial = window.location.pathname;
 
-    useEffect(() => {
+    useEffect(() => { 
         const path = window.location.pathname.split('/').pop();
         setActiveTab((path === 'home' ? 'summary' : path));
+        
+       
     }, [pathInitial]);
+
+    useEffect(() => {
+        const pathSegments =  window.location.pathname.split('/').filter(Boolean);
+        console.log(pathSegments)
+        if (pathSegments[1] === 'home' && pathSegments.length === 2) {
+           navigate('/admin/home/summary');
+        }
+    }, []);
 
 
     const handleNavigation = async (path) => {

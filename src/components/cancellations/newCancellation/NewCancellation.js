@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, Outlet, data } from 'react-router-dom';
 import FormNewCancellation from "./FormNewCancellation";
 import { getStudents } from "../../../api/Students";
-import { getElectives } from "../../../api/Electives";
+import { getSubjects } from "../../../api/Subjects";
 import { createCancellation } from "../../../api/Cancellations";
 import CustomToast from '../../toastMessage/CustomToast';
 
@@ -35,7 +35,7 @@ function NewCancellation() {
 
     useEffect(() => {
         const fetch = async () => {
-            await fetchAndStoreData(getElectives, dataElectives);
+            await fetchAndStoreData(getSubjects, dataElectives);
             await fetchAndStoreData(getStudents, dataStudents);
         }
 

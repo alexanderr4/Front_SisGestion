@@ -23,14 +23,21 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const [isMenuVisible, setMenuVisible] = useState(true);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
+  const pathInitial = window.location.pathname;
+
 
 
 
   useEffect(() => {
     try {
       const token = localStorage.getItem('authToken');
+      const pathSegments =  window.location.pathname.split('/').filter(Boolean);
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
         setIsTokenChecked(true);
+        //veridfica que si en la ruta solo ahy admin lo redirige
+        if(pathSegments[0] === 'admin' && pathSegments.length === 1) {
+          navigate('/admin/home/summary');
+        }
       } else {
         localStorage.removeItem('authToken');
         window.location.href = '/login';
@@ -43,7 +50,7 @@ function AdminDashboard() {
 
   }, []);
 
- 
+
 
 
   const handleCancelLogout = () => {
@@ -53,8 +60,8 @@ function AdminDashboard() {
 
 
 
-  const handleNavigation = async (path) => { 
-      navigate(`/admin${path}`, { state: { key: Date.now() } });
+  const handleNavigation = async (path) => {
+    navigate(`/admin${path}`, { state: { key: Date.now() } });
   };
 
 
@@ -120,7 +127,7 @@ function AdminDashboard() {
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/cancellations/cancellationManagement')}>
-              <img src={iconPaperCancell} alt="Mi ícono" width="19" height="19" />     Cancelaciones
+                <img src={iconPaperCancell} alt="Mi ícono" width="19" height="19" />     Cancelaciones
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/electives/electiveManagement')}>
