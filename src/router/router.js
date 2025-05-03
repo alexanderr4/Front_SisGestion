@@ -12,6 +12,9 @@ import GenerateReport from '../components/reports/generateReport/GenerateReport'
 import SubjectManagement from '../components/subjects/SubjectManagement';
 import Settings from '../components/settings/Settings';
 import ShowStudentsBySubject from '../components/subjects/showStudentsBySubject/ShowStudentsBySubject';
+import CheckDuplicates from '../components/electives/checkDuplicates/CheckDuplicates';
+import ConsultElectives from '../components/electives/consultElectives/ConsultElectives';
+
 
 function AppRouter() {
   return (
@@ -28,7 +31,10 @@ function AppRouter() {
           </Route>
         </Route>
         <Route path="electives" element={<ControlPanel />} >
-          <Route path="electiveManagement" element={<Electives />} />
+          <Route path="electiveManagement" element={<Electives />} >
+            <Route path="checkDuplicates" element={<CheckDuplicates />} />
+            <Route path="consultElectives" element={<ConsultElectives />} />
+          </Route>
         </Route>
         <Route path="reports" element={<ControlPanel />} >
           <Route path="reportsAndStatistics" element={<Reports />} >

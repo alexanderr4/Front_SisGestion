@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate, Outlet, data } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import FormNewCancellation from "./FormNewCancellation";
 import { getStudents } from "../../../api/Students";
 import { getSubjects } from "../../../api/Subjects";

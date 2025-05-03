@@ -13,18 +13,25 @@ const ControlPanel = () => {
     const [activeTab, setActiveTab] = useState("summary");
     const pathInitial = window.location.pathname;
 
-    useEffect(() => { 
+    useEffect(() => {
         const path = window.location.pathname.split('/').pop();
         setActiveTab((path === 'home' ? 'summary' : path));
-        
-       
+
+
     }, [pathInitial]);
 
     useEffect(() => {
-        const pathSegments =  window.location.pathname.split('/').filter(Boolean);
-        console.log(pathSegments)
-        if (pathSegments[1] === 'home' && pathSegments.length === 2) {
-           navigate('/admin/home/summary');
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        const redirects = {
+            home: '/admin/home/summary',
+            cancellations: '/admin/cancellations/cancellationManagement',
+            electives: '/admin/electives/electiveManagement',
+            reports: '/admin/reports/reportsAndStatistics',
+        };
+
+        const target = redirects[pathSegments[1]];
+        if (target && pathSegments.length === 2) {
+            navigate(target);
         }
     }, []);
 
@@ -37,7 +44,7 @@ const ControlPanel = () => {
         navigate('/admin/cancellations/cancellationManagement/newCancellation');
     }
 
-    if (window.location.pathname.split('/').length >4) {
+    if (window.location.pathname.split('/').length > 4) {
         return (
             <Outlet />
         )
