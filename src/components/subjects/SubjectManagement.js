@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import TableSubjects from './TableSubjects';
 import { getSubjects } from '../../api/Subjects';
-import {apiLoadStudentsBySubject} from '../../api/Students';
+import { apiLoadStudentsBySubject } from '../../api/Students';
 import VerifySubjects from "./VerifySubjects"
 import { useDropzone } from 'react-dropzone';
 import CustomToast from '../toastMessage/CustomToast';
@@ -88,18 +88,25 @@ function SubjectManagement() {
 
     // carga del archivo xml
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
+     
         accept: {
             'text/xml': ['.xml']
         },
         onDropAccepted: (acceptedFiles) => {
             const file = acceptedFiles[0];
-            if (file && (file.type === 'text/xml' || file.name.endsWith('.xml'))) {
+            if (file && (file.type === 'text/xml' || file.name.startsWith('.xml'))) {
                 setFileXml(current => { return file });
             } else {
+                setShowToast(current => { return true });   
                 setToastMessage('Por favor, selecciona solo archivos XML.');
                 setToastType('danger');
-                setShowToast(true);
+              
             }
+        },
+        onDropRejected: () => {
+            setToastMessage('Por favor, selecciona solo archivos XML.');
+            setToastType('danger');
+            setShowToast(true);
         },
         maxFiles: 1,
         multiple: false,
@@ -235,6 +242,7 @@ function SubjectManagement() {
                                 }
                             }}>Enivar lista</button>
                         </div>
+                       
                     </div>
                 </div>
             )}
