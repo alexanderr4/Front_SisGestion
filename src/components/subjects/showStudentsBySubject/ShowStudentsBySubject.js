@@ -18,8 +18,12 @@ function ShowStudentsBySubject() {
 
 
     useEffect(() => {
-        loadStudents()
-        setLoading(current => { return false })
+        if (typeof subject !== "undefined") {
+            loadStudents()
+            setLoading(current => { return false })
+        }else{
+            window.location.href = '/admin/subjectManagement';
+        }
     }, [])
 
 
@@ -77,7 +81,6 @@ function ShowStudentsBySubject() {
         },
     ]
 
-    console.log("students", students);
 
     const customStyles = {
         table: {
@@ -104,23 +107,23 @@ function ShowStudentsBySubject() {
         <div className='content-subject-student-by-subject'>
             <div className='content-title'>
                 <button onClick={() => hadleButtonClickBack()}> <FontAwesomeIcon className="icon-faArrowLeft" icon={faArrowLeft} /> </button>
-                <h3>Gestión de Materias: {subject.code}</h3>
+                <h3>Gestión de Materias: {subject?.code || 0}</h3>
             </div>
 
             <div className='card-students-by-subject'>
-                <div className="card">Codigo <h3>{subject.code}</h3></div>
-                <div className="card">Estudiantes inscritos <h3>{students.length}</h3></div>
-                <div className="card">Créditos <h3>{subject.credits}</h3></div>
+                <div className="card">Codigo <h3>{subject?.code || 0}</h3></div>
+                <div className="card">Estudiantes inscritos <h3>{students?.length ||0}</h3></div>
+                <div className="card">Créditos <h3>{subject?.credits ||0}</h3></div>
             </div>
             <div className='row custom-student-by-subject-table'>
                 <div className='col-12 col-lg-6'>
-                    <h3>{subject.name}</h3>
+                    <h3>{subject?.name ||""}</h3>
                 </div>
                 <div className='col-12 col-lg-6 button-update-list'>
                     <button><FontAwesomeIcon className="icon" icon={faUpload} /> Actulizar Lista</button>
                 </div>
                 <div className='contet-area-subject'>
-                    <p>{subject.area}</p>
+                    <p>{subject?.area ||0}</p>
                 </div>
 
                 <div className='content-table-student-by-subject'>
