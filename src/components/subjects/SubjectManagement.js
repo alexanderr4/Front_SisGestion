@@ -125,7 +125,7 @@ function SubjectManagement() {
             apiLoadStudentsBySubject(actualSubject?.current.id, xmlText).then((response) => {
                 reloadVerifyStudents.current = true;
                 setShowToast(true);
-                setToastMessage(response.data.message);
+                setToastMessage("Los estudiantes se han cargado correctamente.");
                 setToastType('success');
             }).catch((error) => {
                 console.error("Error al cargar los estudiantes:", error);
