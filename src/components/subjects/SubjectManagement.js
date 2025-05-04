@@ -90,7 +90,7 @@ function SubjectManagement() {
         await getEnrollments().then((response) => {
             setDataEnrollments(current => { return response.data.data });
         }).catch((error) => {
-            console.error("Error fetching subjects:", error);
+            console.error("Error validate fetching subjects:", error);
         });
     }
 
