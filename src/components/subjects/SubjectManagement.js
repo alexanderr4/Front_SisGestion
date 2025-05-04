@@ -81,6 +81,7 @@ function SubjectManagement() {
         await getSubjects().then((response) => {
             setSubjectData(VerifySubjects(response.data.data, activeTabSubject));
         }).catch((error) => {
+            setSubjectData([]);
             console.error("Error fetching subjects:", error);
         });
     }
@@ -90,6 +91,7 @@ function SubjectManagement() {
         await getEnrollments().then((response) => {
             setDataEnrollments(current => { return response.data.data });
         }).catch((error) => {
+            setDataEnrollments([]);
             console.error("Error validate fetching subjects:", error);
         });
     }
