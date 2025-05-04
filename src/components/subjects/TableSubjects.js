@@ -21,6 +21,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 }
                 setVerifiedStudents(results);
             } catch (error) {
+                console.error("Error al verificar los estudiantes:", error);
                 setVerifiedStudents([]);
             }
 
