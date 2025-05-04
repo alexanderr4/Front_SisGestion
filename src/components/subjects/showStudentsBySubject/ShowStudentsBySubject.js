@@ -20,7 +20,10 @@ function ShowStudentsBySubject() {
     useEffect(() => {
         if (typeof subject !== "undefined") {
             loadStudents()
-            setLoading(current => { return false })
+            setTimeout(() => {
+                setLoading(current => { return false });
+            }, 1000)
+          
         }else{
             window.location.href = '/admin/subjectManagement';
         }
@@ -28,7 +31,7 @@ function ShowStudentsBySubject() {
 
 
     const loadStudents = async () => {
-        setLoading(true);
+        setLoading(current => { return true });
         try {
             const response = await getStudentsBySubject(subject.id);
 

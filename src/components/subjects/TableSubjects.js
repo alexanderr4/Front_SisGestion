@@ -3,20 +3,20 @@ import DataTable from 'react-data-table-component';
 import { Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faUpload, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { getStudentsBySubject } from '../../api/Subjects';
 import "./SubjectManagement.css"
 
-function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsBySubjects, loading, setLoading, reloadVerifyStudents }) {
+function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsBySubjects, loading, setLoading, reloadVerifyStudents, dataEnrollments }) {
 
     const [verifiedStudents, setVerifiedStudents] = useState({});
 
     useEffect(() => {
-        const fetchVerification = async () => {
-            setLoading(true);
+        const fetchVerification = () => {
             const results = {};
-            for (const row of data) {
-                const isVerified = await verifyStudents(row.id);
-                results[row.id] = isVerified;
+            const codesInData1 = dataEnrollments.map(item => item.subject.code);
+            const filteredData2 = data.filter(item => codesInData1.includes(item.code));
+            setVerifiedStudents(0);
+            for (const row of filteredData2) {
+                results[row.id] = true;
             }
             setVerifiedStudents(results);
         };
@@ -26,20 +26,8 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
         }
         setTimeout(() => {
             setLoading(curret => { return false })
-        }, 3500)
-
+        }, 2000);
     }, [data, reloadVerifyStudents])
-
-    const verifyStudents = async (subjectId) => {
-        try {
-            const students = (await getStudentsBySubject(subjectId)).data.data;
-            return students.length > 0 ? true : false;
-        } catch (error) {
-            console.error("Error fetching students:", error);
-            return false
-        }
-
-    }
 
     const columnsTable = [
         {

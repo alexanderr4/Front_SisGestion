@@ -47,9 +47,6 @@ function VerifySubjects(subjectsData, activeTabSubject) {
         { code: "8111484", semester: "10", area: "Disciplinar" }
     ]
 
-   // console.log("subjectsSemester", subjectsSemester)
-   // console.log("subjectsSemester", "  ", a, "   ", subjectsSemester);
-
     try {  
         const merged = subjectsData.map(subject => {
             const schedule = subjects.find(s => s.code === subject.code);

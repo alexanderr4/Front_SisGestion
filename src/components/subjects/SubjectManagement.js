@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import TableSubjects from './TableSubjects';
 import { getSubjects } from '../../api/Subjects';
-import { apiLoadStudentsBySubject } from '../../api/Students';
+import { apiLoadStudentsBySubject, getEnrollments } from '../../api/Students';
 import VerifySubjects from "./VerifySubjects"
 import { useDropzone } from 'react-dropzone';
 import CustomToast from '../toastMessage/CustomToast';
@@ -19,6 +19,7 @@ function SubjectManagement() {
     const navigate = useNavigate();
     const [activeTabSubject, setActiveTabSubject] = useState('1');
     const [subjectData, setSubjectData] = useState([]);
+    const [dataEnrollments, setDataEnrollments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showWindow, setShowWindow] = useState(false);
     const pathInitial = window.location.pathname;
@@ -37,8 +38,12 @@ function SubjectManagement() {
     }
 
     useEffect(() => {
-        handleEventTab();
-    }, [activeTabSubject]);
+        const fetchLoadData = async () => {
+            loadVerifyStudents();
+            loadSubjects();
+        }
+        fetchLoadData();
+    }, [activeTabSubject, reloadVerifyStudents.current]);
 
     useEffect(() => {
         if (pathInitial === "/admin/subjectManagement") {
@@ -71,7 +76,7 @@ function SubjectManagement() {
     }, [showFileDropzone]);
 
 
-    const handleEventTab = async () => {
+    const loadSubjects = async () => {
         setLoading(true);
         await getSubjects().then((response) => {
             setSubjectData(VerifySubjects(response.data.data, activeTabSubject));
@@ -80,6 +85,14 @@ function SubjectManagement() {
         });
     }
 
+    const loadVerifyStudents = async () => {
+        setLoading(true);
+        await getEnrollments().then((response) => {
+            setDataEnrollments(current => { return response.data.data });
+        }).catch((error) => {
+            console.error("Error fetching subjects:", error);
+        });
+    }
 
     const handleButtonShowStudentsBySubjects = async (subject) => {
         setShowWindow(current => { return true });
@@ -88,7 +101,7 @@ function SubjectManagement() {
 
     // carga del archivo xml
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
-     
+
         accept: {
             'text/xml': ['.xml']
         },
@@ -97,10 +110,10 @@ function SubjectManagement() {
             if (file && (file.type === 'text/xml' || file.name.startsWith('.xml'))) {
                 setFileXml(current => { return file });
             } else {
-                setShowToast(current => { return true });   
+                setShowToast(current => { return true });
                 setToastMessage('Por favor, selecciona solo archivos XML.');
                 setToastType('danger');
-              
+
             }
         },
         onDropRejected: () => {
@@ -128,7 +141,6 @@ function SubjectManagement() {
         const reader = new FileReader();
         reader.onload = (event) => {
             const xmlText = event.target.result;
-            console.log('Contenido del archivo XML:', xmlText);
             apiLoadStudentsBySubject(actualSubject?.current.id, xmlText).then((response) => {
                 reloadVerifyStudents.current = true;
                 setShowToast(true);
@@ -212,6 +224,7 @@ function SubjectManagement() {
                     handleButtonShowStudentsBySubjects={handleButtonShowStudentsBySubjects}
                     handleButtonLoadFile={handleButtonLoadFile}
                     reloadVerifyStudents={reloadVerifyStudents.current}
+                    dataEnrollments={dataEnrollments}
                 />
             </div>
             <CustomToast
@@ -242,7 +255,7 @@ function SubjectManagement() {
                                 }
                             }}>Enivar lista</button>
                         </div>
-                       
+
                     </div>
                 </div>
             )}
@@ -251,10 +264,11 @@ function SubjectManagement() {
                 onHide={handleCloseModal}
                 onConfirm={handleConfirmAction}
                 title={"Confirmar registro"}
-                bodyText={"¿Estás seguro de que deseas registrar la nueva solicitud de cancelación?"}
+                bodyText={"¿Estás seguro de que deseas cargar los estudiantes?"}
                 confirmText={"Sí"}
                 cancelText="No"
                 containerId="modal-container"
+               
             />
 
         </div>

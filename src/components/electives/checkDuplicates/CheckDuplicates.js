@@ -1,10 +1,15 @@
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import DataElectives from "./DataElectives";
+
 
 function CheckDuplicates({ electives }) {
   const navigate = useNavigate();
 
+  useEffect(() => {
+  }, [])
 
   const hadleButtonClickBack = () => {
     navigate(-1);
@@ -16,6 +21,7 @@ function CheckDuplicates({ electives }) {
         <button onClick={() => hadleButtonClickBack()}> <FontAwesomeIcon className="icon-faArrowLeft" icon={faArrowLeft} /> </button>
         <h3>Verificación de Duplicados</h3>
       </div>
+      <DataElectives/>
     </div>
   );
 }
