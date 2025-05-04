@@ -170,6 +170,8 @@ function SubjectManagement() {
         </>
     }
 
+    console.log(loadVerifyStudents, "subjectData")
+
     return (
         <div className='content-subject-management'>
             <div className='content-title'>
