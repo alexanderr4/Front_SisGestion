@@ -11,14 +11,19 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
 
     useEffect(() => {
         const fetchVerification = () => {
-            const results = {};
-            const codesInData1 = dataEnrollments.map(item => item.subject.code);
-            const filteredData2 = data.filter(item => codesInData1.includes(item.code));
-            setVerifiedStudents(0);
-            for (const row of filteredData2) {
-                results[row.id] = true;
+            try {
+                const results = {};
+                const codesInData1 = dataEnrollments.map(item => item.subject.code);
+                const filteredData2 = data.filter(item => codesInData1.includes(item.code));
+                setVerifiedStudents(0);
+                for (const row of filteredData2) {
+                    results[row.id] = true;
+                }
+                setVerifiedStudents(results);
+            } catch (error) {
+                setVerifiedStudents([]);
             }
-            setVerifiedStudents(results);
+
         };
 
         if (data?.length > 0) {
