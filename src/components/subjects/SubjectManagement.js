@@ -87,12 +87,15 @@ function SubjectManagement() {
     }
 
     const loadVerifyStudents = async () => {
+        console.log("entra al metodo")
         setLoading(true);
         await getEnrollments().then((response) => {
             setDataEnrollments(current => { return response.data.data });
+            console.log("entra data", response.data.data)
         }).catch((error) => {
             setDataEnrollments([]);
             console.error("Error validate fetching subjects:", error);
+            console.log("no entra")
         });
     }
 
