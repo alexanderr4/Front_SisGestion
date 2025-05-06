@@ -104,6 +104,12 @@ const Login = () => {
                                     placeholder="Nombre de usuario"
                                     value={dataLogin.username}
                                     onChange={(e) => setDataLogin({ ...dataLogin, username: e.target.value })}
+                                    maxLength={60}
+                                    onKeyDown={(e) => {
+                                        if (e.key === ' ') {
+                                            e.preventDefault(); // Evita que se escriban espacios
+                                        }
+                                    }}
                                     required
                                 />
                             </div>
@@ -128,13 +134,16 @@ const Login = () => {
 
                             <div className="form-group">
                                 <input
-
                                     type="password"
                                     value={dataLogin.password}
                                     onChange={(e) => setDataLogin({ ...dataLogin, password: e.target.value })}
-
                                     placeholder="Contraseña"
-
+                                    maxLength={60}
+                                    onKeyDown={(e) => {
+                                        if (e.key === ' ') {
+                                            e.preventDefault(); // Evita que se escriban espacios
+                                        }
+                                    }}
                                     required
                                 />
                             </div>

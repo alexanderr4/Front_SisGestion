@@ -43,59 +43,74 @@ function Summary() {
 
 
     const loadDataPending = () => {
-
-        const oneDayAgo = new Date(actualDate.getTime() - (24 * 60 * 60 * 1000));
-        if (dataCancellations.current.data) {
-            const countRequest = dataCancellations.current.data.filter(request => request.status === 'pending');
-            const recentRequests = countRequest.filter(request => {
-                const createdAt = new Date(request.created_at);
-                return createdAt >= oneDayAgo;
-            });
-            return { countRecentRequests: recentRequests.length, countRequest: countRequest.length }
+        try {
+            const oneDayAgo = new Date(actualDate.getTime() - (24 * 60 * 60 * 1000));
+            if (dataCancellations.current.data) {
+                const countRequest = dataCancellations.current.data.filter(request => request.status === 'pending');
+                const recentRequests = countRequest.filter(request => {
+                    const createdAt = new Date(request.created_at);
+                    return createdAt >= oneDayAgo;
+                });
+                return { countRecentRequests: recentRequests.length, countRequest: countRequest.length }
+            }
+            return { countRecentRequests: 0, countRequest: 0 };
+        } catch (error) {
+            console.error("Error loading pending data:", error);
         }
-        return { countRecentRequests: 0, countRequest: 0 };
+
     }
 
     const loadDataApproved = () => {
-        const firstDayOfWeek = new Date(actualDate);
-        firstDayOfWeek.setDate(actualDate.getDate() - actualDate.getDay() + 0); // Domingo es 0, Lunes es 1
-        firstDayOfWeek.setHours(0, 0, 0, 0);
-        console.log(firstDayOfWeek, "fecha lunes")
-        if (dataCancellations.current.data) {
-            const countRequestApproved = dataCancellations.current.data.filter(request => request.status === 'approved');
+        try {
+            const firstDayOfWeek = new Date(actualDate);
+            firstDayOfWeek.setDate(actualDate.getDate() - actualDate.getDay() + 0); // Domingo es 0, Lunes es 1
+            firstDayOfWeek.setHours(0, 0, 0, 0);
+            console.log(firstDayOfWeek, "fecha lunes")
+            if (dataCancellations.current.data) {
+                const countRequestApproved = dataCancellations.current.data.filter(request => request.status === 'approved');
 
-            const weeklyRequests = countRequestApproved.filter(request => {
-                const createdAt = new Date(request.created_at);
-                return createdAt >= firstDayOfWeek;
-            });
+                const weeklyRequests = countRequestApproved.filter(request => {
+                    const createdAt = new Date(request.created_at);
+                    return createdAt >= firstDayOfWeek;
+                });
 
-            return { countRequestApproved: countRequestApproved.length, countWeeklyRequests: weeklyRequests.length }
+                return { countRequestApproved: countRequestApproved.length, countWeeklyRequests: weeklyRequests.length }
+            }
+            return { countRequestApproved: 0, countWeeklyRequests: 0 }
+        } catch (error) {
+            console.error("Error loading approved data:", error);
         }
-
-        return { countRequestApproved: 0, countWeeklyRequests: 0 }
-
-
         // console.log(dataCancellations.current.data.filter(request => request.status === 'approved').length, "ffff")
     }
 
     const loadDataElectives = () => {
-        const electives = dataElectives.current.data ? dataElectives.current.data : []
-        //console.log(dataElectives.current.filter(request => request.status === 'pending').length , "ffff")
-        return electives.filter(sub => sub.is_elective).length;
+        try {
+            const electives = dataElectives.current.data ? dataElectives.current.data : []
+            //console.log(dataElectives.current.filter(request => request.status === 'pending').length , "ffff")
+            return electives.filter(sub => sub.is_elective).length;
+        } catch (error) {
+            console.error("Error loading elective data:", error);
+            return 0;
+        }
+
     }
 
     const loadDataStudents = () => {
-        //     console.log(dataStudents.current, "ffff2")
-        if (dataStudents.current.data) {
-            const countStudents = dataStudents.current.data;
-            const { startOfSemester, endOfSemester } = calculatesemeter();
-            const studentsThisSemester = countStudents.filter(student => {
-                const createdAt = new Date(student.created_at);
-                return createdAt >= startOfSemester && createdAt <= endOfSemester;
-            });
-            return { countStudents: studentsThisSemester.length, countStudentsThisSemester: studentsThisSemester.length }
+        try {
+            if (dataStudents.current.data) {
+                const countStudents = dataStudents.current.data;
+                const { startOfSemester, endOfSemester } = calculatesemeter();
+                const studentsThisSemester = countStudents.filter(student => {
+                    const createdAt = new Date(student.created_at);
+                    return createdAt >= startOfSemester && createdAt <= endOfSemester;
+                });
+                return { countStudents: studentsThisSemester.length, countStudentsThisSemester: studentsThisSemester.length }
+            }
+            return { countStudents: 0, countStudentsThisSemester: 0 }
+        } catch (error) {
+            console.error("Error loading student data:", error);
         }
-        return { countStudents: 0, countStudentsThisSemester: 0 }
+        //     console.log(dataStudents.current, "ffff2")
     }
 
 
@@ -149,8 +164,8 @@ function Summary() {
                                 <Spinner animation="border" size="sm" /> // Muestra el spinner mientras carga
                             ) : (
                                 <>
-                                    <h3>{loadDataPending().countRequest}</h3>
-                                    <p>+{loadDataPending().countRecentRequests} desde ayer</p>
+                                    <h3>{loadDataPending()?.countRequest || 0}</h3>
+                                    <p>+{loadDataPending()?.countRecentRequests || 0} desde ayer</p>
                                 </>
                             )}
                         </div>
@@ -177,8 +192,8 @@ function Summary() {
                                 <Spinner animation="border" size="sm" /> // Muestra el spinner mientras carga
                             ) : (
                                 <>
-                                    <h3>{loadDataApproved().countRequestApproved}</h3>
-                                    <p>+{loadDataApproved().countWeeklyRequests} esta semana</p>
+                                    <h3>{loadDataApproved()?.countRequestApproved || 0}</h3>
+                                    <p>+{loadDataApproved()?.countWeeklyRequests || 0} esta semana</p>
                                 </>
                             )}
                         </div>
@@ -190,8 +205,8 @@ function Summary() {
                                 <Spinner animation="border" size="sm" /> // Muestra el spinner mientras carga
                             ) : (
                                 <>
-                                    <h3>{loadDataStudents().countStudents}</h3>
-                                    <p>+{loadDataStudents().countStudentsThisSemester} este semestre</p>
+                                    <h3>{loadDataStudents()?.countStudents || 0}</h3>
+                                    <p>+{loadDataStudents()?.countStudentsThisSemester || 0} este semestre</p>
                                 </>
                             )}
                         </div>
@@ -205,15 +220,21 @@ function Summary() {
                     {loading ? (
                         <Spinner animation="border" size="sm" /> // Muestra el spinner mientras carga
                     ) : (
-                        sortedRequests().map((request) => (
-                            <div key={request.id} className="recent-activity-card">
-                                <div>
-                                    <h3 className="recent-activity-title">Solicitud de cancelación #{request.id}</h3>
-                                    <p className="recent-activity-text">Estudiante: {request.student.name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} - Asignatura: {request.subject.name}</p>
-                                </div>
-                                <p className="recent-activity-date">{getTimeAgo(request.updated_at)}</p>
+                        sortedRequests().length === 0 ? (
+                            <div className="recent-activity-card">
+                                <p className="recent-activity-title">No hay solicitudes recientes</p>
                             </div>
-                        ))
+                        ) : (
+                            sortedRequests().map((request) => (
+                                <div key={request.id} className="recent-activity-card">
+                                    <div>
+                                        <h3 className="recent-activity-title">Solicitud de cancelación #{request.id}</h3>
+                                        <p className="recent-activity-text">Estudiante: {request.student.name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} - Asignatura: {request.subject.name}</p>
+                                    </div>
+                                    <p className="recent-activity-date">{getTimeAgo(request.updated_at)}</p>
+                                </div>
+                            ))
+                        )
                     )
                     }
 
