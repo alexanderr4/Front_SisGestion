@@ -112,6 +112,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 fixedHeader
                 fixedHeaderScrollHeight={"calc(100vh - 210px)"}
                 progressPending={loading}
+                noDataComponent={<><br/> No hay datos para mostrar  <br/></>}
                 progressComponent={(
                     <div className="loading-overlay-table">
                         <Spinner animation="border" size="lg" />

@@ -50,12 +50,12 @@ function PendingRequests() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const formattedDate  = date.toLocaleDateString('es-ES', {
+    const formattedDate = date.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
     });
-    return formattedDate ;
+    return formattedDate;
   }
 
   const columnsTable = [
@@ -176,6 +176,7 @@ function PendingRequests() {
             customStyles={customStyles}
             paginationPerPage={1}
             fixedHeader
+            noDataComponent={<><br/> No hay datos para mostrar  <br/></>}
             fixedHeaderScrollHeight="35vh"
 
           />

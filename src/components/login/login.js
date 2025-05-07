@@ -103,8 +103,12 @@ const Login = () => {
                                     className="custom-input"
                                     placeholder="Nombre de usuario"
                                     value={dataLogin.username}
-                                    onChange={(e) => setDataLogin({ ...dataLogin, username: e.target.value })}
-                                    maxLength={60}
+                                    onChange={(e) =>
+                                        setDataLogin({
+                                            ...dataLogin,
+                                            username: e.target.value.replace(/\s/g, '') // Elimina todos los espacios
+                                        })
+                                    } maxLength={60}
                                     onKeyDown={(e) => {
                                         if (e.key === ' ') {
                                             e.preventDefault(); // Evita que se escriban espacios
