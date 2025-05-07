@@ -48,6 +48,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
             selector: row => row.name,
             sortable: true,
             grow: 1,
+            width: '25%',
         },
         {
             name: 'Creditos',
