@@ -56,7 +56,7 @@ function VerifySubjects(subjectsData, activeTabSubject) {
                 area: schedule?.area || ""
             };
         });
-        return (merged.filter(subject => subject.semester === activeTabSubject));
+        return merged;
     } catch (error) {
         console.error("Error merging data:", error);
         return ([]);

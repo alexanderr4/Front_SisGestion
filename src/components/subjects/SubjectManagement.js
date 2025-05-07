@@ -79,7 +79,10 @@ function SubjectManagement() {
     const loadSubjects = async () => {
         setLoading(true);
         await getSubjects().then((response) => {
-            setSubjectData(VerifySubjects(response.data.data, activeTabSubject));
+           // setSubjectData(VerifySubjects(response.data.data, activeTabSubject));
+           console.log("response hdhdhdhgdhh", response.data.data.filter((subject) => subject.semester === Number(activeTabSubject)))
+           //setSubjectData(response.data.data.filter((subject) => subject.semester === Number(activeTabSubject)));
+           setSubjectData(VerifySubjects(response.data.data.filter((subject) => subject.semester === Number(activeTabSubject))));
         }).catch((error) => {
             setSubjectData([]);
             console.error("Error fetching subjects:", error);
@@ -174,8 +177,6 @@ function SubjectManagement() {
             <Outlet />
         </>
     }
-
-    console.log(loadVerifyStudents, "subjectData")
 
     return (
         <div className='content-subject-management'>
