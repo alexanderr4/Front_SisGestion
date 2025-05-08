@@ -21,6 +21,9 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                     results[row.id] = true;
                 }
                 setVerifiedStudents(results);
+                setTimeout(() => {
+                    setLoading(curret => { return false })
+                }, 2000);
             } catch (error) {
                 console.error("Error al verificar los estudiantes:", error);
                 setVerifiedStudents([]);
@@ -31,9 +34,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
         if (data?.length > 0) {
             fetchVerification();
         }
-        setTimeout(() => {
-            setLoading(curret => { return false })
-        }, 2000);
+       
     }, [data, reloadVerifyStudents])
 
     const columnsTable = [
