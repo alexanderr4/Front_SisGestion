@@ -23,7 +23,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 setVerifiedStudents(results);
                 setTimeout(() => {
                     setLoading(curret => { return false })
-                }, 2000);
+                }, 4000);
             } catch (error) {
                 console.error("Error al verificar los estudiantes:", error);
                 setVerifiedStudents([]);
