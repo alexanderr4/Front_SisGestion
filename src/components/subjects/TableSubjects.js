@@ -4,6 +4,7 @@ import { Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faUpload, faCheck } from '@fortawesome/free-solid-svg-icons';
 import "./SubjectManagement.css"
+import { min } from 'date-fns';
 
 function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsBySubjects, loading, setLoading, reloadVerifyStudents, dataEnrollments }) {
 
@@ -40,28 +41,30 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
             name: 'Codigo',
             selector: row => row.code,
             sortable: true,
-            grow: 2,
-            width: '18%',
+            grow: 0.1
         },
         {
             name: 'Asignatura',
             selector: row => row.name,
             sortable: true,
-            grow: 1,
-            width: '25%',
+            grow: 1.4
+
         },
         {
             name: 'Creditos',
             selector: row => row.credits,
             sortable: true,
-            width: '14%',
+            grow: 0.1
+
         },
         {
             name: 'Area',
             selector: row => <div className='content-table-area'>
                 <p>{row.area}</p>
             </div>,
-            width: '26%'
+            grow: 1,
+
+
 
         },
         {
@@ -77,10 +80,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
 
                 )}
             </div>,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-            width: '26%',
+            grow: 1,
         },
     ];
 
@@ -93,6 +93,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 marginBottom: '2px',
                 borderCollapse: 'separate',
                 borderBottom: 'solid 1px #000000',
+                width: "auto",
             },
         },
 
@@ -113,12 +114,14 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 fixedHeader
                 fixedHeaderScrollHeight={"calc(100vh - 210px)"}
                 progressPending={loading}
-                noDataComponent={<><br/> No hay datos para mostrar  <br/></>}
+                noDataComponent={<><br /> No hay datos para mostrar  <br /></>}
                 progressComponent={(
                     <div className="loading-overlay-table">
                         <Spinner animation="border" size="lg" />
                     </div>
                 )}
+
+
             />
         </>
     );

@@ -18,7 +18,7 @@ function Summary() {
     useEffect(() => {
         const fetch = async () => {
             await fetchAndStoreData(getCancellations, dataCancellations);
-            await fetchAndStoreData(getStudents, dataElectives);
+            await fetchAndStoreData(getSubjects, dataElectives);
             await fetchAndStoreData(getStudents, dataStudents);
         }
 
@@ -65,7 +65,6 @@ function Summary() {
             const firstDayOfWeek = new Date(actualDate);
             firstDayOfWeek.setDate(actualDate.getDate() - actualDate.getDay() + 0); // Domingo es 0, Lunes es 1
             firstDayOfWeek.setHours(0, 0, 0, 0);
-            console.log(firstDayOfWeek, "fecha lunes")
             if (dataCancellations.current.data) {
                 const countRequestApproved = dataCancellations.current.data.filter(request => request.status === 'approved');
 
@@ -86,6 +85,7 @@ function Summary() {
     const loadDataElectives = () => {
         try {
             const electives = dataElectives.current.data ? dataElectives.current.data : []
+            console.log(electives, "electives")
             //console.log(dataElectives.current.filter(request => request.status === 'pending').length , "ffff")
             return electives.filter(sub => sub.is_elective).length;
         } catch (error) {

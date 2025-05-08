@@ -80,7 +80,6 @@ function SubjectManagement() {
         setLoading(true);
         await getSubjects().then((response) => {
            // setSubjectData(VerifySubjects(response.data.data, activeTabSubject));
-           console.log("response hdhdhdhgdhh", response.data.data.filter((subject) => subject.semester === Number(activeTabSubject)))
            //setSubjectData(response.data.data.filter((subject) => subject.semester === Number(activeTabSubject)));
            setSubjectData(VerifySubjects(response.data.data.filter((subject) => subject.semester === Number(activeTabSubject))));
         }).catch((error) => {
@@ -90,15 +89,12 @@ function SubjectManagement() {
     }
 
     const loadVerifyStudents = async () => {
-        console.log("entra al metodo")
         setLoading(true);
         await getEnrollments().then((response) => {
             setDataEnrollments(current => { return response.data.data });
-            console.log("entra data", response.data.data)
         }).catch((error) => {
             setDataEnrollments([]);
             console.error("Error validate fetching subjects:", error);
-            console.log("no entra")
         });
     }
 
@@ -154,6 +150,7 @@ function SubjectManagement() {
                 setShowToast(true);
                 setToastMessage("Los estudiantes se han cargado correctamente.");
                 setToastType('success');
+                setFileXml(null);
             }).catch((error) => {
                 console.error("Error al cargar los estudiantes:", error);
                 setShowToast(true);

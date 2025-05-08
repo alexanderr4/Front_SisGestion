@@ -101,15 +101,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    padding-top: 2px;
     width: 140px;
     height: 46px;
     border :none;
 }
 
 .content-table-area p {
-    margin-top: 14px;
+    margin-top: 17px;
     display: flex;
     justify-content: center;
     text-align: center;
