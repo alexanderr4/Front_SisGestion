@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import TableSubjects from './TableSubjects';
 import { getSubjects } from '../../api/Subjects';
-import { apiLoadStudentsBySubject, getEnrollments } from '../../api/Students';
+import { apiLoadStudentsBySubject } from '../../api/Students';
 import VerifySubjects from "./VerifySubjects"
 import { useDropzone } from 'react-dropzone';
 import CustomToast from '../toastMessage/CustomToast';
@@ -19,7 +19,6 @@ function SubjectManagement() {
     const navigate = useNavigate();
     const [activeTabSubject, setActiveTabSubject] = useState('1');
     const [subjectData, setSubjectData] = useState([]);
-    const [dataEnrollments, setDataEnrollments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showWindow, setShowWindow] = useState(false);
     const pathInitial = window.location.pathname;
@@ -39,7 +38,6 @@ function SubjectManagement() {
 
     useEffect(() => {
         const fetchLoadData = async () => {
-            loadVerifyStudents();
             loadSubjects();
         }
         fetchLoadData();
@@ -85,16 +83,6 @@ function SubjectManagement() {
         }).catch((error) => {
             setSubjectData([]);
             console.error("Error fetching subjects:", error);
-        });
-    }
-
-    const loadVerifyStudents = async () => {
-        setLoading(true);
-        await getEnrollments().then((response) => {
-            setDataEnrollments(current => { return response.data.data });
-        }).catch((error) => {
-            setDataEnrollments([]);
-            console.error("Error validate fetching subjects:", error);
         });
     }
 
@@ -229,7 +217,6 @@ function SubjectManagement() {
                     handleButtonShowStudentsBySubjects={handleButtonShowStudentsBySubjects}
                     handleButtonLoadFile={handleButtonLoadFile}
                     reloadVerifyStudents={reloadVerifyStudents.current}
-                    dataEnrollments={dataEnrollments}
                 />
             </div>
             <CustomToast

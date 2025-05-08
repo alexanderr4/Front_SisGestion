@@ -3,27 +3,30 @@ import DataTable from 'react-data-table-component';
 import { Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faUpload, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { getEnrollments } from '../../api/Students';
 import "./SubjectManagement.css"
-import { min } from 'date-fns';
 
-function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsBySubjects, loading, setLoading, reloadVerifyStudents, dataEnrollments }) {
+
+function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsBySubjects, loading, setLoading, reloadVerifyStudents }) {
 
     const [verifiedStudents, setVerifiedStudents] = useState({});
 
     useEffect(() => {
-        const fetchVerification = () => {
+        const fetchVerification = async() => {
             try {
-                const results = {};
-                const codesInData1 = dataEnrollments.map(item => item.subject.code);
+                const results = [];
+                const mmm =  await loadVerifyStudents();
+                const codesInData1 = mmm.map(item => item.subject.code);
                 const filteredData2 = data.filter(item => codesInData1.includes(item.code));
                 setVerifiedStudents(0);
                 for (const row of filteredData2) {
                     results[row.id] = true;
                 }
                 setVerifiedStudents(curret => { return results });
+                console.log("verificado", results);
                 setTimeout(() => {
                     setLoading(curret => { return false })
-                }, 3000);
+                }, 2000);
             } catch (error) {
                 console.error("Error al verificar los estudiantes:", error);
                 setVerifiedStudents([]);
@@ -36,6 +39,17 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
         }
        
     }, [data, reloadVerifyStudents])
+
+    const loadVerifyStudents = async () => {
+        setLoading(true);
+        const response = await getEnrollments().then((response) => {
+            return response.data.data ;
+        }).catch((error) => {
+            console.error("Error validate fetching subjects:", error);
+            return [];
+        });
+        return response;
+    }
 
     const columnsTable = [
         {
