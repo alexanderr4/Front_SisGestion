@@ -11,7 +11,7 @@ const AutoCompleteInput = ({ label, name, options, value, onChange, type, placeh
 
     useEffect(() => {
         onChange({ target: { name, value: { code: '', name: '' } } });
-    }, [searchField, name, label]); // Dependencias vacías para evitar advertencias de React
+    }, [label]); // Dependencias vacías para evitar advertencias de React
 
     const handleInputChange = (e) => {
         try {
@@ -66,23 +66,22 @@ const AutoCompleteInput = ({ label, name, options, value, onChange, type, placeh
 
     const onFocus = () => {
         try {
+            let filtered;
             if (searchField === 'name') {
-                const filtered = options.filter((option) =>
-                    option[searchField].toLowerCase().includes(value.toLowerCase())
+                filtered = options.filter((option) =>
+                    option[searchField].toLowerCase().includes(value.name?.toLowerCase() || '')
                 );
-                setFilteredOptions(filtered);
-                setShowSuggestions(filtered.length > 0);
             } else {
-                const filtered = options.filter((option) =>
-                    option[searchField].toString().includes(value.toString())
+                filtered = options.filter((option) =>
+                    option[searchField].toString().includes(value.code?.toString() || '')
                 );
-                setFilteredOptions(filtered);
-                setShowSuggestions(filtered.length > 0);
             }
+            setFilteredOptions(filtered);
+            setShowSuggestions(true); // mostrar siempre que hay opciones (aunque sea vacío)
         } catch (error) {
             console.error("Error al filtrar las opciones:", error);
         }
-    }
+    };
 
     return (
         <>

@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FormNewCancellation from "./FormNewCancellation";
 import { getStudents } from "../../../api/Students";
 import { getSubjects } from "../../../api/Subjects";
 import { createCancellation } from "../../../api/Cancellations";
+import { getEnrollments } from "../../../api/Students";
 import CustomToast from '../../toastMessage/CustomToast';
 
 
@@ -35,16 +36,24 @@ function NewCancellation() {
 
     useEffect(() => {
         const fetch = async () => {
-            await fetchAndStoreData(getSubjects, dataElectives);
+            setLoading(true);
+            await fetchAndStoreData(getEnrollments, dataElectives );
             await fetchAndStoreData(getStudents, dataStudents);
         }
 
         fetch();
     }, []);
 
+    // useEffect(() => {
+    //     const fetch = async () => {
+    //         await fetchAndStoreData(getSubjects, getEnrollments);
+    //     }
+
+    //     fetch();
+    // }, [loadData]);
+
     const fetchAndStoreData = async (fetchFunction, dataRef) => {
         try {
-            setLoading(true);
             const response = await fetchFunction();
             dataRef.current = response.data;
         } catch (error) {
@@ -58,8 +67,25 @@ function NewCancellation() {
         return dataStudents.current && dataStudents.current.data ? dataStudents.current.data : []
     }
 
+
+
     const mapNameSubjects = () => {
-        return dataElectives.current && dataElectives.current.data ? dataElectives.current.data : []
+        console.log("codigo", loadData.id)
+        try {
+            console.log("Electivas nuevas", dataElectives.current.data.filter(entry =>
+                entry.student.id === loadData.student.id
+               
+            ).map(entry => entry.subject))
+            return dataElectives.current.data.filter(entry =>
+                entry.student.id === loadData.student.id
+               
+            ).map(entry => entry.subject);
+        } catch (error) {
+            return []
+        }
+       
+        
+        //return dataElectives.current && dataElectives.current.data ? dataElectives.current.data : []
     }
 
     const handleInputChange = (e) => {
@@ -111,14 +137,14 @@ function NewCancellation() {
                 setToastMessage("Solicitud de cancelación creada con éxito")
                 setToastType('success')
                 setLoadData(formData);
-              
+
             }).catch((error) => {
                 setLoading(false);
                 console.log(error, "error enviar solicitud")
                 setShowToast(true)
                 setToastMessage("Error al crear la solicitud de cancelación")
                 setToastType('error')
-             }).finally(() => {   setLoading(false);})
+            }).finally(() => { setLoading(false); })
 
         }
     };
