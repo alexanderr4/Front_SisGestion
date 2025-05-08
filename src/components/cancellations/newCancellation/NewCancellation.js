@@ -69,13 +69,8 @@ function NewCancellation() {
 
 
 
-    const mapNameSubjects = () => {
-        console.log("codigo", loadData.id)
+    const mapNameSubjects = () => { 
         try {
-            console.log("Electivas nuevas", dataElectives.current.data.filter(entry =>
-                entry.student.id === loadData.student.id
-               
-            ).map(entry => entry.subject))
             return dataElectives.current.data.filter(entry =>
                 entry.student.id === loadData.student.id
                
@@ -137,10 +132,8 @@ function NewCancellation() {
                 setToastMessage("Solicitud de cancelación creada con éxito")
                 setToastType('success')
                 setLoadData(formData);
-
             }).catch((error) => {
                 setLoading(false);
-                console.log(error, "error enviar solicitud")
                 setShowToast(true)
                 setToastMessage("Error al crear la solicitud de cancelación")
                 setToastType('error')
