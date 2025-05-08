@@ -20,10 +20,10 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 for (const row of filteredData2) {
                     results[row.id] = true;
                 }
-                setVerifiedStudents(results);
+                setVerifiedStudents(curret => { return results });
                 setTimeout(() => {
                     setLoading(curret => { return false })
-                }, 4000);
+                }, 3000);
             } catch (error) {
                 console.error("Error al verificar los estudiantes:", error);
                 setVerifiedStudents([]);
