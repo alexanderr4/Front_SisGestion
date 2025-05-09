@@ -30,18 +30,21 @@ function AdminDashboard() {
 
   useEffect(() => {
     try {
-      const token = localStorage.getItem('authToken');
-      const pathSegments =  window.location.pathname.split('/').filter(Boolean);
-      if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
-        setIsTokenChecked(true);
-        //veridfica que si en la ruta solo ahy admin lo redirige
-        if(pathSegments[0] === 'admin' && pathSegments.length === 1) {
-          navigate('/admin/home/summary');
-        }
-      } else {
-        localStorage.removeItem('authToken');
-        window.location.href = '/login';
+      // const token = localStorage.getItem('authToken');
+      // const pathSegments =  window.location.pathname.split('/').filter(Boolean);
+      // if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
+      //   setIsTokenChecked(true);
+      if(localStorage.getItem('actulaSemester') === null) {
+        localStorage.setItem('actulaSemester', '2025-1');
       }
+      //   //veridfica que si en la ruta solo ahy admin lo redirige
+      //   if(pathSegments[0] === 'admin' && pathSegments.length === 1) {
+      //     navigate('/admin/home/summary');
+      //   }
+      // } else {
+      //   localStorage.removeItem('authToken');
+      //   window.location.href = '/login';
+      // }
     } catch (error) {
       console.error('Error al verificar el token:', error);
       localStorage.removeItem('authToken');
@@ -92,9 +95,9 @@ function AdminDashboard() {
     });
   };
 
-  if (!isTokenChecked) {
-    return null;
-  }
+  // if (!isTokenChecked) {
+  //   return null;
+  // }
   return (
 
     <div className="container-fluid"  >
@@ -103,7 +106,7 @@ function AdminDashboard() {
           <img src={IconSelection} alt="Icono selecion de semestre" className="icon-current-semester" />
           <h3>Semestre Actual:</h3>
           <div className='current-semester'>
-            <h3>2025 - 1</h3>
+            <h3>{localStorage.getItem('actulaSemester')}</h3>
           </div>
         </div>
         <div className='button-current-semester col-12 col-md-3'>

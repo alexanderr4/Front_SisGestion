@@ -37,7 +37,7 @@ function NewCancellation() {
     useEffect(() => {
         const fetch = async () => {
             setLoading(true);
-            await fetchAndStoreData(getEnrollments, dataElectives );
+            await fetchAndStoreData(getEnrollments, dataElectives);
             await fetchAndStoreData(getStudents, dataStudents);
         }
 
@@ -69,17 +69,17 @@ function NewCancellation() {
 
 
 
-    const mapNameSubjects = () => { 
+    const mapNameSubjects = () => {
         try {
             return dataElectives.current.data.filter(entry =>
                 entry.student.id === loadData.student.id
-               
+
             ).map(entry => entry.subject);
         } catch (error) {
             return []
         }
-       
-        
+
+
         //return dataElectives.current && dataElectives.current.data ? dataElectives.current.data : []
     }
 
@@ -127,18 +127,20 @@ function NewCancellation() {
                 comments: loadData.comments
             }
             createCancellation(sendData).then((response) => {
-                setLoading(false);
                 setShowToast(true)
                 setToastMessage("Solicitud de cancelación creada con éxito")
                 setToastType('success')
-                setLoadData(formData);
+                setTimeout(() => {
+                    setLoading(false);
+                    window.location.href = '/admin/cancellations/cancellationManagement/newCancellation'
+                }, 1000)
+
             }).catch((error) => {
                 setLoading(false);
                 setShowToast(true)
                 setToastMessage("Error al crear la solicitud de cancelación")
                 setToastType('error')
             }).finally(() => { setLoading(false); })
-
         }
     };
 

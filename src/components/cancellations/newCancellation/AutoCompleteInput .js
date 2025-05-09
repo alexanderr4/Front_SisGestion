@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSort } from '@fortawesome/free-solid-svg-icons';
 import './FormNewCancellation'; // agrega useRef
 
-const AutoCompleteInput = ({ label, name, options, value, onChange, type, placeholder, searchField }) => {
+const AutoCompleteInput = ({ label, name, options, value, onChange, type, placeholder, searchField, modalType }) => {
     const [filteredOptions, setFilteredOptions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [isValidOption, setIsValidOption] = useState(false);

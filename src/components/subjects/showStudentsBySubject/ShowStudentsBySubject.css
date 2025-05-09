@@ -45,6 +45,15 @@
     font-weight: 600;
     color: #000000;
     padding-left: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    @media screen and (max-width: 768px) {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        
+    }
 
 }
 
@@ -52,10 +61,11 @@
     display: flex;
     justify-content: end;
     height: 29px;
+
     @media screen and (max-width: 768px) {
         justify-content: center;
         margin-bottom: 10px;
-        
+
     }
 }
 
@@ -71,10 +81,11 @@
     width: 100%;
     font-weight: 600;
     margin-left: 0px;
+
     @media screen and (max-width: 768px) {
         display: flex;
         justify-content: center;
-        
+
     }
 }
 
@@ -95,6 +106,7 @@
     width: 65%;
     padding: 1px;
     border-radius: 5px;
+
     @media screen and (max-width: 768px) {
         left: 3%;
         width: 96%;

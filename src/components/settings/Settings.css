@@ -1,0 +1,25 @@
+.settings {
+    width: 100%;
+    padding-left: 10px;
+}
+
+.content-settings-app {
+    margin-top: 20px;
+}
+
+.content-status-settings-app{
+    display: flex;
+    gap: 8px;
+}
+
+.content-update-actual-semester, .content-update-list-students{
+    display: flex;
+    border: solid 1px #000000;
+    border-radius: 5px;
+    padding: 10px;
+    gap: 8px;
+}
+
+.content-update-list-students {
+    margin-top: 20px;   
+}

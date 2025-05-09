@@ -82,6 +82,7 @@ function SubjectManagement() {
            setSubjectData(VerifySubjects(response.data.data.filter((subject) => subject.semester === Number(activeTabSubject))));
         }).catch((error) => {
             setSubjectData([]);
+            setLoading(false);
             console.error("Error fetching subjects:", error);
         });
     }

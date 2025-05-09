@@ -29,6 +29,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 }, 2000);
             } catch (error) {
                 console.error("Error al verificar los estudiantes:", error);
+                setLoading(curret => { return false })
                 setVerifiedStudents([]);
             }
 
@@ -129,7 +130,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 fixedHeader
                 fixedHeaderScrollHeight={"calc(100vh - 210px)"}
                 progressPending={loading}
-                noDataComponent={<><br /> No hay datos para mostrar  <br /></>}
+                noDataComponent={<><br /> No hay datos para mostrar  <br /> <br /></>}
                 progressComponent={(
                     <div className="loading-overlay-table">
                         <Spinner animation="border" size="lg" />

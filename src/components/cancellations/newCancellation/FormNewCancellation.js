@@ -8,8 +8,7 @@ import AutoCompleteInput from './AutoCompleteInput ';
 
 
 
-function FormNewCancellation({ formData,
-    setFormData,
+function FormNewCancellation({
     handleInputChange,
     handleSubmit,
     loadData,
@@ -19,20 +18,12 @@ function FormNewCancellation({ formData,
     optionAsignature,
     mapNameStudent,
     mapNameSubjects,
-    dataStudentName,
-    setLoadData,
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    image,
     loading,
     hadleButtonClickBack,
     handleCancel,
-    handleRegister,
     showModal,
     handleCloseModal,
     handleConfirmAction,
-    isEditingButtons,
     modalType }) {
 
     const [activeTabStudent, setActiveTabStudent] = useState("studentCode");
@@ -74,11 +65,8 @@ function FormNewCancellation({ formData,
                                 options={mapNameStudent()}
                                 searchField="code"
                                 type={"number"}
-
                                 placeholder={"estudiante por código"}
                             />
-
-
 
                         </div>) : (
                             <div className='form-field'>
@@ -92,40 +80,8 @@ function FormNewCancellation({ formData,
                                     type={"text"}
                                     placeholder={"estudiante por nombre"}
                                 />
-                                {/* <label>Nombre del Estudiante</label>
-                            <input
-                                type="text"
-                                name="nombreEstudiante"
-                                id='nombreEstudiante'
-                                placeholder="Nombre Completo"
-                                onChange={handleChangeSelect}
-                                value={loadData.nombreEstudiante}
-                                onBlur={() => setTimeout(() => setShowSuggestions(false), 1000)}
-                                onFocus={() => {
-                                    const filtered = options.filter((option) =>
-                                      option.toLowerCase().includes(loadData.nombreEstudiante.toLowerCase())
-                                    );
-                                    setFilteredOptions(filtered);
-                                    setShowSuggestions(filtered.length > 0);
-                                  }}
-                                required
-                        
-                            />
-                            {showSuggestions && (
-                                <ul className="suggestions-list">
-                                    {filteredOptions.map((item, index) => (
-                                        <li key={index} onClick={() => handleSelect(item)}>
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )} */}
                             </div>
                         )}
-
-
-
-
                     </div>
                     <h5>Información de la Asignatura</h5>
 
@@ -153,29 +109,6 @@ function FormNewCancellation({ formData,
                                     type={"number"}
                                     placeholder={"materia por código"}
                                 />
-                                {/* <label>Codigo de la asignatura</label>
-                            <input
-                                type="text"
-                                name="codigoAsignatura"
-                                id='codigoAsignatura'
-                                placeholder="Ej: ART12368"
-                                value={loadData.codigoAsignatura}
-                                onChange={handleInputChange}
-                                required
-                           
-                            /> */}
-                                {/* 
-                            <label>Grupo</label>
-                            <input
-                                type="text"
-                                name="grupoAsignatura"
-                                id='grupoAsignatura'
-                                placeholder="Ej: 01"
-                                value={loadData.grupoAsignatura}
-                                onChange={handleInputChange}
-                                required
-                           
-                            /> */}
                             </div>
 
                         ) : (
@@ -191,24 +124,8 @@ function FormNewCancellation({ formData,
                                     type={"text"}
                                     placeholder={"materia por nombre"}
                                 />
-                                {/* <label>Nombre de la asignatura</label>
-                            <input
-                                type="text"
-                                name="nombreAsignatura"
-                                id='nombreAsignatura'
-                                placeholder="Nombre de la asignatura"
-                                value={loadData.nombreAsignatura}
-                                onChange={handleInputChange}
-                                required
-                          
-                            /> */}
-
-
                             </div>
                         )}
-
-
-
                     </div>
 
                     <div className='content-title-reason-cancellation'>

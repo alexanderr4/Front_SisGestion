@@ -176,7 +176,7 @@ function PendingRequests() {
             customStyles={customStyles}
             paginationPerPage={1}
             fixedHeader
-            noDataComponent={<><br/> No hay datos para mostrar  <br/></>}
+            noDataComponent={<><br/> No hay datos para mostrar  <br/> <br /></>}
             fixedHeaderScrollHeight="35vh"
 
           />

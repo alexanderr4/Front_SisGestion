@@ -216,7 +216,7 @@ function ShowStudentsBySubject() {
             </div>
             <div className='row custom-student-by-subject-table'>
                 <div className='col-12 col-lg-6'>
-                    <h3>{subject?.name || ""}</h3>
+                    <h3 className='title-name-subject'>{subject?.name || ""}</h3>
                 </div>
                 <div className='col-12 col-lg-6 button-update-list'>
                     <button onClick={handleButtonLoadFile} disabled ={loading}><FontAwesomeIcon className="icon" icon={faUpload} /> Actulizar Lista</button>
