@@ -5,6 +5,7 @@ import DataTable from 'react-data-table-component';
 import { useNavigate, } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import { getCancellations } from "../../../api/Cancellations";
+import CustomToast from '../../toastMessage/CustomToast';
 import "./PendingRequests.css";
 
 function PendingRequests() {
@@ -14,6 +15,9 @@ function PendingRequests() {
   const [loading, setLoading] = useState(false);
   const dataCancellations = useRef(null)
   const [records, setRecords] = useState([]);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('');
 
   const hadleButtonClickBack = () => {
     navigate(-1)
@@ -26,6 +30,7 @@ function PendingRequests() {
       })
         .catch((error) => {
           console.error("Error fetching data:", error);
+
         });
 
     }
@@ -43,6 +48,9 @@ function PendingRequests() {
       dataRef.current = response.data;
     } catch (error) {
       console.error("Error fetching data:", error);
+      setShowToast(true);
+      setToastMessage(`${error.status} Error al cargar los datos`);
+      setToastType('error');
     } finally {
       setLoading(false);
     }
@@ -176,7 +184,7 @@ function PendingRequests() {
             customStyles={customStyles}
             paginationPerPage={1}
             fixedHeader
-            noDataComponent={<><br/> No hay datos para mostrar  <br/> <br /></>}
+            noDataComponent={<><br /> No hay datos para mostrar  <br /> <br /></>}
             fixedHeaderScrollHeight="35vh"
 
           />
@@ -189,7 +197,12 @@ function PendingRequests() {
           </Spinner>
         </div>
       )}
-
+      <CustomToast
+        showToast={showToast}
+        setShowToast={setShowToast}
+        toastMessage={toastMessage}
+        toastType={toastType}
+      />
     </div>
   );
 }

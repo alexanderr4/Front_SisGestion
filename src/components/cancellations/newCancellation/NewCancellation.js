@@ -58,6 +58,10 @@ function NewCancellation() {
             dataRef.current = response.data;
         } catch (error) {
             console.error("Error fetching data:", error);
+            setLoading(false);
+            setShowToast(true)
+            setToastMessage(`${error.status} Error al cargar los datos`)
+            setToastType('error')
         } finally {
             setLoading(false);
         }

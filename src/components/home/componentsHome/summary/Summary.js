@@ -4,16 +4,19 @@ import { getSubjects } from "../../../../api/Subjects";
 import { getStudents } from "../../../../api/Students";
 import { getTimeAgo } from "./Util";
 import { Spinner } from 'react-bootstrap';
+import CustomToast from '../../../toastMessage/CustomToast';
 import "./Summary.css";
-import { faCaretSquareDown } from "@fortawesome/free-solid-svg-icons";
 
 
 function Summary() {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const dataCancellations = useRef(null)
     const dataElectives = useRef(null)
     const dataStudents = useRef(null)
     const actualDate = new Date();
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const [toastType, setToastType] = useState('');
 
     useEffect(() => {
         const fetch = async () => {
@@ -24,17 +27,23 @@ function Summary() {
 
         fetch();
         sortedRequests()
-        // (¿Debería ser getStudents aquí?)
     }, []);
 
     const fetchAndStoreData = async (fetchFunction, dataRef) => {
+        setLoading(true);
         try {
-            setLoading(true);
+
             const response = await fetchFunction();
             // console.log(response.data, "response.data")
             dataRef.current = response.data;
         } catch (error) {
             console.error("Error fetching data:", error);
+            setLoading(current => { return false });
+            setTimeout(() => {
+                 setShowToast(true);
+            }, 2000);     
+            setToastMessage(`${error.status} Error al cargar los datos`);
+            setToastType('error');
         } finally {
             setLoading(false);
         }
@@ -67,7 +76,6 @@ function Summary() {
             firstDayOfWeek.setHours(0, 0, 0, 0);
             if (dataCancellations.current.data) {
                 const countRequestApproved = dataCancellations.current.data.filter(request => request.status === 'approved');
-
                 const weeklyRequests = countRequestApproved.filter(request => {
                     const createdAt = new Date(request.created_at);
                     return createdAt >= firstDayOfWeek;
@@ -251,6 +259,12 @@ function Summary() {
                 <p>faBars</p>
                 <p>faBars</p>
             </div>
+            <CustomToast
+                showToast={showToast}
+                setShowToast={setShowToast}
+                toastMessage={toastMessage}
+                toastType={toastType}
+            />
         </div>
 
     );

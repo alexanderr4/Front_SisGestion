@@ -84,6 +84,9 @@ function SubjectManagement() {
             setSubjectData([]);
             setLoading(false);
             console.error("Error fetching subjects:", error);
+            setShowToast(true);
+            setToastMessage(`${error.status} Error al cargar los datos`);
+            setToastType('error');
         });
     }
 
