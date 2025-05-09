@@ -4,7 +4,9 @@ import { Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faUpload, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { getEnrollments } from '../../api/Students';
+import {getDatesSemester} from '../util/Util';
 import "./SubjectManagement.css"
+
 
 
 function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsBySubjects, loading, setLoading, reloadVerifyStudents }) {
@@ -12,18 +14,21 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
     const [verifiedStudents, setVerifiedStudents] = useState({});
 
     useEffect(() => {
-        const fetchVerification = async() => {
+        const fetchVerification = async () => {
             try {
+                const {startDate, endDate} = getDatesSemester();
                 const results = [];
-                const mmm =  await loadVerifyStudents();
-                const codesInData1 = mmm.map(item => item.subject.code);
+                const loadDataVerify = await loadVerifyStudents();
+                const validateData = loadDataVerify.filter(item => {
+                    const date = new Date(item.subject.created_at);
+                    return date >= startDate && date <= endDate;})
+                const codesInData1 = validateData.map(item => item.subject.code);
                 const filteredData2 = data.filter(item => codesInData1.includes(item.code));
                 setVerifiedStudents(0);
                 for (const row of filteredData2) {
                     results[row.id] = true;
                 }
                 setVerifiedStudents(curret => { return results });
-                console.log("verificado", results);
                 setTimeout(() => {
                     setLoading(curret => { return false })
                 }, 2000);
@@ -37,14 +42,14 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
 
         if (data?.length > 0) {
             fetchVerification();
-        }
-       
+        }else {setLoading(curret => { return false })}
+
     }, [data, reloadVerifyStudents])
 
     const loadVerifyStudents = async () => {
         setLoading(true);
         const response = await getEnrollments().then((response) => {
-            return response.data.data ;
+            return response.data.data;
         }).catch((error) => {
             console.error("Error validate fetching subjects:", error);
             return [];
@@ -88,12 +93,10 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
             cell: (row) => <div className='content-button-subject'>
                 <button className="button-view" onClick={() => handleButtonShowStudentsBySubjects(row)}><FontAwesomeIcon className="icon" icon={faEye} /> Ver</button>
                 {verifiedStudents[row.id] ? (<>
-
                     <button className="button-load" disabled={true}><FontAwesomeIcon className="icon-check" icon={faCheck} /></button>
                 </>
                 ) : (
                     <button className="button-load" onClick={() => handleButtonLoadFile(row)}><FontAwesomeIcon className="icon" icon={faUpload} /> Cargar</button>
-
                 )}
             </div>,
             grow: 1,
@@ -129,15 +132,13 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 customStyles={customStyles}
                 fixedHeader
                 fixedHeaderScrollHeight={"calc(100vh - 210px)"}
-                progressPending={loading}
                 noDataComponent={<><br /> No hay datos para mostrar  <br /> <br /></>}
+                progressPending={loading}   
                 progressComponent={(
                     <div className="loading-overlay-table">
                         <Spinner animation="border" size="lg" />
                     </div>
                 )}
-
-
             />
         </>
     );

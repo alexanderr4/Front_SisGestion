@@ -36,7 +36,8 @@ function ShowStudentsBySubject() {
             }, 1000)
 
         } else {
-            window.location.href = '/admin/subjectManagement';
+            window.location.pathname.includes('subjectManagement')? window.location.href = '/admin/subjectManagement' : 
+            window.location.href = '/admin/electives/electiveManagement/consultElectives';
         }
     }, [reloadVerifyStudents.current])
 
@@ -219,10 +220,12 @@ function ShowStudentsBySubject() {
                     <h3 className='title-name-subject'>{subject?.name || ""}</h3>
                 </div>
                 <div className='col-12 col-lg-6 button-update-list'>
+                    {window.location.pathname.includes('subjectManagement') && (
                     <button onClick={handleButtonLoadFile} disabled ={loading}><FontAwesomeIcon className="icon" icon={faUpload} /> Actulizar Lista</button>
+                    )}
                 </div>
                 <div className='contet-area-subject'>
-                    <p>{subject?.area || 0}</p>
+                    <p>{subject?.area || 'Disciplinar y Profundización'}</p>
                 </div>
 
                 <div className='content-table-student-by-subject'>

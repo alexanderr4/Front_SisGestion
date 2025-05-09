@@ -33,7 +33,9 @@ function AppRouter() {
         <Route path="electives" element={<ControlPanel />} >
           <Route path="electiveManagement" element={<Electives />} >
             <Route path="checkDuplicates" element={<CheckDuplicates />} />
-            <Route path="consultElectives" element={<ConsultElectives />} />
+            <Route path="consultElectives" element={<ConsultElectives />} >
+              <Route path="showStudentsBySubject" element={<ShowStudentsBySubject />} />
+            </Route>
           </Route>
         </Route>
         <Route path="reports" element={<ControlPanel />} >

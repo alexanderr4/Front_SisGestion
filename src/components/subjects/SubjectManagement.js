@@ -8,6 +8,7 @@ import { getSubjects } from '../../api/Subjects';
 import { apiLoadStudentsBySubject } from '../../api/Students';
 import VerifySubjects from "./VerifySubjects"
 import { useDropzone } from 'react-dropzone';
+import { getDatesSemester } from '../util/Util';
 import CustomToast from '../toastMessage/CustomToast';
 import FileDropzone from '../loadFile/FileDropzone';
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
@@ -35,13 +36,6 @@ function SubjectManagement() {
     const hadleButtonClickBack = () => {
         navigate(-1)
     }
-
-    useEffect(() => {
-        const fetchLoadData = async () => {
-            loadSubjects();
-        }
-        fetchLoadData();
-    }, [activeTabSubject, reloadVerifyStudents.current]);
 
     useEffect(() => {
         if (pathInitial === "/admin/subjectManagement") {
@@ -73,13 +67,19 @@ function SubjectManagement() {
         };
     }, [showFileDropzone]);
 
+    useEffect(() => {
+        const fetchLoadData = async () => {
+            loadSubjects();
+        }
+        fetchLoadData();
+    }, [activeTabSubject, reloadVerifyStudents.current]);
 
     const loadSubjects = async () => {
         setLoading(true);
+        const { startDate, endDate } = getDatesSemester(activeTabSubject);
         await getSubjects().then((response) => {
-           // setSubjectData(VerifySubjects(response.data.data, activeTabSubject));
-           //setSubjectData(response.data.data.filter((subject) => subject.semester === Number(activeTabSubject)));
-           setSubjectData(VerifySubjects(response.data.data.filter((subject) => subject.semester === Number(activeTabSubject))));
+            const filteredSubjectsBySemesters = VerifySubjects(response.data.data.filter((subject) => subject.semester === Number(activeTabSubject)));
+            setSubjectData(filteredSubjectsBySemesters.filter((subject) => new Date(subject.created_at) >= startDate && new Date(subject.created_at) <= endDate));
         }).catch((error) => {
             setSubjectData([]);
             setLoading(false);
@@ -261,7 +261,7 @@ function SubjectManagement() {
                 confirmText={"Sí"}
                 cancelText="No"
                 containerId="modal-container"
-               
+
             />
 
         </div>

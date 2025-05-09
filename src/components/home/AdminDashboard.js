@@ -34,8 +34,8 @@ function AdminDashboard() {
       const pathSegments =  window.location.pathname.split('/').filter(Boolean);
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
         setIsTokenChecked(true);
-      if(localStorage.getItem('actulSemester') === null) {
-        localStorage.setItem('actulSemester', '2025-1');
+      if(localStorage.getItem('actualSemester') === null) {
+        localStorage.setItem('actualSemester', '2025-1');
       }
         //veridfica que si en la ruta solo ahy admin lo redirige
         if(pathSegments[0] === 'admin' && pathSegments.length === 1) {
@@ -43,7 +43,7 @@ function AdminDashboard() {
         }
       } else {
         localStorage.removeItem('authToken');
-        localStorage.removeItem('actulSemester');
+        localStorage.removeItem('actualSemester');
         window.location.href = '/login';
       }
     } catch (error) {
@@ -107,7 +107,7 @@ function AdminDashboard() {
           <img src={IconSelection} alt="Icono selecion de semestre" className="icon-current-semester" />
           <h3>Semestre Actual:</h3>
           <div className='current-semester'>
-            <h3>{localStorage.getItem('actulSemester')}</h3>
+            <h3>{localStorage.getItem('actualSemester')}</h3>
           </div>
         </div>
         <div className='button-current-semester col-12 col-md-3'>
