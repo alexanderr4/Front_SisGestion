@@ -12,7 +12,7 @@ function PendingRequests() {
 
 
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false) ;
   const dataCancellations = useRef(null)
   const [records, setRecords] = useState([]);
   const [showToast, setShowToast] = useState(false);

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUsers, faGear, faHouse, faSheetPlastic, faBookOpen, faChartColumn, faPeopleGroup, faRightFromBracket, faHardDrive, faBars, faFileLines, faScrewdriverWrench, faBuildingUser, faH } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faHouse, faSheetPlastic, faBookOpen, faChartColumn, faBars } from '@fortawesome/free-solid-svg-icons';
 import { Nav, Spinner } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import iconoTitle from '../../assets/icono.png';
 import IconSelection from '../../assets/IconSelection.png';
 import iconPaperCancell from '../../assets/icon-paper-cancell.svg';
 import './AdminDashboard.css';
-import axios from 'axios';
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import { useNavigate, Outlet } from 'react-router-dom';
 
@@ -31,14 +30,13 @@ function AdminDashboard() {
   useEffect(() => {
     try {
       const token = localStorage.getItem('authToken');
-      const pathSegments =  window.location.pathname.split('/').filter(Boolean);
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
         setIsTokenChecked(true);
-      if(localStorage.getItem('actualSemester') === null) {
-        localStorage.setItem('actualSemester', '2025-1');
-      }
-        //veridfica que si en la ruta solo ahy admin lo redirige
-        if(pathSegments[0] === 'admin' && pathSegments.length === 1) {
+        if (localStorage.getItem('actualSemester') === null) {
+          localStorage.setItem('actualSemester', '2025-1');
+        }
+        if (pathSegments[0] === 'admin' && pathSegments.length === 1) {
           navigate('/admin/home/summary');
         }
       } else {

@@ -1,18 +1,49 @@
+import React, { useState } from 'react';
+import DataTable from 'react-data-table-component';
+import DataElectives from "./DataElectives";
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTriangleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
-import DataTable from 'react-data-table-component';
-import DataElectives from "./DataElectives";
+import { data, useNavigate } from 'react-router-dom';
+import { getEnrollments } from '../../../api/Students';
+import { getDatesSemester } from '../../util/Util';
 import "./CheckDuplicates.css";
 
 
 function CheckDuplicates({ electives }) {
   const navigate = useNavigate();
+  const [dataElectives, setDataElectives] = useState([]);
 
   useEffect(() => {
+    loadSubjects();
   }, [])
 
+  const loadSubjects = async () => {
+    await getEnrollments().then((response) => {
+      const { startDate, endDate } = getDatesSemester();
+      const dataFilterIsElective = response.data.data.filter(item => (item.subject.is_elective === true));
+      const dataFilterActualSemester = dataFilterIsElective.filter(item => ((new Date(item.student.created_at) >= startDate && new Date(item.student.created_at) <= endDate) &&
+        (new Date(item.subject.created_at) >= startDate && new Date(item.subject.created_at <= endDate))));
+      // setDataElectives(dataFilterActualSemester.filter(student => {
+      //   const electiveCount = student.subjects.length;
+      //   return electiveCount > 1;
+      // })
+      //   .map(student => ({
+      //     id: student.id,
+      //     name: student.name,
+      //     electives: student.subjects.filter(sub => sub.is_elective)
+      //   })))
+
+//       df_grouped = dataFilterActualSemester.groupby(['student_id', 'student_name'])['elective_name'].apply(list).reset_index()
+
+// df_multiple_electives = df_grouped[df_grouped['elective_name'].apply(len) > 1]
+    }).catch((error) => {
+      console.error("Error validate fetching subjects:", error);
+      setDataElectives([]);
+    });
+  }
+
+  console.log("chequear eleectivas", dataElectives);
   const hadleButtonClickBack = () => {
     navigate(-1);
   }
@@ -74,7 +105,7 @@ function CheckDuplicates({ electives }) {
           />
         </div>
       </div>
-      <DataElectives/>
+      <DataElectives />
     </div>
   );
 }

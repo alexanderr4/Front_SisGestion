@@ -1,16 +1,32 @@
+import { useState } from 'react';
 import './Parameters.css';
 
 function Parameters() {
+
+    const [formValues, setFormValues] = useState({
+        reportType: '',
+        outputFormat: '',
+        motivo: '',
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    };
     return (
         <div className="">
             <div className="row">
                 <div className="form-section col-md-6">
                     <label>Tipo de reporte</label>
                     <select id="mySelect"
-                    // value={selectedOption} 
-                    // onChange={handleChange}
+                        name="reportType"
+                        value={formValues.reportType}
+                        onChange={handleChange}
                     >
-                        <option value="">Elije una opción</option>
+                        <option value="" disabled>Elije una opción</option>
                         <option value="opcion1">Reporte General</option>
                         <option value="opcion2">Por Asignatura</option>
                         <option value="opcion3">Por Estudiante</option>
@@ -20,10 +36,11 @@ function Parameters() {
                 <div className="form-section col-md-6">
                     <label>Formato de salida</label>
                     <select id="mySelect"
-                    // value={selectedOption} 
-                    // onChange={handleChange}
+                        name='outputFormat'
+                        value={formValues.outputFormat}
+                        onChange={handleChange}
                     >
-                        <option value="">Elije una opción</option>
+                        <option value="" disabled>Elije una opción</option>
                         <option value="opcion1">PDF</option>
                         <option value="opcion2">Excel</option>
                         <option value="opcion3">CSV</option>
@@ -91,7 +108,7 @@ function Parameters() {
                 </div>
             </div>
 
-            
+
         </div>
     );
 }

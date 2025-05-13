@@ -7,19 +7,53 @@
     margin-top: 20px;
 }
 
-.content-status-settings-app{
+.content-status-settings-app {
     display: flex;
     gap: 8px;
 }
+.content-settings-app h3{
+    font-weight: 600;
+    color: #000000;
+}
+.content-settings-app p{
+    color: #000000;
+}
 
-.content-update-actual-semester, .content-update-list-students{
+.content-update-actual-semester,
+.content-update-list-students {
     display: flex;
     border: solid 1px #000000;
     border-radius: 5px;
     padding: 10px;
     gap: 8px;
 }
+.content-update-list-students {
+    margin-top: 20px;
+    border: solid 1px #FAB216;
+}
+.content-update-list-students  h5 {
+    font-weight: 600;
+    color: #FAB216;
+}
+
+.content-update-actual-semester p {
+    color: #000000;
+}
+.content-update-actual-semester button, .content-update-list-students button {
+    border: solid 1px #000000;
+    border-radius: 5px;
+    background-color: #ffffff;
+    font-weight: 600;
+    height: 37px;
+}
 
 .content-update-list-students {
-    margin-top: 20px;   
+    margin-top: 20px;
+}
+
+.icon-settings-list {
+    margin-top: 5px;
+    width: 40px;
+    height: 40px;
+
 }

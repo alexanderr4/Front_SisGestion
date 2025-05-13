@@ -18,7 +18,7 @@ function Settings() {
       </div>
 
       <div className='content-update-actual-semester'>
-        <img src={IconSelection} alt="Icono selecion de semestre" className="icon-current-semester" />
+        <img src={IconSelection} alt="Icono selecion de semestre" className="icon-settings-list" />
         <div>
           <h5>Configurar semestre</h5>
           <p>Desde esta sección puedes configurar o cambiar el semestre académico activo para la gestión.</p>
@@ -26,7 +26,7 @@ function Settings() {
         </div>
       </div>
       <div className='content-update-list-students'>
-        <FontAwesomeIcon className="icon-status-check-duplicates" icon={faPeopleGroup} />
+        <FontAwesomeIcon className="icon-settings-list" icon={faPeopleGroup} />
         <div>
           <h5>Listas de estudiantes para cada materia no ha sido cargada</h5>
           <p>No se han cargado las listas de estudiantes para las materias del semestre actual. Es necesario cargarlas para continuar.</p>
