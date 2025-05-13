@@ -9,6 +9,6 @@ export async function apiLoadStudentsBySubject(subjectId, xmlCode) {
     });
 }
 
-export async function getEnrollments() {
-    return await apiFactory(true).get('/api/api/v1/enrollments/');
+export async function getEnrollments(pagination) {
+    return await apiFactory(true).get(`/api/api/v1/enrollments/${pagination}`);
 }

@@ -4,7 +4,7 @@ import { Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faUpload, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { getEnrollments } from '../../api/Students';
-import {getDatesSemester} from '../util/Util';
+import { getDatesSemester } from '../util/Util';
 import "./SubjectManagement.css"
 
 
@@ -16,12 +16,13 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
     useEffect(() => {
         const fetchVerification = async () => {
             try {
-                const {startDate, endDate} = getDatesSemester();
+                const { startDate, endDate } = getDatesSemester();
                 const results = [];
                 const loadDataVerify = await loadVerifyStudents();
                 const validateData = loadDataVerify.filter(item => {
                     const date = new Date(item.subject.created_at);
-                    return date >= startDate && date <= endDate;})
+                    return date >= startDate && date <= endDate;
+                })
                 const codesInData1 = validateData.map(item => item.subject.code);
                 const filteredData2 = data.filter(item => codesInData1.includes(item.code));
                 setVerifiedStudents(0);
@@ -42,19 +43,36 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
 
         if (data?.length > 0) {
             fetchVerification();
-        }else {setLoading(curret => { return false })}
+        } else { setLoading(curret => { return false }) }
 
     }, [data, reloadVerifyStudents])
 
     const loadVerifyStudents = async () => {
         setLoading(true);
-        const response = await getEnrollments().then((response) => {
-            return response.data.data.data;
-        }).catch((error) => {
-            console.error("Error validate fetching subjects:", error);
+        const allEnrollments = [];
+        let currentPage = 1;
+        let totalPages = 1;
+
+        try {
+            while (currentPage <= totalPages) {
+                const response = await getEnrollments(`?page=${currentPage}`);
+                const json = response.data;
+
+                // Agrega los datos actuales
+                allEnrollments.push(...json.data.data);
+
+                // Actualiza totalPages (solo la primera vez o si cambia)
+                totalPages = json.data.total_pages;
+                currentPage++;
+            }
+
+            return allEnrollments;
+        } catch (error) {
+            console.error("Error al obtener los enrollments:", error);
             return [];
-        });
-        return response;
+        } finally {
+            setLoading(false);
+        }
     }
 
     const columnsTable = [
@@ -133,7 +151,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 fixedHeader
                 fixedHeaderScrollHeight={"calc(100vh - 210px)"}
                 noDataComponent={<><br /> No hay datos para mostrar  <br /> <br /></>}
-                progressPending={loading}   
+                progressPending={loading}
                 progressComponent={(
                     <div className="loading-overlay-table">
                         <Spinner animation="border" size="lg" />
