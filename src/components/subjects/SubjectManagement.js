@@ -76,19 +76,49 @@ function SubjectManagement() {
 
     const loadSubjects = async () => {
         setLoading(true);
+        const allSubjects = [];
+        let currentPage = 1;
+        let totalPages = 1;
         const { startDate, endDate } = getDatesSemester(activeTabSubject);
-        await getSubjects().then((response) => {
-            console.log("response", response);
-            const filteredSubjectsBySemesters = VerifySubjects(response.data.data.data.filter((subject) => subject.semester === Number(activeTabSubject)));
+
+        try {
+            while (currentPage <= totalPages) {
+                const res = await getSubjects(`?page=${currentPage}`);
+                const json = await res.data;
+
+                // Agrega los datos actuales
+                allSubjects.push(...json.data.data);
+
+                // Actualiza el total de páginas (solo la primera vez)
+                totalPages = json.data.total_pages;
+
+                currentPage++;
+            }
+
+            console.log("Todos los subjects:", allSubjects);
+            //return allSubjects;
+            const filteredSubjectsBySemesters = VerifySubjects(allSubjects.filter((subject) => subject.semester === Number(activeTabSubject)));
             setSubjectData(filteredSubjectsBySemesters.filter((subject) => new Date(subject.created_at) >= startDate && new Date(subject.created_at) <= endDate));
-        }).catch((error) => {
-            setSubjectData([]);
-            setLoading(false);
-            console.error("Error fetching subjects:", error);
-            typeof error.status !== 'undefined'? setShowToast(true): setShowToast(false);
-            setToastMessage(`${error.status} Error al cargar los datos`);
-            setToastType('error');
-        });
+
+        } catch (error) {
+            console.error("Error al obtener los datos:", error);
+            return [];
+        }
+
+        // setLoading(true);
+        // const { startDate, endDate } = getDatesSemester(activeTabSubject);
+        // await getSubjects().then((response) => {
+        //     console.log("response", response);
+        //     const filteredSubjectsBySemesters = VerifySubjects(response.data.data.data.filter((subject) => subject.semester === Number(activeTabSubject)));
+        //     setSubjectData(filteredSubjectsBySemesters.filter((subject) => new Date(subject.created_at) >= startDate && new Date(subject.created_at) <= endDate));
+        // }).catch((error) => {
+        //     setSubjectData([]);
+        //     setLoading(false);
+        //     console.error("Error fetching subjects:", error);
+        //     typeof error.status !== 'undefined'? setShowToast(true): setShowToast(false);
+        //     setToastMessage(`${error.status} Error al cargar los datos`);
+        //     setToastType('error');
+        // });
     }
 
     const handleButtonShowStudentsBySubjects = async (subject) => {

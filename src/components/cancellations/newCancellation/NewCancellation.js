@@ -55,7 +55,7 @@ function NewCancellation() {
     const fetchAndStoreData = async (fetchFunction, dataRef) => {
         try {
             const response = await fetchFunction();
-            dataRef.current = response.data;
+            dataRef.current = response.data.data;
         } catch (error) {
             console.error("Error fetching data:", error);
             setLoading(false);
