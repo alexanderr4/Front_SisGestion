@@ -26,13 +26,23 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 const codesInData1 = validateData.map(item => item.subject.code);
                 const filteredData2 = data.filter(item => codesInData1.includes(item.code));
                 setVerifiedStudents(0);
-                for (const row of filteredData2) {
+                for (let i = 0; i < filteredData2.length; i++) {
+                    const row = filteredData2[i];
                     results[row.id] = true;
+                    if (i === filteredData2.length - 1) {
+                        setTimeout(() => {
+                            setLoading(curret => { return false })
+                        }, 1000);
+                    }
                 }
+                // for (const row of filteredData2) {
+                //     results[row.id] = true;
+                //      setLoading(curret => { return false })
+                // }
                 setVerifiedStudents(curret => { return results });
-                setTimeout(() => {
-                    setLoading(curret => { return false })
-                }, 4000);
+                // setTimeout(() => {
+                //     setLoading(curret => { return false })
+                // }, 5000);
             } catch (error) {
                 console.error("Error al verificar los estudiantes:", error);
                 setLoading(curret => { return false })
