@@ -68,6 +68,7 @@ function SubjectManagement() {
     }, [showFileDropzone]);
 
     useEffect(() => {
+          setLoading(true);
         const fetchLoadData = async () => {
             loadSubjects();
         }
