@@ -246,6 +246,7 @@ function SubjectManagement() {
                     handleButtonShowStudentsBySubjects={handleButtonShowStudentsBySubjects}
                     handleButtonLoadFile={handleButtonLoadFile}
                     reloadVerifyStudents={reloadVerifyStudents.current}
+                    activeTabSubject={activeTabSubject}
                 />
             </div>
             <CustomToast

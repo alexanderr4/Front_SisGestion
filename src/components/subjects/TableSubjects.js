@@ -9,7 +9,7 @@ import "./SubjectManagement.css"
 
 
 
-function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsBySubjects, loading, setLoading, reloadVerifyStudents }) {
+function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsBySubjects, loading, setLoading, reloadVerifyStudents, activeTabSubject }) {
 
     const [verifiedStudents, setVerifiedStudents] = useState({});
 
@@ -31,7 +31,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                     results[row.id] = true;
                     if (i === filteredData2.length - 1) {
                         setTimeout(() => {
-                            setLoading(curret => { return false })
+                            setLoading(false)
                         }, 3000);
                     }
                 }
@@ -55,10 +55,9 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
             fetchVerification();
         } else { setLoading(curret => { return false }) }
 
-    }, [data, reloadVerifyStudents])
+    }, [data, reloadVerifyStudents, activeTabSubject])
 
     const loadVerifyStudents = async () => {
-        //setLoading(true);
         const allEnrollments = [];
         let currentPage = 1;
         let totalPages = 1;
