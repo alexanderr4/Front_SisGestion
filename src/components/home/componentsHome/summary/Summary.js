@@ -20,7 +20,7 @@ function Summary() {
 
     useEffect(() => {
         const fetch = async () => {
-            await fetchAndStoreData(getCancellations, dataCancellations);
+            //await fetchAndStoreData(getCancellations, dataCancellations);
             await fetchAndStoreData(getSubjects, dataElectives);
             await fetchAndStoreData(getStudents, dataStudents);
         }
