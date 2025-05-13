@@ -85,7 +85,7 @@ function PendingRequests() {
     },
     {
       name: "Grupo",
-      selector: row => row.subject.group,
+      selector: row => row.group,
       sortable: true,
       width: '10%',
     },

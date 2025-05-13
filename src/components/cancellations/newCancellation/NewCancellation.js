@@ -53,31 +53,41 @@ function NewCancellation() {
     // }, [loadData]);
 
     const fetchAndStoreData = async (fetchFunction, dataRef) => {
+        let currentPage = 1;
+        let totalPages = 1;
+        let allData = [];
         try {
-            const response = await fetchFunction();
-            dataRef.current = response.data.data;
+            while (currentPage <= totalPages) {
+                const response = await fetchFunction(`?page=${currentPage}`); // debe aceptar el número de página
+                const json = response.data;
+                allData.push(...json.data.data);
+                totalPages = json.data.total_pages;
+                currentPage++;
+            }
+            dataRef.current = allData;
         } catch (error) {
             console.error("Error fetching data:", error);
-            setLoading(false);
-            setShowToast(true)
-            setToastMessage(`${error.status} Error al cargar los datos`)
-            setToastType('error')
+            setShowToast(true);
+            setToastMessage(`${error.status || ''} Error al cargar los datos`);
+            setToastType('error');
+            dataRef.current = [];
         } finally {
-            setLoading(false);
+            setTimeout(() => {setLoading(false)} , 1000);
+        
         }
     };
 
     const mapNameStudent = () => {
-        return dataStudents.current && dataStudents.current.data ? dataStudents.current.data : []
+        console.log("dataStudents", dataStudents.current ? dataStudents.current : [])
+        return dataStudents.current ? dataStudents.current : []
     }
 
 
 
     const mapNameSubjects = () => {
         try {
-            return dataElectives.current.data.filter(entry =>
+            return dataElectives.current.filter(entry =>
                 entry.student.id === loadData.student.id
-
             ).map(entry => entry.subject);
         } catch (error) {
             return []
