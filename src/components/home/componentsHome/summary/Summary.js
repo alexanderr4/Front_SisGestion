@@ -10,9 +10,9 @@ import "./Summary.css";
 
 function Summary() {
     const [loading, setLoading] = useState(false);
-    const dataCancellations = useRef(null)
-    const dataElectives = useRef(null)
-    const dataStudents = useRef(null)
+    const dataCancellations = useRef([])
+    const dataElectives = useRef([])
+    const dataStudents = useRef([])
     const actualDate = new Date();
     const [showToast, setShowToast] = useState(false);
     const [toastMessage, setToastMessage] = useState('');
@@ -31,30 +31,40 @@ function Summary() {
 
     const fetchAndStoreData = async (fetchFunction, dataRef) => {
         setLoading(true);
+        let currentPage = 1;
+        let totalPages = 1;
+        const allData = [];
         try {
+            while (currentPage <= totalPages) {
+                const response = await fetchFunction(`?page=${currentPage}`);
+                const data = response.data;
 
-            const response = await fetchFunction();
-            // console.log(response.data, "response.data")
-            dataRef.current = response.data;
+                allData.push(...data.data.data);
+                totalPages = data.data.total_pages;
+                currentPage++;
+            }
+            dataRef.current = allData;
         } catch (error) {
             console.error("Error fetching data:", error);
-            setLoading(current => { return false });
             setTimeout(() => {
-                 setShowToast(true);
-            }, 2000);     
-            setToastMessage(`${error.status} Error al cargar los datos`);
+                setShowToast(true);
+            }, 2000);
+            setToastMessage(`${error.status || ''} Error al cargar los datos`);
             setToastType('error');
+            dataRef.current = [];
         } finally {
             setLoading(false);
         }
     };
+
+    console.log(dataElectives.current, "data electivas")
 
 
 
     const loadDataPending = () => {
         try {
             const oneDayAgo = new Date(actualDate.getTime() - (24 * 60 * 60 * 1000));
-            if (dataCancellations.current.data) {
+            if (dataCancellations.current) {
                 const countRequest = dataCancellations.current.data.filter(request => request.status === 'pending');
                 const recentRequests = countRequest.filter(request => {
                     const createdAt = new Date(request.created_at);
@@ -74,8 +84,8 @@ function Summary() {
             const firstDayOfWeek = new Date(actualDate);
             firstDayOfWeek.setDate(actualDate.getDate() - actualDate.getDay() + 0); // Domingo es 0, Lunes es 1
             firstDayOfWeek.setHours(0, 0, 0, 0);
-            if (dataCancellations.current.data) {
-                const countRequestApproved = dataCancellations.current.data.filter(request => request.status === 'approved');
+            if (dataCancellations.current) {
+                const countRequestApproved = dataCancellations.current.filter(request => request.status === 'approved');
                 const weeklyRequests = countRequestApproved.filter(request => {
                     const createdAt = new Date(request.created_at);
                     return createdAt >= firstDayOfWeek;
@@ -92,7 +102,7 @@ function Summary() {
 
     const loadDataElectives = () => {
         try {
-            const electives = dataElectives.current.data ? dataElectives.current.data : []
+            const electives = dataElectives.current ? dataElectives.current : []
             console.log(electives, "electives")
             //console.log(dataElectives.current.filter(request => request.status === 'pending').length , "ffff")
             return electives.filter(sub => sub.is_elective).length;
@@ -105,8 +115,8 @@ function Summary() {
 
     const loadDataStudents = () => {
         try {
-            if (dataStudents.current.data) {
-                const countStudents = dataStudents.current.data;
+            if (dataStudents.current) {
+                const countStudents = dataStudents.current;
                 const { startOfSemester, endOfSemester } = calculatesemeter();
                 const studentsThisSemester = countStudents.filter(student => {
                     const createdAt = new Date(student.created_at);
@@ -138,9 +148,9 @@ function Summary() {
 
     const sortedRequests = () => {
         try {
-            if (dataCancellations.current && dataCancellations.current.data) {
+            if (dataCancellations.current && dataCancellations.current) {
 
-                const sortedRequests = [...dataCancellations.current.data].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+                const sortedRequests = [...dataCancellations.current].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
 
                 // 2. Tomar las primeras 5 solicitudes
                 const latestFiveRequests = sortedRequests.slice(0, 5);
