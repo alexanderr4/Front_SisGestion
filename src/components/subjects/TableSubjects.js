@@ -32,7 +32,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 setVerifiedStudents(curret => { return results });
                 setTimeout(() => {
                     setLoading(curret => { return false })
-                }, 2000);
+                }, 3000);
             } catch (error) {
                 console.error("Error al verificar los estudiantes:", error);
                 setLoading(curret => { return false })
