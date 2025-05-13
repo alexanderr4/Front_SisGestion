@@ -20,7 +20,7 @@ function Summary() {
 
     useEffect(() => {
         const fetch = async () => {
-            //await fetchAndStoreData(getCancellations, dataCancellations);
+            await fetchAndStoreData(getCancellations, dataCancellations, false);
             await fetchAndStoreData(getSubjects, dataElectives);
             await fetchAndStoreData(getStudents, dataStudents);
         }
@@ -29,19 +29,25 @@ function Summary() {
         sortedRequests()
     }, []);
 
-    const fetchAndStoreData = async (fetchFunction, dataRef) => {
+    const fetchAndStoreData = async (fetchFunction, dataRef, usePagination = true) => {
         setLoading(true);
         let currentPage = 1;
         let totalPages = 1;
         const allData = [];
         try {
-            while (currentPage <= totalPages) {
-                const response = await fetchFunction(`?page=${currentPage}`);
-                const data = response.data;
+            if (usePagination) {
+                while (currentPage <= totalPages) {
+                    const response = await fetchFunction(`?page=${currentPage}`);
+                    const data = response.data;
 
-                allData.push(...data.data.data);
-                totalPages = data.data.total_pages;
-                currentPage++;
+                    allData.push(...data.data.data);
+                    totalPages = data.data.total_pages;
+                    currentPage++;
+                }
+            }else{
+                const response = await fetchFunction();
+                const data = response.data.data;
+                allData.push(...data);
             }
             dataRef.current = allData;
         } catch (error) {
@@ -57,15 +63,13 @@ function Summary() {
         }
     };
 
-    console.log(dataElectives.current, "data electivas")
-
 
 
     const loadDataPending = () => {
         try {
             const oneDayAgo = new Date(actualDate.getTime() - (24 * 60 * 60 * 1000));
             if (dataCancellations.current) {
-                const countRequest = dataCancellations.current.data.filter(request => request.status === 'pending');
+                const countRequest = dataCancellations.current.filter(request => request.status === 'pending');
                 const recentRequests = countRequest.filter(request => {
                     const createdAt = new Date(request.created_at);
                     return createdAt >= oneDayAgo;
@@ -97,14 +101,11 @@ function Summary() {
         } catch (error) {
             console.error("Error loading approved data:", error);
         }
-        // console.log(dataCancellations.current.data.filter(request => request.status === 'approved').length, "ffff")
     }
 
     const loadDataElectives = () => {
         try {
             const electives = dataElectives.current ? dataElectives.current : []
-            console.log(electives, "electives")
-            //console.log(dataElectives.current.filter(request => request.status === 'pending').length , "ffff")
             return electives.filter(sub => sub.is_elective).length;
         } catch (error) {
             console.error("Error loading elective data:", error);
@@ -128,7 +129,6 @@ function Summary() {
         } catch (error) {
             console.error("Error loading student data:", error);
         }
-        //     console.log(dataStudents.current, "ffff2")
     }
 
 
