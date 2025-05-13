@@ -32,7 +32,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                 setVerifiedStudents(curret => { return results });
                 setTimeout(() => {
                     setLoading(curret => { return false })
-                }, 3000);
+                }, 4000);
             } catch (error) {
                 console.error("Error al verificar los estudiantes:", error);
                 setLoading(curret => { return false })
@@ -48,7 +48,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
     }, [data, reloadVerifyStudents])
 
     const loadVerifyStudents = async () => {
-        setLoading(true);
+        //setLoading(true);
         const allEnrollments = [];
         let currentPage = 1;
         let totalPages = 1;
