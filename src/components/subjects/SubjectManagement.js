@@ -80,7 +80,6 @@ function SubjectManagement() {
         let currentPage = 1;
         let totalPages = 1;
         const { startDate, endDate } = getDatesSemester(activeTabSubject);
-
         try {
             while (currentPage <= totalPages) {
                 const res = await getSubjects(`?page=${currentPage}`);
@@ -290,7 +289,6 @@ function SubjectManagement() {
                 confirmText={"Sí"}
                 cancelText="No"
                 containerId="modal-container"
-
             />
 
         </div>

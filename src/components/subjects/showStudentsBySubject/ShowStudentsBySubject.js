@@ -30,16 +30,12 @@ function ShowStudentsBySubject() {
 
     useEffect(() => {
         if (typeof subject !== "undefined") {
-            loadStudents()
-            setTimeout(() => {
-                setLoading(current => { return false });
-            }, 1000)
-
+            loadStudents();
         } else {
-            window.location.pathname.includes('subjectManagement')? window.location.href = '/admin/subjectManagement' : 
-            window.location.href = '/admin/electives/electiveManagement/consultElectives';
+            window.location.pathname.includes('subjectManagement') ? window.location.href = '/admin/subjectManagement' :
+                window.location.href = '/admin/electives/electiveManagement/consultElectives';
         }
-    }, [reloadVerifyStudents.current])
+    }, [reloadVerifyStudents.current === true])
 
 
     useEffect(() => {
@@ -65,16 +61,28 @@ function ShowStudentsBySubject() {
 
 
     const loadStudents = async () => {
-        setLoading(current => { return true });
+        setLoading(true);
+        let allStudents = [];
+        let currentPage = 1;
+        let totalPages = 1;
         try {
-            const response = await getStudentsBySubject(subject.id);
-            setStudents(response.data.data);
-            //console.log("students", students.current.length);
+            while (currentPage <= totalPages) {
+                const response = await getStudentsBySubject(subject.id, `page=${currentPage}`); // Asegúrate que esta función acepte el número de página como parámetro
+                const json = response.data;
+                allStudents.push(...json.data.data);
+                console.log("json.data.data", json.data.data, "    ", "currentPage", currentPage)
+                totalPages = json.data.total_pages;
+                currentPage++;
+            }
+            setStudents(allStudents);
+            setLoading(current => { return false })
         } catch (error) {
             console.error("Error fetching students:", error);
             setStudents([]);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     const hadleButtonClickBack = () => {
         navigate(-1)
@@ -193,7 +201,7 @@ function ShowStudentsBySubject() {
                 setShowToast(true);
                 setToastMessage(error.response.data.message || 'Error al cargar los estudiantes.');
                 setToastType('error');
-                setLoading(current => { return false }); 
+                setLoading(current => { return false });
             });
         }
         readerFile.onerror = () => {
@@ -221,7 +229,7 @@ function ShowStudentsBySubject() {
                 </div>
                 <div className='col-12 col-lg-6 button-update-list'>
                     {window.location.pathname.includes('subjectManagement') && (
-                    <button onClick={handleButtonLoadFile} disabled ={loading}><FontAwesomeIcon className="icon" icon={faUpload} /> Actulizar Lista</button>
+                        <button onClick={handleButtonLoadFile} disabled={loading}><FontAwesomeIcon className="icon" icon={faUpload} /> Actulizar Lista</button>
                     )}
                 </div>
                 <div className='contet-area-subject'>
