@@ -32,7 +32,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                     if (i === filteredData2.length - 1) {
                         setTimeout(() => {
                             setLoading(curret => { return false })
-                        }, 1000);
+                        }, 3000);
                     }
                 }
                 // for (const row of filteredData2) {
