@@ -1,6 +1,6 @@
-import { getCancellations } from '../../../../api/Cancellations'
+import { getCancellations } from '../../../../../api/Cancellations'
 
-async function TypeReports(fechaInicio, fechaFin, nameSubject) {
+async function TypeReports(fechaInicio, fechaFin, reason) {
     try {
         const inicio = new Date(fechaInicio + 'T00:00:00');
         const fin = new Date(fechaFin + 'T23:59:59');
@@ -8,33 +8,31 @@ async function TypeReports(fechaInicio, fechaFin, nameSubject) {
         const response = await getCancellations();
         const filteredData = response.data.data.filter(item => {
             const fechaCreacion = new Date(item.created_at);
-            const nombreMateria = item.subject?.name?.toLowerCase() || "";
             return (
                 fechaCreacion >= inicio &&
-                fechaCreacion <= fin &&
-                nombreMateria.includes(nameSubject.toLowerCase())
+                fechaCreacion <= fin
             );
         });
 
         // Obtener el primer subject.name coincidente si existe
-        const subjectNameActual = filteredData.length > 0
-            ? filteredData[0].subject.name
+        const reasonNameActual = filteredData.length > 0
+            ? filteredData[0].justification
             : "";
 
         const countBySubject = {};
         filteredData.forEach(item => {
             if (item.status === "approved") {
-                const groupSubject = item.group;
+                const groupSubject = item.justification;
                 countBySubject[groupSubject] = (countBySubject[groupSubject] || 0) + 1;
             }
         });
 
-        const group = Object.keys(countBySubject);
+        const justification = Object.keys(countBySubject);
         const counts = Object.values(countBySubject);
 
-        return { group, counts, subjectNameActual };
+        return { justification, counts };
     } catch (error) {
-        return { group: [], counts: [], subjectNameActual: "" };
+        return { group: [], counts: [] };
     }
 }
 

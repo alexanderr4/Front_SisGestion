@@ -1,4 +1,4 @@
-import { getCancellations } from '../../../../api/Cancellations'
+import { getCancellations } from '../../../../../api/Cancellations'
 
 async function TypeReports(fechaInicio, fechaFin, nameStudent) {
     console.log("nombre llega", nameStudent);

@@ -33,9 +33,9 @@ ChartJS.register(
 // Configuración de Chart.js
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
-const ReportPdfReason = async (setDocumentPdf, fechaInicio, fechaFin, reason) => {
+const ReportPdfGeneral = async (setDocumentPdf, setCanavas, fechaInicio, fechaFin) => {
 
-  const reports = await TypeReports(fechaInicio, fechaFin, reason);
+  const reports = await TypeReports(fechaInicio, fechaFin);
 
   console.log("reports", reports);
 
@@ -45,41 +45,45 @@ const ReportPdfReason = async (setDocumentPdf, fechaInicio, fechaFin, reason) =>
 
   const ctx = canvas.getContext('2d');
 
-  // 2. Crear el gráfico
-  const chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: reports.justification,
-      datasets: [{
-        label: "Motivo",
-        data: reports.counts,
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: false,
-      animation: false,
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Motivo'
-          }
+  const data = {
+    labels: reports.subjects,
+    datasets: [{
+      label: 'Asignaturas',
+      data: reports.counts,
+      backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1
+    }]
+  }
+
+  const options = {
+    responsive: false,
+    animation: false,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Asignaturas'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Cantidad de Cancelaciones'
         },
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Cantidad de Cancelaciones'
-          },
-          ticks: {
-            stepSize: 1
-          }
+        ticks: {
+          stepSize: 1
         }
       }
     }
+  }
+
+  // 2. Crear el gráfico
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: options
   });
 
   // Espera que el gráfico termine de renderizar
@@ -110,21 +114,7 @@ const ReportPdfReason = async (setDocumentPdf, fechaInicio, fechaFin, reason) =>
   // Restaurar tamaño de fuente para el resto del texto
   doc.setFontSize(12);
   doc.setFont(undefined, 'normal');
-  const motivosContados = reports?.justification.reduce((acc, item) => {
-    const motivo = item;
-    if (motivo) {
-      acc[motivo] = (acc[motivo] || 0) + 1; // Si el motivo ya existe, sumamos 1, sino lo creamos
-    }
-    return acc;
-  }, {});
-  const motivosTexto = Object.keys(motivosContados).map(motivo => {
-    return `${motivo}:${motivosContados[motivo]}`; // Devuelve el motivo seguido de la cantidad de cancelaciones
-  }).join('\n');
-  doc.text(
-    `Durante la fecha del ${fechaInicio} al ${fechaFin}, los motivos de las cancelaciones fueron:  \n ${motivosTexto}. Ha tenido un total de ${reports.counts.reduce((acumulador, actual) => acumulador + actual, 0)} cancelaciones.`,
-    margin,
-    margin + 2 * textMargin
-  );
+  doc.text(`Durante la fecha del ${fechaInicio} al ${fechaFin} se han realizado ${reports.counts.reduce((acumulador, actual) => acumulador + actual, 0)} cancelaciones aprovadas, las cancelaciones de distribuyen en ${reports.subjects.length} asignaturas`, margin, margin + 2 * textMargin);
 
   // 6. Calcular tamaño disponible para el gráfico (el resto de la página después del texto)
   const availableWidth = pageWidth - 2 * margin; // Ancho de la página menos márgenes
@@ -139,9 +129,9 @@ const ReportPdfReason = async (setDocumentPdf, fechaInicio, fechaFin, reason) =>
 
   // 9. Pasar el PDF al estado
   setDocumentPdf({ blob: pdfBlob, url: pdfUrl });
-
+  setCanavas({data:data, options:options});
   // 10. Limpiar el gráfico para liberar memoria
   chart.destroy();
 };
 
-export default ReportPdfReason;
+export default ReportPdfGeneral;

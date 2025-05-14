@@ -1,6 +1,4 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
-import { Worker, Viewer } from '@react-pdf-viewer/core';
 import { faSheetPlastic } from '@fortawesome/free-solid-svg-icons';
 import './Preview.css';
 

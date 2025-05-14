@@ -13,3 +13,7 @@ export async function getEnrollments(pagination) {
     return await apiFactory(true).get(`/api/api/v1/enrollments/${pagination}`);
 }
 
+export async function getEnrollmentsBySubject(id) {
+    return await apiFactory(true).get(`/api/api/v1/enrollments/subject/${id}?page=1&page_size=90`);
+}
+

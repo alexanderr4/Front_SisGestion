@@ -4,8 +4,9 @@ import DataElectives from "./DataElectives";
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTriangleExclamation, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { data, useNavigate } from 'react-router-dom';
-import { getEnrollments } from '../../../api/Students';
+import { useNavigate } from 'react-router-dom';
+import { getEnrollments, getEnrollmentsBySubject } from '../../../api/Students';
+import { getElectives } from '../../../api/Subjects';
 import { getDatesSemester } from '../../util/Util';
 import "./CheckDuplicates.css";
 
@@ -13,30 +14,16 @@ import "./CheckDuplicates.css";
 function CheckDuplicates({ electives }) {
   const navigate = useNavigate();
   const [dataElectives, setDataElectives] = useState([]);
+  const [check, setCheck] = useState([]);
 
   useEffect(() => {
     loadSubjects();
+    loadEnrollments();
   }, [])
 
   const loadSubjects = async () => {
-    await getEnrollments().then((response) => {
-      const { startDate, endDate } = getDatesSemester();
-      const dataFilterIsElective = response.data.data.filter(item => (item.subject.is_elective === true));
-      const dataFilterActualSemester = dataFilterIsElective.filter(item => ((new Date(item.student.created_at) >= startDate && new Date(item.student.created_at) <= endDate) &&
-        (new Date(item.subject.created_at) >= startDate && new Date(item.subject.created_at <= endDate))));
-      // setDataElectives(dataFilterActualSemester.filter(student => {
-      //   const electiveCount = student.subjects.length;
-      //   return electiveCount > 1;
-      // })
-      //   .map(student => ({
-      //     id: student.id,
-      //     name: student.name,
-      //     electives: student.subjects.filter(sub => sub.is_elective)
-      //   })))
-
-//       df_grouped = dataFilterActualSemester.groupby(['student_id', 'student_name'])['elective_name'].apply(list).reset_index()
-
-// df_multiple_electives = df_grouped[df_grouped['elective_name'].apply(len) > 1]
+    await getElectives().then((response) => {
+      setDataElectives(response.data.data);
     }).catch((error) => {
       console.error("Error validate fetching subjects:", error);
       setDataElectives([]);
@@ -47,6 +34,28 @@ function CheckDuplicates({ electives }) {
   const hadleButtonClickBack = () => {
     navigate(-1);
   }
+
+  const loadEnrollments = async () => {
+    const allEnrollments = [];
+
+    for (let i = 0; i < dataElectives.length; i++) {
+      try {
+        const response = await getEnrollmentsBySubject(dataElectives[i].id);
+        console.log("response", response);
+        const enriched = response.data.data.map(c => ({
+          ...c,
+          semester: dataElectives[i].semester
+        }));
+        allEnrollments.push(...enriched);
+      } catch (error) {
+        console.error(`Error loading enrollments for subject ${dataElectives[i].id}`, error);
+      }
+    }
+    console.log("allEnrollments", allEnrollments);
+    setCheck(allEnrollments);
+  };
+
+  console.log("Ddd", check)
 
   const customStyles = {
     table: {
@@ -105,7 +114,6 @@ function CheckDuplicates({ electives }) {
           />
         </div>
       </div>
-      <DataElectives />
     </div>
   );
 }

@@ -2,13 +2,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Nav } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import CustomToast from '../../toastMessage/CustomToast';
 import Parameters from './parameters/Parameters';
 import Preview from './preview/Preview';
-import ReportPdfGeneral from '../typeReports/generalReport/ReportPdfGeneral';
-import ReportPdfSubject from '../typeReports/reportPdfSubject/ReportPdfSubject';
-import ReportPdfStudent from '../typeReports/reportPdfStudent/ReportPdfSudent';
-import ReportPdfReason from '../typeReports/reportPdfReason/ReportPdfReason';
+import Statistics from './statistics/Statistics';
+import ReportPdfGeneral from './typeReports/generalReport/ReportPdfGeneral';
+import ReportPdfSubject from './typeReports/reportPdfSubject/ReportPdfSubject';
+import ReportPdfStudent from './typeReports/reportPdfStudent/ReportPdfSudent';
+import ReportPdfReason from './typeReports/reportPdfReason/ReportPdfReason';
 import './GenerateReport.css';
 
 
@@ -29,10 +31,11 @@ function FormGenerateReport({
     const [documentPdf, setDocumentPdf] = useState(null);
     const [activeTab, setActiveTab] = useState("parameters");
     const [formValues, setFormValues] = useState(formatData);
-    const [generate, setGenerate] = useState(false);
+    const [canvas, setCanvas] = useState(null);
     const [showToast, setShowToast] = useState(false);     // Estado para mostrar/ocultar el Toast
     const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
     const [toastType, setToastType] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const validateForm = () => {
         const errors = [];
@@ -56,43 +59,50 @@ function FormGenerateReport({
     };
 
     const handleGenerate = () => {
+        setLoading(current => { return true });
         const errors = validateForm();
         try {
             if (errors.length > 0) {
                 alert("Corrige los siguientes errores:\n" + errors.join("\n"));
                 return;
             }
-            setGenerate(true);
             switch (formValues.reportType) {
                 case "opcion1":
-                    ReportPdfGeneral(setDocumentPdf, formValues.fechaInicio, formValues.fechaFin);
-                    console.log("formValues", formValues.reportType);
-                    console.log("document", document);
+                    ReportPdfGeneral(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin);
                     break;
                 case "opcion2":
-                    ReportPdfSubject(setDocumentPdf, formValues.fechaInicio, formValues.fechaFin, formValues.asignatura);
+                    ReportPdfSubject(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin, formValues.asignatura);
                     break;
                 case "opcion3":
-                    ReportPdfStudent(setDocumentPdf, formValues.fechaInicio, formValues.fechaFin, formValues.estudiante);
+                    ReportPdfStudent(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin, formValues.estudiante);
                     break
                 case "opcion4":
-                    ReportPdfReason(setDocumentPdf, formValues.fechaInicio, formValues.fechaFin, formValues.motivo);
+                    ReportPdfReason(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin, formValues.motivo);
                     break;
                 default:
             }
-                setTimeout(() => {
-                    setShowToast(true);
-                    setFormValues(formatData);
-                }, 1000);
-                setToastMessage(`se generó el reporte`);
-                setToastType('success');
-            
+            setTimeout(() => {
+                setLoading(false);
+                setShowToast(true);
+                setFormValues(formatData);
+                setActiveTab("preview");
+            }, 1000);
+            setToastMessage(`se generó el reporte`);
+            setToastType('success');
+
 
         } catch (error) {
             setShowToast(true);
             setToastMessage(`Error al generar el reporte`);
             setToastType('error');
         }
+    }
+
+    const handleCancel = () => {
+        setFormValues(formatData);
+        setDocumentPdf(null);
+        setCanvas(null);
+        setActiveTab("parameters");
     }
 
     const handleDownload = () => {
@@ -127,30 +137,31 @@ function FormGenerateReport({
 
                     </Nav>
                 </div>
-
                 <div className='variable-content'>
-                    {
-                        activeTab === "parameters" ? (
-                            <>
-                                <Parameters formValues={formValues} setFormValues={setFormValues} />
-                            </>
-                        ) : (
-                            <Preview document={documentPdf} />
-                        )
-                    }
+                    {activeTab === "parameters" && (
+                        <Parameters formValues={formValues} setFormValues={setFormValues} />
+                    )}
+
+                    {activeTab === "preview" && (
+                        <Preview document={documentPdf} />
+                    )}
+
+                    {activeTab === "statistics" && (
+                        <Statistics
+                            canvas={canvas}
+                        />
+                    )}
                 </div>
 
                 <div className="row content-button">
                     <div className='col-md-6 col-3 format-button-one' >
-                        <button >Cancelar</button>
+                        <button onClick={handleCancel}>Cancelar</button>
                     </div>
                     <div className='col-md-6 col-9 format-button-second' >
                         <button onClick={handleDownload}>Exportar</button>
                         <button className='button-generate-report' onClick={handleGenerate} >Generar Reporte</button>
                     </div>
                 </div>
-
-
             </div>
             <CustomToast
                 showToast={showToast}
@@ -158,6 +169,13 @@ function FormGenerateReport({
                 toastMessage={toastMessage}
                 toastType={toastType}
             />
+            {loading && (
+                <div className="loading-overlay">
+                    <Spinner animation="grow" role="status">
+                        <span className="visually-hidden">Cargando...</span>
+                    </Spinner>
+                </div>
+            )}
 
         </div >
     );

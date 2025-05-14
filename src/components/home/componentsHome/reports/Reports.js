@@ -7,8 +7,8 @@ import "./Reports.css";
 function Reports() {
     const cards = [
         { title: "Reporte de cancelación", icon: faPlus },
-        { title: "Reporte de electivas", icon: faBookOpen },
-        { title: "Reporte personalizado", icon: faChartColumn },
+        // { title: "Reporte de electivas", icon: faBookOpen },
+        // { title: "Reporte personalizado", icon: faChartColumn },
     ];
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(false);
