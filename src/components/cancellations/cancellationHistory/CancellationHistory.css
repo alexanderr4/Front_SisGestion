@@ -1,0 +1,36 @@
+.container-cancellationHistory {
+    height: 100%;
+    overflow-y: auto !important;
+}
+
+.conatiner-sub-menu-cancellation-history{
+    padding: 10px;
+    border-radius: 6px;
+    border: solid 1px #000000;
+}
+
+.content-sub-menu-cancellation-history {
+    width: 100%;
+}
+
+.custom-sub-menu-cancellation-history .nav-item {
+    flex: 1 1 auto;
+    text-align: center;
+    @media screen and (max-width: 768px) {
+        flex: 2 2 50%;
+
+    }
+}
+
+
+.container-content-history {
+    margin-top: 8px;
+    padding: 20px;
+    border: solid 1px #000000;
+    border-radius: 6px;
+}
+
+.container-content-history h3 {
+    font-weight: 600;
+    color: #1b1a1a;
+}

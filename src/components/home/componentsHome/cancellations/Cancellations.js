@@ -18,7 +18,7 @@ function Cancellations() {
     ];
 
     useEffect(() => {
-        const validPaths = ['newCancellation', 'pendingRequests'];
+        const validPaths = ['newCancellation', 'pendingRequests', 'cancellationHistory'];
 
         if (!validPaths.some(path => pathInitial.includes(path))) {
             setActiveTab(false);
@@ -37,6 +37,10 @@ function Cancellations() {
             case 1:
                 setActiveTab(true);
                 navigate('/admin/cancellations/cancellationManagement/pendingRequests');
+                break;
+            case 2:
+                setActiveTab(true);
+                navigate('/admin/cancellations/cancellationManagement/cancellationHistory');
                 break;
             default:
                 break;

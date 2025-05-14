@@ -14,6 +14,7 @@ import Settings from '../components/settings/Settings';
 import ShowStudentsBySubject from '../components/subjects/showStudentsBySubject/ShowStudentsBySubject';
 import CheckDuplicates from '../components/electives/checkDuplicates/CheckDuplicates';
 import ConsultElectives from '../components/electives/consultElectives/ConsultElectives';
+import CancellationHistory from '../components/cancellations/cancellationHistory/CancellationHistory'
 
 
 function AppRouter() {
@@ -28,6 +29,7 @@ function AppRouter() {
           <Route path="cancellationManagement" element={<Cancellations />} >
             <Route path='newCancellation' element={<FormNewCancellation />} />
             <Route path='pendingRequests' element={<PendingRequests />} />
+            <Route path='cancellationHistory' element={<CancellationHistory />} />
           </Route>
         </Route>
         <Route path="electives" element={<ControlPanel />} >
