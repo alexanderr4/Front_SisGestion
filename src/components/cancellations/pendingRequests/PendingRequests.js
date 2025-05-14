@@ -4,7 +4,7 @@ import { faArrowLeft, faCheck, faXmark, faMagnifyingGlass } from '@fortawesome/f
 import DataTable from 'react-data-table-component';
 import { useNavigate, } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
-import { getCancellations } from "../../../api/Cancellations";
+import { getCancellations, updateCancellation } from "../../../api/Cancellations";
 import CustomToast from '../../toastMessage/CustomToast';
 import "./PendingRequests.css";
 
@@ -12,12 +12,13 @@ function PendingRequests() {
 
 
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false) ;
+  const [loading, setLoading] = useState(false);
   const dataCancellations = useRef(null)
   const [records, setRecords] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('');
+  const [approvedTransaction, setApprovedTransaction] = useState(false);
 
   const hadleButtonClickBack = () => {
     navigate(-1)
@@ -26,29 +27,26 @@ function PendingRequests() {
   useEffect(() => {
     const fetch = async () => {
       await fetchAndStoreData(getCancellations, dataCancellations).then((response) => {
-        setRecords(dataCancellations.current.data);
+        setRecords(dataCancellations.current);
       })
         .catch((error) => {
           console.error("Error fetching data:", error);
 
         });
-
     }
-
     fetch();
-
-
-  }, []);
+  }, [approvedTransaction]);
 
 
   const fetchAndStoreData = async (fetchFunction, dataRef) => {
     try {
       setLoading(true);
       const response = await fetchFunction();
-      dataRef.current = response.data;
+      dataRef.current = response.data.data.filter(item => item.status === 'pending');
     } catch (error) {
       console.error("Error fetching data:", error);
-      setShowToast(true);
+      if (typeof error.status !== 'undefined')
+        setShowToast(true);
       setToastMessage(`${error.status} Error al cargar los datos`);
       setToastType('error');
     } finally {
@@ -64,6 +62,25 @@ function PendingRequests() {
       year: 'numeric'
     });
     return formattedDate;
+  }
+
+  const handleUpdateStatus = async (status, id) => {
+    setLoading(curret => { return true });
+    await updateCancellation(id, status )
+      .then((response) => {
+        setShowToast(true);
+        setToastMessage('Solicitud actualizada correctamente');
+        setToastType('success');
+        setLoading(false);
+        setApprovedTransaction(true);
+      }
+      )
+      .catch((error) => {
+        console.error("Error al actualizar la solicitud:", error);
+        setShowToast(true);
+        setToastMessage(`${error.status} Error al actualizar la solicitud`);
+        setToastType('error');
+      });
   }
 
   const columnsTable = [
@@ -104,10 +121,10 @@ function PendingRequests() {
       name: "Acciones",
       cell: row => (
         <div className='buttons-pending-requests'>
-          <button onClick={() => console.log('Editar', row)}>
+          <button onClick={() => handleUpdateStatus('approved', row.id)}>
             <FontAwesomeIcon className='icon-check' icon={faCheck} />
           </button>
-          <button onClick={() => console.log('Eliminar', row)}>
+          <button onClick={() => handleUpdateStatus('rejected', row.id)}>
             <FontAwesomeIcon className='icon-Xmark' icon={faXmark} />
           </button>
         </div>
@@ -173,7 +190,7 @@ function PendingRequests() {
             />
           </div>
           <div className='col-5 asignature-pending'>
-            <p>{dataCancellations.current && dataCancellations.current.data ? dataCancellations.current.data.length : 20} Pendientes</p>
+            <p>{dataCancellations?.current ? dataCancellations.current.length : 0} Pendientes</p>
           </div>
         </div>
 

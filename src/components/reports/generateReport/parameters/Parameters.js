@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import './Parameters.css';
 
-function Parameters() {
+function Parameters({ formValues, setFormValues }) {
 
-    const [formValues, setFormValues] = useState({
-        reportType: '',
-        outputFormat: '',
-        motivo: '',
-    });
+    // const [formValues, setFormValues] = useState({
+    //     reportType: '',
+    //     outputFormat: 'opcion1',
+    //     motivo: '',
+    // });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,6 +25,7 @@ function Parameters() {
                         name="reportType"
                         value={formValues.reportType}
                         onChange={handleChange}
+                        required
                     >
                         <option value="" disabled>Elije una opción</option>
                         <option value="opcion1">Reporte General</option>
@@ -39,6 +40,7 @@ function Parameters() {
                         name='outputFormat'
                         value={formValues.outputFormat}
                         onChange={handleChange}
+                        disabled
                     >
                         <option value="" disabled>Elije una opción</option>
                         <option value="opcion1">PDF</option>
@@ -52,11 +54,11 @@ function Parameters() {
                     <label>Fecha de Inicio</label>
                     <input
                         type="date"
-                        name="nombreEstudiante"
+                        name="fechaInicio"
                         id='nombreEstudiante'
                         placeholder="Nombre Completo"
-                        // onChange={handleChangeSelect}
-                        // value={loadData.nombreEstudiante}
+                        onChange={handleChange}
+                        value={formValues.fechaInicio}
 
                         required
 
@@ -66,11 +68,11 @@ function Parameters() {
                     <label>Fecha de Fin</label>
                     <input
                         type="date"
-                        name="nombreEstudiante"
+                        name="fechaFin"
                         id='nombreEstudiante'
                         placeholder="Nombre Completo"
-                        // onChange={handleChangeSelect}
-                        // value={loadData.nombreEstudiante}
+                        onChange={handleChange}
+                        value={formValues.fechaFin}
 
                         required
 
@@ -82,28 +84,22 @@ function Parameters() {
                     <label>Asignatura (Opcional)</label>
                     <input
                         type="text"
-                        name="nombreEstudiante"
+                        name="asignatura"
                         id='nombreEstudiante'
                         placeholder="Nombre Completo"
-                    // onChange={handleChangeSelect}
-                    // value={loadData.nombreEstudiante}
-
-
-
+                        onChange={handleChange}
+                        value={formValues.asignatura}
                     />
                 </div>
                 <div className="form-section col-md-6">
                     <label>Estudiante (Opcional)</label>
                     <input
                         type="text"
-                        name="nombreEstudiante"
+                        name="estudiante"
                         id='nombreEstudiante'
                         placeholder="Nombre Completo"
-                    // onChange={handleChangeSelect}
-                    // value={loadData.nombreEstudiante}
-
-
-
+                        onChange={handleChange}
+                        value={formValues.estudiante}
                     />
                 </div>
             </div>

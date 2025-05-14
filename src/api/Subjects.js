@@ -7,3 +7,7 @@ export async function getSubjects(pagination) {
 export async function getStudentsBySubject (parameter, pagination) {
     return await apiFactory(true).get(`/api/api/v1/enrollments/subject/${parameter}?${pagination}`);
 }
+
+export async function getElectives () {
+    return await apiFactory(true).get("/api/api/v1/subjects/electives");
+}

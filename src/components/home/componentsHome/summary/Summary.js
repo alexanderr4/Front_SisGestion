@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect, use, act } from "react";
 import { getCancellations } from "../../../../api/Cancellations";
-import { getSubjects } from "../../../../api/Subjects";
+import { getElectives } from "../../../../api/Subjects";
 import { getStudents } from "../../../../api/Students";
 import { getTimeAgo } from "./Util";
 import { Spinner } from 'react-bootstrap';
+import Graph from "./Graph";
+import GraphTwo from "./GraphTwo";
 import CustomToast from '../../../toastMessage/CustomToast';
 import "./Summary.css";
 
@@ -21,7 +23,7 @@ function Summary() {
     useEffect(() => {
         const fetch = async () => {
             await fetchAndStoreData(getCancellations, dataCancellations, false);
-            await fetchAndStoreData(getSubjects, dataElectives);
+            await fetchAndStoreData(getElectives, dataElectives, false);
             await fetchAndStoreData(getStudents, dataStudents);
         }
 
@@ -44,7 +46,7 @@ function Summary() {
                     totalPages = data.data.total_pages;
                     currentPage++;
                 }
-            }else{
+            } else {
                 const response = await fetchFunction();
                 const data = response.data.data;
                 allData.push(...data);
@@ -106,7 +108,7 @@ function Summary() {
     const loadDataElectives = () => {
         try {
             const electives = dataElectives.current ? dataElectives.current : []
-            return electives.filter(sub => sub.is_elective).length;
+            return electives.length;
         } catch (error) {
             console.error("Error loading elective data:", error);
             return 0;
@@ -260,14 +262,19 @@ function Summary() {
             </div>
             <div className=" col-12 col-lg-4 content-statistics">
                 <h5>Estadisticas de cancelaciones</h5>
-                <p>faBars</p>
-                <p>faBars</p>
-                <p>faBars</p>
-                <p>faBars</p>
-                <p>faBars</p>
-                <p>faBars</p>
-                <p>faBars</p>
-                <p>faBars</p>
+                {loading ? (
+                    <Spinner animation="border" size="sm" /> // Muestra el spinner mientras carga
+                ) : (<>
+                    <Graph data={dataCancellations.current} />
+                    <br />
+                    <br />
+                    <GraphTwo data={dataCancellations.current}
+                        electives={dataElectives.current}
+                    />
+
+                </>)
+                }
+
             </div>
             <CustomToast
                 showToast={showToast}
