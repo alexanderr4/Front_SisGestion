@@ -40,7 +40,7 @@ function CheckDuplicates({ electives }) {
 
     for (let i = 0; i < dataElectives.length; i++) {
       try {
-        const response = await getEnrollmentsBySubject(dataElectives[i].id);
+        const response = await getEnrollmentsBySubject(dataElectives[i].id, '?page=1&page_size=90');
         console.log("response", response);
         const enriched = response.data.data.map(c => ({
           ...c,
