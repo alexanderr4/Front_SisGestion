@@ -25,12 +25,12 @@
       "destination": "http://18.221.50.239:8080/api/v1/import/students/:path*"
     },
     {
-      "source": "/api/api/v1/enrollments/",
+      "source": "/api/api/v1/enrollments/:",
       "destination": "http://18.221.50.239:8080/api/v1/enrollments/"
     },
     {
-      "source": "/api/api/v1/cancellation-requests/",
-      "destination": "http://18.221.50.239:8080/api/v1/students/"
+      "source": "/api/api/v1/cancellation-requests/:path*",
+      "destination": "http://18.221.50.239:8080/api/v1/students/:path*"
     },
     {
       "source": "/api/api/v1/subjects/electives",
