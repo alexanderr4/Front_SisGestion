@@ -69,7 +69,7 @@ function HistoryApproved({ data, loading }) {
 
     return (
         <>
-            <h3>Historial de solicitudes aprovadas</h3>
+            <h3>Historial de solicitudes aprobadas</h3>
             <div className='content-table'>
                 <DataTable
                     data={data.filter(item => item.status === 'approved')}
