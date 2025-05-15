@@ -32,8 +32,6 @@ const GraphTwo = ({ data, electives }) => {
     // Obtener los nombres de las electivas
     const nombresElectivas = electives.map(e => e.name);
 
-    console.log("Nombres de las electivas:", nombresElectivas);
-    console.log("Cantidad de repeticiones por electiva:", countElectivas);
 
     const chartData = {
         labels: nombresElectivas, // Etiquetas del eje X
