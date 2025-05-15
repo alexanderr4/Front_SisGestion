@@ -112,7 +112,7 @@ const ReportPdfGeneral = async (setDocumentPdf, setCanavas, fechaInicio, fechaFi
   // Restaurar tamaño de fuente para el resto del texto
   doc.setFontSize(12);
   doc.setFont(undefined, 'normal');
-  doc.text(`Durante la fecha del ${fechaInicio} al ${fechaFin} se han realizado ${reports.counts.reduce((acumulador, actual) => acumulador + actual, 0)} cancelaciones aprovadas, las cancelaciones de distribuyen en ${reports.subjects.length} asignaturas`, margin, margin + 2 * textMargin);
+  doc.text(`Durante la fecha del ${fechaInicio} al ${fechaFin} se han realizado ${reports.counts.reduce((acumulador, actual) => acumulador + actual, 0)} cancelaciones aprobadas, las cancelaciones de distribuyen en ${reports.subjects.length} asignaturas`, margin, margin + 2 * textMargin);
 
   // 6. Calcular tamaño disponible para el gráfico (el resto de la página después del texto)
   const availableWidth = pageWidth - 2 * margin; // Ancho de la página menos márgenes

@@ -101,7 +101,7 @@ const ReportPdfReason = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin,
   // 5. Insertar texto
   doc.setFontSize(20);
   doc.setFont(undefined, 'bold');
-  const title = "Reporte General de cancelaciones ";
+  const title = "Reporte de cancelaciones por motivo";
   const textWidth = doc.getTextWidth(title);
   const centerX = (pageWidth - textWidth) / 2;
   const titleY = margin + 10;

@@ -102,7 +102,7 @@ const ReportPdfStudent = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin
   doc.setFontSize(20); // Tamaño de fuente grande
   doc.setFont(undefined, 'bold'); // Estilo negrita (opcional)
 
-  const title = "Reporte por estudiante de cancelaciones ";
+  const title = "Reporte de cancelaciones por estudinate";
   const textWidth = doc.getTextWidth(title);
   const centerX = (pageWidth - textWidth) / 2;
 
