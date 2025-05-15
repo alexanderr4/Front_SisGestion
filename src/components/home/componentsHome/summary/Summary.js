@@ -51,7 +51,7 @@ function Summary() {
                 const data = response.data.data;
                 allData.push(...data);
             }
-            dataRef.current = allData;
+            dataRef.current = allData.filter(item => {return new Date(item.created_at) >= startDate && new Date(item.created_at) <= endDate });
         } catch (error) {
             console.error("Error fetching data:", error);
             setTimeout(() => {
