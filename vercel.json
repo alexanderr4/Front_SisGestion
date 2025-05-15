@@ -37,7 +37,7 @@
       "destination": "http://18.221.50.239:8080/api/v1/subjects/electives"
     },
     {
-      "source": "/api/api/api/v1/subjects/semester/:path*",
+      "source": "/api/api/v1/subjects/semester/:path*",
       "destination": "http://18.221.50.239:8080/api/v1/subjects/semester/:path*"
     }
   ]
