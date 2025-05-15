@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCancellations } from '../../../api/Cancellations';
 import HistoryApproved from './HistoryApproved';
 import HistoryRejected from './HistoryRejected';
+import {getDatesSemester} from '../../util/Util';
 import "./CancellationHistory.css";
 
 function CancellationHistory() {
@@ -25,7 +26,8 @@ function CancellationHistory() {
         setLoading(current => { return true });
         getCancellations()
             .then((response) => {
-                data.current = response.data.data;
+                const { startDate, endDate } = getDatesSemester();
+                data.current = response.data.data.filter(item => { return new Date(item.created_at) >= startDate && new Date(item.created_at) <= endDate });
                 setLoading(false);
             }).catch((error) => {
                 console.error("Error fetching data:", error);
@@ -57,8 +59,8 @@ function CancellationHistory() {
 
 
             < div className='container-content-history'>
-                {activeTabSubject === 'approved' &&  <HistoryApproved data={data.current} loading={loading} />}
-                {activeTabSubject === 'rejected' && <HistoryRejected data={data.current} loading={loading} />}	
+                {activeTabSubject === 'approved' && <HistoryApproved data={data.current} loading={loading} />}
+                {activeTabSubject === 'rejected' && <HistoryRejected data={data.current} loading={loading} />}
             </div>
         </div>
     );

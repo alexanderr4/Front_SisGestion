@@ -109,7 +109,7 @@ function AdminDashboard() {
           </div>
         </div>
         <div className='button-current-semester col-12 col-md-3'>
-          <button>Cambiar</button>
+          <button onClick={() => handleNavigation('/settings/updateActualSemester')}>Cambiar</button>
         </div>
 
       </div>

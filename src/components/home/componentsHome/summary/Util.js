@@ -1,6 +1,7 @@
 import { format, formatDistanceToNow, parseISO, differenceInDays } from 'date-fns';
 import { es } from 'date-fns/locale';
 
+
 export function getTimeAgo(date) {
   const parsedDate = parseISO(date);
   const daysDifference = differenceInDays(new Date(), parsedDate);

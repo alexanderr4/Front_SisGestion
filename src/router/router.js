@@ -15,6 +15,7 @@ import ShowStudentsBySubject from '../components/subjects/showStudentsBySubject/
 import CheckDuplicates from '../components/electives/checkDuplicates/CheckDuplicates';
 import ConsultElectives from '../components/electives/consultElectives/ConsultElectives';
 import CancellationHistory from '../components/cancellations/cancellationHistory/CancellationHistory'
+import UpdateActualSemester from '../components/settings/updateActualSemester/UpdateActualSemester';
 
 
 function AppRouter() {
@@ -49,7 +50,9 @@ function AppRouter() {
         <Route path="subjectManagement" element={<SubjectManagement />} >
           <Route path="showStudentsBySubject" element={<ShowStudentsBySubject />} />
         </Route>
-        <Route path="settings" element={<Settings />} />
+        <Route path="settings" element={<Settings />} >
+          <Route path="updateActualSemester" element={<UpdateActualSemester />} />
+        </Route>
       </Route>
 
 

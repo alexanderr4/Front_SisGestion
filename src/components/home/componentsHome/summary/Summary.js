@@ -4,6 +4,7 @@ import { getElectives } from "../../../../api/Subjects";
 import { getStudents } from "../../../../api/Students";
 import { getTimeAgo } from "./Util";
 import { Spinner } from 'react-bootstrap';
+import { getDatesSemester } from '../../../util/Util';
 import Graph from "./Graph";
 import GraphTwo from "./GraphTwo";
 import CustomToast from '../../../toastMessage/CustomToast';
@@ -11,6 +12,7 @@ import "./Summary.css";
 
 
 function Summary() {
+    const { startDate, endDate } = getDatesSemester();
     const [loading, setLoading] = useState(false);
     const dataCancellations = useRef([])
     const dataElectives = useRef([])
@@ -26,7 +28,6 @@ function Summary() {
             await fetchAndStoreData(getElectives, dataElectives, false);
             await fetchAndStoreData(getStudents, dataStudents);
         }
-
         fetch();
         sortedRequests()
     }, []);
@@ -41,7 +42,6 @@ function Summary() {
                 while (currentPage <= totalPages) {
                     const response = await fetchFunction(`?page=${currentPage}`);
                     const data = response.data;
-
                     allData.push(...data.data.data);
                     totalPages = data.data.total_pages;
                     currentPage++;

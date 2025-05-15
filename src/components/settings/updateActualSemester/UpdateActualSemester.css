@@ -1,0 +1,204 @@
+.container-content-settings {
+    padding: 15px;
+    border: solid 1px #000000;
+    border-radius: 5px;
+}
+
+.container-content-settings h3 {
+    font-weight: 600;
+    color: #000000;
+}
+
+.container-content-settings p {
+    font-weight: 600;
+    font-size: 0.8em;
+    color: #6B6767;
+}
+
+.container-form-settings form h5 {
+    font-weight: 600;
+    color: #000000;
+}
+
+.container-show-actual-semester {
+    padding-top: 15px;
+    padding-left: 20px;
+    border-radius: 5px;
+    border: solid 1px #000000;
+    margin-bottom: 25px;
+    background-color: #F1F1F1;
+    display: flex;
+    gap: 9px;
+}
+
+.container-show-actual-semester h5 {
+    font-weight: 600;
+    color: #000000;
+}
+
+
+.date-picker-wrapper label {
+    font-size: 0.9em !important;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.date-picker-wrapper {
+    padding-left: 0px;
+
+}
+
+.checkbox-options {
+    padding-left: 0px;
+    @media screen and (max-width: 768px) {
+        margin-top: 10px;
+    }
+}
+
+.checkbox-options label {
+    font-size: 0.9em !important;
+    font-weight: 600;
+
+}
+
+.form-check {
+    display: flex;
+    flex-direction: row;
+    padding-left: 0px;
+    gap: 10px;
+
+}
+
+
+.form-check label {
+    font-size: 0.9em !important;
+    font-weight: 600;
+}
+
+.container-button-update-settings {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.container-button-update-settings button {
+    border: solid 1px #000000;
+    border-radius: 5px;
+    color: #000000;
+    background-color: #ffffff;
+    padding: 5px 10px;
+    font-weight: 600;
+}
+.container-button-update-settings button:hover {
+    background-color: #dbd9d6;
+    color: #000000;
+}
+
+.btn-save-settings{
+    background-color: #000000 !important;
+    color: #ffffff !important;
+
+}
+.btn-save-settings:hover {
+    background-color: #383736 !important;
+   
+}
+
+
+
+
+/*  css del calendario*/
+
+.react-datepicker__input-container input {
+    padding-left: 5px;
+    border-radius: 5px;
+    border: solid 1px #000000;
+    width: 95%;
+}
+
+.react-datepicker__input-container input::placeholder {
+    font-size: 0.8em;
+}
+
+.react-datepicker-popper {
+    z-index: 9999 !important;
+}
+
+.react-datepicker {
+
+    position: static;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9);
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #ccc;
+}
+
+.react-datepicker {
+    font-size: 14px;
+    width: 240px !important;
+}
+
+.react-datepicker__year {
+    margin-left: 20px;
+}
+
+.react-datepicker__year-dropdown {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.react-datepicker__year-option {
+    padding: 8px 8px;
+}
+
+.react-datepicker__year-wrapper {
+    max-width: 200px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* reduce columnas para hacerlo más compacto */
+    row-gap: 4px;
+    column-gap: 4px;
+}
+
+.react-datepicker__header {
+    display: flex;
+    background-color: #ffffff;
+    border-bottom: none;
+    padding: 10px;
+    justify-content: center;
+    color: #000000;
+    font-weight: 600;
+}
+
+.react-datepicker__navigation {
+    background-color: #ffffff;
+    border: solid 1px #000000;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.react-datepicker__navigation-icon::before {
+
+    width: 8px;
+    height: 8px;
+}
+
+.react-datepicker__aria-live {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.cotainer-buttons-calendar {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+
+}
+
+.cotainer-buttons-calendar button {
+    border: solid 1px #000000;
+    border-radius: 5px;
+    background-color: #ffffff;
+}

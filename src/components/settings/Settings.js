@@ -1,9 +1,35 @@
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation, faPeopleGroup } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate, Outlet } from 'react-router-dom';
 import IconSelection from '../../assets/IconSelection.png';
 import "./Settings.css";
 
 function Settings() {
+  const navigate = useNavigate();
+  const pathInitial = window.location.pathname;
+  const [paintNewComponent, setPaintNewComponent] = useState(false);
+
+  useEffect(() => {
+          if (pathInitial === "/admin/settings") {
+              setPaintNewComponent(current => { return false });
+          }
+          if (window.location.pathname === "/admin/settings/updateActualSemester") {
+              setPaintNewComponent(current => { return true });
+          }
+      }, [pathInitial]);
+
+  const handleConfigSemester = () => {
+    navigate('/admin/settings/updateActualSemester');
+    setPaintNewComponent(current => { return true });
+  }
+
+  if (paintNewComponent) {
+    return (
+      <Outlet />
+    )
+  }
+
   return (
     <div className="settings">
       <div className='content-title'>
@@ -22,7 +48,7 @@ function Settings() {
         <div>
           <h5>Configurar semestre</h5>
           <p>Desde esta sección puedes configurar o cambiar el semestre académico activo para la gestión.</p>
-          <button>Configurar semestre</button>
+          <button onClick={handleConfigSemester}>Configurar semestre</button>
         </div>
       </div>
       <div className='content-update-list-students'>
