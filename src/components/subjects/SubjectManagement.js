@@ -4,7 +4,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import TableSubjects from './TableSubjects';
-import { getSubjects } from '../../api/Subjects';
+import { getSubjectBySemester } from '../../api/Subjects';
 import { apiLoadStudentsBySubject } from '../../api/Students';
 import VerifySubjects from "./VerifySubjects"
 import { useDropzone } from 'react-dropzone';
@@ -76,43 +76,19 @@ function SubjectManagement() {
 
     const loadSubjects = async () => {
         setLoading(true);
-        const allSubjects = [];
-        let currentPage = 1;
-        let totalPages = 1;
         const { startDate, endDate } = getDatesSemester(activeTabSubject);
         try {
-            while (currentPage <= totalPages) {
-                const res = await getSubjects(`?page=${currentPage}`);
-                const json = await res.data;
-                allSubjects.push(...json.data.data);
-                totalPages = json.data.total_pages;
-                currentPage++;
-            }
-            const filteredSubjectsBySemesters = VerifySubjects(allSubjects.filter((subject) => subject.semester === Number(activeTabSubject)));
-            setSubjectData(filteredSubjectsBySemesters.filter((subject) => new Date(subject.created_at) >= startDate && new Date(subject.created_at) <= endDate));
+            const res = await getSubjectBySemester(Number(activeTabSubject));
+            const filteredSubjectsBySemesters = VerifySubjects(res.data.data.filter((subject) => new Date(subject.created_at) >= startDate && new Date(subject.created_at) <= endDate));
+            setSubjectData(filteredSubjectsBySemesters);
         } catch (error) {
-           setSubjectData([]);
+            setSubjectData([]);
             setLoading(false);
             console.error("Error fetching subjects:", error);
-            typeof error.status !== 'undefined'? setShowToast(true): setShowToast(false);
+            typeof error.status !== 'undefined' ? setShowToast(true) : setShowToast(false);
             setToastMessage(`${error.status} Error al cargar los datos`);
             setToastType('error');
         }
-
-        // setLoading(true);
-        // const { startDate, endDate } = getDatesSemester(activeTabSubject);
-        // await getSubjects().then((response) => {
-        //     console.log("response", response);
-        //     const filteredSubjectsBySemesters = VerifySubjects(response.data.data.data.filter((subject) => subject.semester === Number(activeTabSubject)));
-        //     setSubjectData(filteredSubjectsBySemesters.filter((subject) => new Date(subject.created_at) >= startDate && new Date(subject.created_at) <= endDate));
-        // }).catch((error) => {
-        //     setSubjectData([]);
-        //     setLoading(false);
-        //     console.error("Error fetching subjects:", error);
-        //     typeof error.status !== 'undefined'? setShowToast(true): setShowToast(false);
-        //     setToastMessage(`${error.status} Error al cargar los datos`);
-        //     setToastType('error');
-        // });
     }
 
     const handleButtonShowStudentsBySubjects = async (subject) => {

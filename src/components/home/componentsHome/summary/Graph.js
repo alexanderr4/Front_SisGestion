@@ -41,7 +41,7 @@ const Graph = ({ data }) => {
   // Retornar dos arreglos: los estados y las cantidades
   const statuses = ['approved', 'pending', 'rejected'];
   const counts = statuses.map(status => statusCount[status]);
-  const dtaFinal = ['aprovado', 'pendiente', 'rechazado'];
+  const dtaFinal = ['aprobado', 'pendiente', 'rechazado'];
 
   const chartData = {
     labels: dtaFinal, // Etiquetas del eje X

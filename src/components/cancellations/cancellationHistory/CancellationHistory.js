@@ -47,7 +47,7 @@ function CancellationHistory() {
                 <div className='content-sub-menu-cancellation-history'>
                     <Nav className='custom-sub-menu-cancellation-history' variant="tabs" activeKey={activeTabSubject} onSelect={(selectedKey) => setActiveTabSubject(selectedKey)}>
                         <Nav.Item>
-                            <Nav.Link eventKey="approved" >Aprovadas</Nav.Link>
+                            <Nav.Link eventKey="approved" >Aprobadas</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
                             <Nav.Link eventKey="rejected">Rechazadas</Nav.Link>

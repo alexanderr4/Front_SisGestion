@@ -38,7 +38,7 @@ function HistoryApproved({ data, loading }) {
             sortable: true,
         },
         {
-            name: 'Fecha de aprovacion',
+            name: 'Fecha de aprobación',
             selector: row => formatDate(row.updated_at),
             sortable: true,
         },

@@ -1,7 +1,6 @@
 import { getCancellations } from '../../../../../api/Cancellations'
 
 async function TypeReports(fechaInicio, fechaFin, nameStudent) {
-    console.log("nombre llega", nameStudent);
     try {
         const inicio = new Date(fechaInicio + 'T00:00:00');
         const fin = new Date(fechaFin + 'T23:59:59');
@@ -10,7 +9,6 @@ async function TypeReports(fechaInicio, fechaFin, nameStudent) {
         const filteredData = response.data.data.filter(item => {
             const fechaCreacion = new Date(item.created_at);
             const nameSearchStudent = item.student?.name?.toLowerCase() || "";
-            console.log("nameSearchStudent", nameSearchStudent);
             return (
                 fechaCreacion >= inicio &&
                 fechaCreacion <= fin &&
@@ -19,7 +17,6 @@ async function TypeReports(fechaInicio, fechaFin, nameStudent) {
         });
 
         // Obtener el primer subject.name coincidente si existe
-        console.log("filteredData por nombre    ", filteredData);
         const studentNameActual = filteredData.length > 0
             ? filteredData[0].student.name
             : "";

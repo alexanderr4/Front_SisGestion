@@ -41,13 +41,11 @@ const Login = () => {
             if (response.ok) {
                 const token = response.response.data.data.token;
                 localStorage.setItem('authToken', token);
-                console.log(response.response.data.data.token, "token de acceso")
                 setNavigation(<Navigate to="/admin/home/summary" />);
             } else {
                 setShowToast(true);
                 // setToastMessage("Acceso denegado comuniquese con el administrador");
                 setToastType('error');
-                console.log(response.error.status, "error de acceso")
                 if (response.error.status === 401) {
                     setToastMessage("Credenciales incorrectas. Por favor, intenta nuevamente.");
                 }

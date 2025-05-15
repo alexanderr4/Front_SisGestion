@@ -37,8 +37,6 @@ const ReportPdfStudent = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin
 
   const reports = await TypeReports(fechaInicio, fechaFin, nameStudent);
 
-  console.log("reports", reports);
-
   const canvas = document.createElement('canvas');
   canvas.width = 800;
   canvas.height = 400;

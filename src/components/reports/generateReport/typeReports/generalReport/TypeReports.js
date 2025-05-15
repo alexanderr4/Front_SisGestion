@@ -32,8 +32,6 @@ async function TypeReports(fechaInicio, fechaFin) {
         const subjects = Object.keys(countBySubject);      // ['Materia A', 'Materia B', ...]
         const counts = Object.values(countBySubject);
 
-        console.log(" sss", cancellations);
-
         return { subjects, counts };
     } catch (error) {
        return { group: [], counts: []}

@@ -62,7 +62,6 @@ function VerifySubjects(subjectsData, activeTabSubject) {
             const schedule = subjects.find(s => s.code === subject.code);
             return {
                 ...subject,
-                semester: schedule?.semester || "",
                 area: schedule?.area || ""
             };
         });

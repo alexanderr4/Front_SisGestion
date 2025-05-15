@@ -3,8 +3,7 @@ import DataTable from 'react-data-table-component';
 import { Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faUpload, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { getEnrollments } from '../../api/Students';
-import { getDatesSemester } from '../util/Util';
+import { getEnrollmentsBySubject } from '../../api/Students';
 import "./SubjectManagement.css"
 
 
@@ -16,36 +15,24 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
     useEffect(() => {
         const fetchVerification = async () => {
             try {
-                const { startDate, endDate } = getDatesSemester();
                 const results = [];
-                const loadDataVerify = await loadVerifyStudents();
-                const validateData = loadDataVerify.filter(item => {
-                    const date = new Date(item.subject.created_at);
-                    return date >= startDate && date <= endDate;
-                })
-                const codesInData1 = validateData.map(item => item.subject.code);
-                const filteredData2 = data.filter(item => codesInData1.includes(item.code));
-                setVerifiedStudents(0);
-                for (let i = 0; i < filteredData2.length; i++) {
-                    const row = filteredData2[i];
-                    results[row.id] = true;
-                    if (i === filteredData2.length - 1) {
+                for (let i = 0; i < data.length; i++) {
+                    const row = data[i];
+                    const filteredData2 = await loadVerifyStudents(row.id);
+                    if (filteredData2.length > 0) {
+                        results[row.id] = true;
+                    } else {
+                        results[row.id] = false;
+                    }
+                    if (i === data.length - 1) {
                         setTimeout(() => {
                             setLoading(false)
-                        }, 3000);
+                        }, 1000);
                     }
                 }
-                // for (const row of filteredData2) {
-                //     results[row.id] = true;
-                //      setLoading(curret => { return false })
-                // }
                 setVerifiedStudents(curret => { return results });
-                // setTimeout(() => {
-                //     setLoading(curret => { return false })
-                // }, 5000);
             } catch (error) {
                 console.error("Error al verificar los estudiantes:", error);
-                setLoading(curret => { return false })
                 setVerifiedStudents([]);
             }
 
@@ -57,30 +44,19 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
 
     }, [data, reloadVerifyStudents, activeTabSubject])
 
-    const loadVerifyStudents = async () => {
-        const allEnrollments = [];
-        let currentPage = 1;
-        let totalPages = 1;
-
+    const loadVerifyStudents = async (id) => {
+        setLoading(true);
         try {
-            while (currentPage <= totalPages) {
-                const response = await getEnrollments(`?page=${currentPage}`);
-                const json = response.data;
-
-                // Agrega los datos actuales
-                allEnrollments.push(...json.data.data);
-
-                // Actualiza totalPages (solo la primera vez o si cambia)
-                totalPages = json.data.total_pages;
-                currentPage++;
+            if (id) {
+                const response = await getEnrollmentsBySubject(id, '?page=1&page_size=90');
+                return response.data.data.data;
             }
-
-            return allEnrollments;
         } catch (error) {
             console.error("Error al obtener los enrollments:", error);
+            setLoading(false)
             return [];
         } finally {
-            setLoading(false);
+            //setLoading(false);
         }
     }
 

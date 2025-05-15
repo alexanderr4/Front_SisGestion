@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -67,7 +67,7 @@ function UpdateActualSemester() {
     }
 
     return (
-        <div>
+        <div className='principal-container-settings'>
             <div className='content-title'>
                 <button onClick={() => hadleButtonClickBack()}> <FontAwesomeIcon className="icon-faArrowLeft" icon={faArrowLeft} /> </button>
                 <h3>Configuración de Semestre Académico</h3>
