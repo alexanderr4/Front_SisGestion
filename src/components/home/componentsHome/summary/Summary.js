@@ -35,15 +35,14 @@ function Summary() {
     const fetchAndStoreData = async (fetchFunction, dataRef, usePagination = true) => {
         setLoading(true);
         let currentPage = 1;
-        let totalPages = 1;
+        let totalPages = 10;
         const allData = [];
         try {
             if (usePagination) {
                 while (currentPage <= totalPages) {
-                    const response = await fetchFunction(`?page=${currentPage}`);
+                    const response = await fetchFunction(`?page=${currentPage}&page_size=100`);
                     const data = response.data;
                     allData.push(...data.data.data);
-                    totalPages = data.data.total_pages;
                     currentPage++;
                 }
             } else {
