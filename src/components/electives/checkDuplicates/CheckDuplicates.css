@@ -3,7 +3,7 @@
     overflow-y: auto !important;
 }
 
-.status-check-duplicates{
+.status-check-duplicates {
     border: solid 1px #000000;
     padding: 12px;
     border-radius: 6px;
@@ -13,23 +13,24 @@
     display: flex;
     gap: 8px;
 }
-.content-check-duplicates-electives h3{
+
+.content-check-duplicates-electives h3 {
     font-weight: 600;
     color: #000000;
 }
 
-.content-check-duplicates-electives p{
+.content-check-duplicates-electives p {
     font-size: 0.9em;
     color: #6B6767;
 }
 
-.icon-status-check-duplicates{
+.icon-status-check-duplicates {
     width: 40px;
     height: 26px;
-   
+
 }
 
-.title-and-text-check-duplicates{
+.title-and-text-check-duplicates {
     margin-top: 20px;
     border: solid 1px #000000;
     padding: 20px;
@@ -37,7 +38,8 @@
 
 }
 
-.number-check-duplicates-red, .number-check-duplicates-green{
+.number-check-duplicates-red,
+.number-check-duplicates-green {
     font-size: 1.2em;
     font-weight: 600;
     color: #fffdfd;
@@ -47,17 +49,69 @@
     font-size: 1em;
 }
 
-.number-check-duplicates-green{
+.number-check-duplicates-green {
     background-color: #4CAF50;
 }
-.number-check-duplicates-red{
+
+.number-check-duplicates-red {
     background-color: #D82D2D;
 }
 
 
-.content-table-check-duplicates{
+.content-table-check-duplicates {
     margin-top: 20px;
     border: solid 1px #000000;
     border-radius: 5px;
     padding: 1px;
+}
+
+
+/* tabla tarjetas*/
+
+.repeated-subjects-container {
+    padding: 1rem;
+    padding-left: 0px;
+}
+
+.subject-list {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: flex-start;
+    /* Alineación horizontal */
+}
+
+.subject-card {
+    flex: 1 1 200px;
+    height: 25px;
+    padding-left: 5px;
+    padding-top: 5px;
+    /* El ancho mínimo de cada tarjeta será de 200px */
+    max-width: 200px;
+    border: 1px solid #494747;
+    ;
+    border-radius: 8px;
+    background-color: #fafafa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+.subject-card p {
+    font-weight: 600;
+    color: #000000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.content-button-check-duplicates button{
+    border: solid 1px #000000;
+    border-radius: 5px;
+    color: #ffffff;
+    background-color: #000000;
+    padding: 5px 10px;
+    font-weight: 600;
+    font-size: 1.2em;
+    height: 50px;
 }

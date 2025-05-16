@@ -31,7 +31,7 @@ function SubjectManagement() {
     const fileDropzoneRef = useRef(null);
     const [showModal, setShowModal] = useState(false);
     const actualSubject = useRef(null);
-    const reloadVerifyStudents = useRef(false);
+    const [reloadVerifyStudents, setReloadVerifyStudents] = useState(false);
 
     const hadleButtonClickBack = () => {
         navigate(-1)
@@ -71,8 +71,9 @@ function SubjectManagement() {
         const fetchLoadData = async () => {
             loadSubjects();
         }
+        setReloadVerifyStudents(false);
         fetchLoadData();
-    }, [activeTabSubject, reloadVerifyStudents.current]);
+    }, [activeTabSubject, reloadVerifyStudents]);
 
     const loadSubjects = async () => {
         setLoading(true);
@@ -139,7 +140,7 @@ function SubjectManagement() {
         reader.onload = (event) => {
             const xmlText = event.target.result;
             apiLoadStudentsBySubject(actualSubject?.current.id, xmlText).then((response) => {
-                reloadVerifyStudents.current = true;
+                setReloadVerifyStudents(current => { return true });
                 setShowToast(true);
                 setToastMessage("Los estudiantes se han cargado correctamente.");
                 setToastType('success');
@@ -221,7 +222,7 @@ function SubjectManagement() {
                     setLoading={setLoading}
                     handleButtonShowStudentsBySubjects={handleButtonShowStudentsBySubjects}
                     handleButtonLoadFile={handleButtonLoadFile}
-                    reloadVerifyStudents={reloadVerifyStudents.current}
+                    reloadVerifyStudents={reloadVerifyStudents}
                     activeTabSubject={activeTabSubject}
                 />
             </div>

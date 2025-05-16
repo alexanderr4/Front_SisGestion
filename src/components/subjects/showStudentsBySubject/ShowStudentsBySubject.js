@@ -67,7 +67,7 @@ function ShowStudentsBySubject() {
         let totalPages = 1;
         try {
             while (currentPage <= totalPages) {
-                const response = await getStudentsBySubject(subject.id, `page=${currentPage}`); // Asegúrate que esta función acepte el número de página como parámetro
+                const response = await getStudentsBySubject(subject.id, `page=${currentPage}&page_size=100`); // Asegúrate que esta función acepte el número de página como parámetro
                 const json = response.data;
                 allStudents.push(...json.data.data);
                 console.log("json.data.data", json.data.data, "    ", "currentPage", currentPage)

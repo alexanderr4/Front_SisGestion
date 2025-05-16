@@ -64,13 +64,7 @@ function DataElectives() {
             console.error("Error fetching enrollments:", error);
             setData(current =>{return []});
         }
-    }
-
-    const h = data.filter((item) => item.subject.code === "8111443");
-     
-
-
-   
+    }   
 
 }
 
