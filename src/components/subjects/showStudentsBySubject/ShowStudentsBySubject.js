@@ -220,7 +220,9 @@ function ShowStudentsBySubject() {
 
             <div className='card-students-by-subject'>
                 <div className="card">Codigo <h3>{subject?.code || 0}</h3></div>
-                <div className="card">Estudiantes inscritos <h3>{students?.length || 0}</h3></div>
+
+                <div className="card">Estudiantes inscritos<h3> {loading ?<Spinner animation="border" size="sm" />: students?.length || 0} </h3></div>
+
                 <div className="card">Créditos <h3>{subject?.credits || 0}</h3></div>
             </div>
             <div className='row custom-student-by-subject-table'>

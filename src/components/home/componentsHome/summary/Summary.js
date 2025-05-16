@@ -163,13 +163,7 @@ function Summary() {
             return [];
         }
 
-
-
     }
-
-
-
-
 
     return (
 
