@@ -151,8 +151,8 @@ function UpdateActualSemester() {
                 show={showModal}
                 onHide={handleCloseModal}
                 onConfirm={handleConfirmAction}
-                title={"Confirmar registro"}
-                bodyText={"¿Estás seguro de que deseas cargar los estudiantes?"}
+                title={"Confirmar cambio de semestre"}
+                bodyText={"¿Estás seguro de que deseas cambiar el semestre?"}
                 confirmText={"Sí"}
                 cancelText="No"
                 containerId="modal-container"

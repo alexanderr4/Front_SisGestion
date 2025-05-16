@@ -11,17 +11,22 @@ function Settings() {
   const [paintNewComponent, setPaintNewComponent] = useState(false);
 
   useEffect(() => {
-          if (pathInitial === "/admin/settings") {
-              setPaintNewComponent(current => { return false });
-          }
-          if (window.location.pathname === "/admin/settings/updateActualSemester") {
-              setPaintNewComponent(current => { return true });
-          }
-      }, [pathInitial]);
+    if (pathInitial === "/admin/settings") {
+      setPaintNewComponent(current => { return false });
+    }
+    if (window.location.pathname === "/admin/settings/updateActualSemester") {
+      setPaintNewComponent(current => { return true });
+    }
+  }, [pathInitial]);
 
   const handleConfigSemester = () => {
     navigate('/admin/settings/updateActualSemester');
     setPaintNewComponent(current => { return true });
+  }
+
+  const handleSubject = () => {
+    navigate('/admin/subjectManagement');
+
   }
 
   if (paintNewComponent) {
@@ -56,7 +61,7 @@ function Settings() {
         <div>
           <h5>Listas de estudiantes para cada materia no ha sido cargada</h5>
           <p>No se han cargado las listas de estudiantes para las materias del semestre actual. Es necesario cargarlas para continuar.</p>
-          <button>Cargar Listas de Estudiantes</button>
+          <button onClick={handleSubject}>Cargar Listas de Estudiantes</button>
         </div>
       </div>
     </div>
