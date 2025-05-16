@@ -71,6 +71,8 @@ function CheckDuplicates({ electives }) {
         }
       });
       setDataElectivesByStudents(await Promise.all(promises));
+    }else{
+      setLoading(false);
     }
   };
 
