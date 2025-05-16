@@ -253,8 +253,8 @@ function CheckDuplicates({ electives }) {
         show={showModal}
         onHide={handleCloseModal}
         onConfirm={handleConfirmAction}
-        title={"Confirmar registro"}
-        bodyText={"¿Estás seguro de que deseas cargar los estudiantes?"}
+        title={"Confirmar resolución"}
+        bodyText={"¿Estás seguro de que deseas marcar como resuelto?"}
         confirmText={"Sí"}
         cancelText="No"
         containerId="modal-container"
