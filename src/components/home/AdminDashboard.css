@@ -259,6 +259,12 @@
 }
 
 
+.nav-item-custom.active {
+  background-color: #cfcfcf; /* Cambia este color como desees */
+  color: #000;  
+}
+
+
 /* titulo empresa  */
 
 

@@ -67,6 +67,10 @@ function AdminDashboard() {
     navigate(`/admin${path}`, { state: { key: Date.now() } });
   };
 
+  const isActiveRoute = (path) => {
+    return location.pathname.startsWith(`/admin${path}`);
+  };
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -134,33 +138,33 @@ function AdminDashboard() {
           <Nav className=" menuU h-100">
             <div className="section-1">
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/home/summary')}>
+              <Nav.Link  className={`nav-item-custom ${isActiveRoute('/home/summary') ? 'active' : ''}`} onClick={() => handleNavigation('/home/summary')}>
                 <FontAwesomeIcon className="icon-margin" icon={faHouse} />Inicio
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/cancellations/cancellationManagement')}>
+              <Nav.Link className={`nav-item-custom ${isActiveRoute('/cancellations/cancellationManagement') ? 'active' : ''}`} onClick={() => handleNavigation('/cancellations/cancellationManagement')}>
                 <img src={iconPaperCancell} alt="icono cancelaciones" width="19" height="19" />     Cancelaciones
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/electives/electiveManagement')}>
+              <Nav.Link className={`nav-item-custom ${isActiveRoute('/electives/electiveManagement') ? 'active' : ''}`} onClick={() => handleNavigation('/electives/electiveManagement')}>
                 <FontAwesomeIcon className="icon-margin" icon={faBookOpen} />
                 Electivas
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/reports/reportsAndStatistics')}>
+              <Nav.Link className={`nav-item-custom ${isActiveRoute('/reports/reportsAndStatistics') ? 'active' : ''}`} onClick={() => handleNavigation('/reports/reportsAndStatistics')}>
                 <FontAwesomeIcon className="icon-margin" icon={faChartColumn} />
                 Reportes
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/subjectManagement')}>
+              <Nav.Link className={`nav-item-custom ${isActiveRoute('/subjectManagement') ? 'active' : ''}`} onClick={() => handleNavigation('/subjectManagement')}>
                 <FontAwesomeIcon className="icon-margin" icon={faSheetPlastic} />Materias
               </Nav.Link>
 
-              <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/settings')}>
+              <Nav.Link className={`nav-item-custom ${isActiveRoute('/settings') ? 'active' : ''}`} onClick={() => handleNavigation('/settings')}>
 
                 <FontAwesomeIcon className="icon-margin" icon={faGear} />Configuración
               </Nav.Link>
-              <Nav.Link className="nav-item-custom" onClick={() => setShowLogoutModal(corrent => true)}>
+              <Nav.Link className={`nav-item-custom ${logoutClicked ? 'active' : ''}`} onClick={() => setShowLogoutModal(corrent => true)}>
 
                 <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket} />Cerrar Sesión
               </Nav.Link>
