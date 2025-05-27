@@ -50,11 +50,13 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  },[pathInitial]);
+  },[]);
 
 
   useEffect(() => {
+    setLoading(false);
     if (logoutClicked) {
+      console.log('Logout clicked');
       localStorage.removeItem('authToken');
       window.location.href = '/login';
     }
