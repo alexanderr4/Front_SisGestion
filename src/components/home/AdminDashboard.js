@@ -31,19 +31,19 @@ function AdminDashboard() {
     try {
       const token = localStorage.getItem('authToken');
       const pathSegments = window.location.pathname.split('/').filter(Boolean);
-      // if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
-      //   setIsTokenChecked(true);
+      if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
+        setIsTokenChecked(true);
         if (localStorage.getItem('actualSemester') === null) {
           localStorage.setItem('actualSemester', '2025-1');
         }
         if (pathSegments[0] === 'admin' && pathSegments.length === 1) {
           navigate('/admin/home/summary');
         }
-      // } else {
-      //   localStorage.removeItem('authToken');
-      //   localStorage.removeItem('actualSemester');
-      //   window.location.href = '/login';
-      // }
+      } else {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('actualSemester');
+        window.location.href = '/login';
+      }
     } catch (error) {
       console.error('Error al verificar el token:', error);
       localStorage.removeItem('authToken');
@@ -100,9 +100,9 @@ function AdminDashboard() {
     window.location.href = '/login';
   }
 
-  // if (!isTokenChecked) {
-  //   return null;
-  // }
+  if (!isTokenChecked) {
+    return null;
+  }
   return (
 
     <div className="container-fluid"  >
