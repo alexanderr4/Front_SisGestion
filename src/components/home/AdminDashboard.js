@@ -53,6 +53,8 @@ function AdminDashboard() {
 
   },[]);
 
+    console.log('Path:',pathInitial);
+
 
   useEffect(() => {
     setLoading(false);
