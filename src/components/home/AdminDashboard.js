@@ -53,6 +53,8 @@ function AdminDashboard() {
 
   },[pathInitial, navigate, setIsTokenChecked]);
 
+  console.log('Token:', localStorage.getItem('authToken'));
+
     console.log('Path:',pathInitial);
 
 
