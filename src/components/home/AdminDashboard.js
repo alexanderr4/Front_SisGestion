@@ -25,7 +25,6 @@ function AdminDashboard() {
   const [isMenuVisible, setMenuVisible] = useState(true);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const pathInitial = window.location.pathname;
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
 
   useEffect(() => {
     try {
@@ -50,7 +49,7 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  }, [pathInitial, navigate, authToken, location.pathname]);
+  }, [navigate, location.pathname]);
 
   useEffect(() => {
     setLoading(false);
