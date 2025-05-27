@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faHouse, faSheetPlastic, faBookOpen, faChartColumn, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faHouse, faSheetPlastic, faBookOpen, faChartColumn, faBars, faRightFromBracket, faTruckField} from '@fortawesome/free-solid-svg-icons';
 import { Nav, Spinner } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import iconoTitle from '../../assets/icono.png';
@@ -31,19 +31,19 @@ function AdminDashboard() {
     try {
       const token = localStorage.getItem('authToken');
       const pathSegments = window.location.pathname.split('/').filter(Boolean);
-      if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
-        setIsTokenChecked(true);
+      // if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
+      //   setIsTokenChecked(true);
         if (localStorage.getItem('actualSemester') === null) {
           localStorage.setItem('actualSemester', '2025-1');
         }
         if (pathSegments[0] === 'admin' && pathSegments.length === 1) {
           navigate('/admin/home/summary');
         }
-      } else {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('actualSemester');
-        window.location.href = '/login';
-      }
+      // } else {
+      //   localStorage.removeItem('authToken');
+      //   localStorage.removeItem('actualSemester');
+      //   window.location.href = '/login';
+      // }
     } catch (error) {
       console.error('Error al verificar el token:', error);
       localStorage.removeItem('authToken');
@@ -94,9 +94,15 @@ function AdminDashboard() {
     });
   };
 
-  if (!isTokenChecked) {
-    return null;
+  const handleConfirmLogout = () => {
+    setLoading(true); 
+    localStorage.removeItem('authToken');
+    window.location.href = '/login';
   }
+
+  // if (!isTokenChecked) {
+  //   return null;
+  // }
   return (
 
     <div className="container-fluid"  >
@@ -129,7 +135,7 @@ function AdminDashboard() {
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/cancellations/cancellationManagement')}>
-                <img src={iconPaperCancell} alt="Mi ícono" width="19" height="19" />     Cancelaciones
+                <img src={iconPaperCancell} alt="icono cancelaciones" width="19" height="19" />     Cancelaciones
               </Nav.Link>
 
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/electives/electiveManagement')}>
@@ -149,6 +155,10 @@ function AdminDashboard() {
               <Nav.Link className="nav-item-custom" onClick={() => handleNavigation('/settings')}>
 
                 <FontAwesomeIcon className="icon-margin" icon={faGear} />Configuración
+              </Nav.Link>
+              <Nav.Link className="nav-item-custom"onClick={() => setShowLogoutModal(corrent => true)}>
+
+                <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket}/>Cerrar Sesión
               </Nav.Link>
               {/* <div className="separator-line" /> */}
             </div>
@@ -211,8 +221,8 @@ function AdminDashboard() {
       <ConfirmationModal
         show={showLogoutModal}
         onHide={handleCancelLogout}
-        //onConfirm={handleConfirmLogout}
-        title="Cierre de Sesión"
+        onConfirm={handleConfirmLogout}
+        title="Cerrar Sesión"
         bodyText="¿Estás seguro de que deseas cerrar sesión?"
         confirmText={loading ? <Spinner animation="border" size="sm" /> : "Sí"}
         cancelText="No"

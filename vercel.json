@@ -2,43 +2,43 @@
   "rewrites": [
     {
       "source": "/api/api/v1/auth/login",
-      "destination": "http://18.221.50.239:8080/api/v1/auth/login"
+      "destination": "http://3.141.192.54:8080/api/v1/auth/login"
     },
     {
       "source": "/api/api/v1/cancellation-requests/",
-      "destination": "http://18.221.50.239:8080/api/v1/cancellation-requests/"
+      "destination": "http://3.141.192.54:8080/api/v1/cancellation-requests/"
     },
     {
       "source": "/api/api/v1/subjects/",
-      "destination": "http://18.221.50.239:8080/api/v1/subjects/"
+      "destination": "http://3.141.192.54:8080/api/v1/subjects/"
     },
     {
       "source": "/api/api/v1/students/",
-      "destination": "http://18.221.50.239:8080/api/v1/students/"
+      "destination": "http://3.141.192.54:8080/api/v1/students/"
     },
     {
       "source": "/api/api/v1/enrollments/subject/:path*",
-      "destination": "http://18.221.50.239:8080/api/v1/enrollments/subject/:path*"
+      "destination": "http://3.141.192.54:8080/api/v1/enrollments/subject/:path*"
     },
     {
       "source": "/api/api/v1/import/students/:path*",
-      "destination": "http://18.221.50.239:8080/api/v1/import/students/:path*"
+      "destination": "http://3.141.192.54:8080/api/v1/import/students/:path*"
     },
     {
       "source": "/api/api/v1/enrollments/",
-      "destination": "http://18.221.50.239:8080/api/v1/enrollments/"
+      "destination": "http://3.141.192.54:8080/api/v1/enrollments/"
     },
     {
       "source": "/api/api/v1/cancellation-requests/:path*",
-      "destination": "http://18.221.50.239:8080/api/v1/cancellation-requests/:path*"
+      "destination": "http://3.141.192.54:8080/api/v1/cancellation-requests/:path*"
     },
     {
       "source": "/api/api/v1/subjects/electives",
-      "destination": "http://18.221.50.239:8080/api/v1/subjects/electives"
+      "destination": "http://3.141.192.54:8080/api/v1/subjects/electives"
     },
     {
       "source": "/api/api/v1/subjects/semester/:path*",
-      "destination": "http://18.221.50.239:8080/api/v1/subjects/semester/:path*"
+      "destination": "http://3.141.192.54:8080/api/v1/subjects/semester/:path*"
     }
   ]
 }
