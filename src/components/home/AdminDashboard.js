@@ -8,7 +8,7 @@ import IconSelection from '../../assets/IconSelection.png';
 import iconPaperCancell from '../../assets/icon-paper-cancell.svg';
 import './AdminDashboard.css';
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 
 
 
@@ -21,6 +21,7 @@ function AdminDashboard() {
   const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [logoutClicked, setLogoutClicked] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuVisible, setMenuVisible] = useState(true);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const pathInitial = window.location.pathname;
@@ -49,7 +50,7 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  }, [pathInitial, navigate, authToken]);
+  }, [pathInitial, navigate, authToken, location.pathname]);
 
   useEffect(() => {
     setLoading(false);
