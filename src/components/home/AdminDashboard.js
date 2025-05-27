@@ -50,7 +50,7 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  }, []);
+  }, [isTokenChecked]);
 
 
 
@@ -97,13 +97,14 @@ function AdminDashboard() {
   const handleConfirmLogout = () => {
     setLoading(true); 
     localStorage.removeItem('authToken');
-    window.location.reload();
-   
+   // window.location.reload();
+    window.location.href = '/login';
   }
 
   if (!isTokenChecked) {
     return null;
   }
+
   return (
 
     <div className="container-fluid"  >
