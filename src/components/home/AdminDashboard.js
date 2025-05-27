@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGear, faHouse, faSheetPlastic, faBookOpen, faChartColumn, faBars, faRightFromBracket, faTruckField} from '@fortawesome/free-solid-svg-icons';
+import { faGear, faHouse, faSheetPlastic, faBookOpen, faChartColumn, faBars, faRightFromBracket, faTruckField } from '@fortawesome/free-solid-svg-icons';
 import { Nav, Spinner } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import iconoTitle from '../../assets/icono.png';
@@ -28,10 +28,7 @@ function AdminDashboard() {
 
   useEffect(() => {
     try {
-      console.log('Token:', localStorage.getItem('authToken'));
-      console.log('Path:',pathInitial);
       const token = localStorage.getItem('authToken');
-      
       const pathSegments = window.location.pathname.split('/').filter(Boolean);
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
         setIsTokenChecked(true);
@@ -52,13 +49,7 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  },[pathInitial, navigate, authToken]);
-
-  console.log('Token:', localStorage.getItem('authToken'));
-  console.log(localStorage.getItem('authToken') === null)
-
-    console.log('Path:',pathInitial);
-
+  }, [pathInitial, navigate, authToken]);
 
   useEffect(() => {
     setLoading(false);
@@ -69,16 +60,9 @@ function AdminDashboard() {
     }
   }, [logoutClicked]);
 
-
-
-
-
   const handleCancelLogout = () => {
     setShowLogoutModal(false);  // Ocultar el modal sin hacer logout
   };
-
-
-
 
   const handleNavigation = async (path) => {
     navigate(`/admin${path}`, { state: { key: Date.now() } });
@@ -113,11 +97,11 @@ function AdminDashboard() {
   };
 
   const handleConfirmLogout = () => {
-    setLoading(true); 
+    setLoading(true);
     setLogoutClicked(true);
-  //   localStorage.removeItem('authToken');
-  //  // window.location.reload();
-  //   window.location.href = '/login';
+    //   localStorage.removeItem('authToken');
+    //  // window.location.reload();
+    //   window.location.href = '/login';
   }
 
   if (!isTokenChecked) {
@@ -177,9 +161,9 @@ function AdminDashboard() {
 
                 <FontAwesomeIcon className="icon-margin" icon={faGear} />Configuración
               </Nav.Link>
-              <Nav.Link className="nav-item-custom"onClick={() => setShowLogoutModal(corrent => true)}>
+              <Nav.Link className="nav-item-custom" onClick={() => setShowLogoutModal(corrent => true)}>
 
-                <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket}/>Cerrar Sesión
+                <FontAwesomeIcon className="icon-margin" icon={faRightFromBracket} />Cerrar Sesión
               </Nav.Link>
               {/* <div className="separator-line" /> */}
             </div>
