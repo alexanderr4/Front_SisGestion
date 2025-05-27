@@ -51,7 +51,7 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  },[pathInitial, navigate, setIsTokenChecked]);
+  },[pathInitial, navigate, localStorage.getItem('authToken') === null]);
 
   console.log('Token:', localStorage.getItem('authToken'));
 
