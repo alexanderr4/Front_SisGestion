@@ -51,9 +51,10 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  },[pathInitial, navigate, localStorage.getItem('authToken') === null]);
+  },[pathInitial, navigate, (localStorage.getItem('authToken') === null)]);
 
   console.log('Token:', localStorage.getItem('authToken'));
+  console.log(localStorage.getItem('authToken') === null)
 
     console.log('Path:',pathInitial);
 
