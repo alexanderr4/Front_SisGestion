@@ -28,6 +28,7 @@ function AdminDashboard() {
   useEffect(() => {
     try {
       console.log('Token:', localStorage.getItem('authToken'));
+      console.log('Path:',pathInitial);
       const token = localStorage.getItem('authToken');
       
       const pathSegments = window.location.pathname.split('/').filter(Boolean);
