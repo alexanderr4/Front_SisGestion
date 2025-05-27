@@ -51,7 +51,7 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  },[pathInitial, navigate]);
+  },[pathInitial, navigate, setIsTokenChecked]);
 
     console.log('Path:',pathInitial);
 
