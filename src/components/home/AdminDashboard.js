@@ -55,6 +55,7 @@ function AdminDashboard() {
 
   useEffect(() => {
     if (logoutClicked) {
+      localStorage.removeItem('authToken');
       window.location.href = '/login';
     }
   }, [logoutClicked]);
