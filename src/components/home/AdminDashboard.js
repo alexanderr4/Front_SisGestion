@@ -41,12 +41,12 @@ function AdminDashboard() {
       } else {
         localStorage.removeItem('authToken');
         localStorage.removeItem('actualSemester');
-        window.location.href = '/login';
+        navigate('/login', { replace: true });
       }
     } catch (error) {
       console.error('Error al verificar el token:', error);
       localStorage.removeItem('authToken');
-      window.location.href = '/login';
+      navigate('/login', { replace: true });
     }
 
   }, [navigate, location.pathname]);
@@ -54,9 +54,8 @@ function AdminDashboard() {
   useEffect(() => {
     setLoading(false);
     if (logoutClicked) {
-      console.log('Logout clicked');
       localStorage.removeItem('authToken');
-     navigate('/login', { replace: true });
+      navigate('/login', { replace: true });
     }
   }, [logoutClicked]);
 
