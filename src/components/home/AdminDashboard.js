@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faHouse, faSheetPlastic, faBookOpen, faChartColumn, faBars, faRightFromBracket, faTruckField} from '@fortawesome/free-solid-svg-icons';
 import { Nav, Spinner } from 'react-bootstrap';
@@ -19,17 +19,17 @@ function AdminDashboard() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isTokenChecked, setIsTokenChecked] = useState(false);
+  const [logoutClicked, setLogoutClicked] = useState(false);
   const navigate = useNavigate();
   const [isMenuVisible, setMenuVisible] = useState(true);
   const [isOverlayVisible, setOverlayVisible] = useState(false);
   const pathInitial = window.location.pathname;
 
-
-
-
   useEffect(() => {
     try {
+      console.log('Token:', localStorage.getItem('authToken'));
       const token = localStorage.getItem('authToken');
+      
       const pathSegments = window.location.pathname.split('/').filter(Boolean);
       if (token !== null && jwtDecode(token).exp * 1000 > Date.now()) {
         setIsTokenChecked(true);
@@ -50,7 +50,15 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  });
+  },[]);
+
+
+  useEffect(() => {
+    if (logoutClicked) {
+      window.location.href = '/login';
+    }
+  }, [logoutClicked]);
+
 
 
 
@@ -96,9 +104,10 @@ function AdminDashboard() {
 
   const handleConfirmLogout = () => {
     setLoading(true); 
-    localStorage.removeItem('authToken');
-   // window.location.reload();
-    window.location.href = '/login';
+    setLogoutClicked(true);
+  //   localStorage.removeItem('authToken');
+  //  // window.location.reload();
+  //   window.location.href = '/login';
   }
 
   if (!isTokenChecked) {
