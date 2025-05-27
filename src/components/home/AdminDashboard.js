@@ -50,7 +50,7 @@ function AdminDashboard() {
       window.location.href = '/login';
     }
 
-  },[]);
+  },[pathInitial]);
 
 
   useEffect(() => {
