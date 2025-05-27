@@ -56,7 +56,7 @@ function AdminDashboard() {
     if (logoutClicked) {
       console.log('Logout clicked');
       localStorage.removeItem('authToken');
-      window.location.href = '/login';
+     navigate('/login', { replace: true });
     }
   }, [logoutClicked]);
 
