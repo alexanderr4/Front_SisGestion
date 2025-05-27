@@ -102,7 +102,6 @@ function AdminDashboard() {
   }
 
   if (!isTokenChecked) {
-    window.location.reload();
     return null;
   }
   return (
