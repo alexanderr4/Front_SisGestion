@@ -156,7 +156,7 @@ function NewCancellation() {
                 console.error(error);
                 setLoading(false);
                 setShowToast(true)
-                setToastMessage(error.request.status === 500 ? "No se puede cancelar esta materia, ya que al hacerlo quedarías con menos del 50% de créditos activos requeridos para mantener la carga académica mínima.No se puede cancelar esta materia. Créditos totales: 3, Ya cancelados: 0, Materia a cancelar: 3 créditos. Quedarían solo 0 créditos activos, menos del 50% requerido (1 créditos mínimos)" :
+                setToastMessage(error.request.status === 500 ? "No se puede cancelar esta materia, ya que al hacerlo el estudiante quedaría con menos del 50% de créditos activos requeridos para mantener la carga académica mínima.No se puede cancelar esta materia. Créditos totales: 3, Ya cancelados: 0, Materia a cancelar: 3 créditos. Quedarían solo 0 créditos activos, menos del 50% requerido (1 créditos mínimos)" :
                     "Error al crear la solicitud de cancelación" || "Error al crear la solicitud de cancelación")
                 setToastType('error')
             }).finally(() => { setLoading(false); })
