@@ -247,7 +247,7 @@ function SubjectManagement() {
                             <button className='btn-cancel' onClick={() => {
                                 setShowFileDropzone(false)
                                 setFileXml(null)
-                            }}>cancelar</button>
+                            }}>Cancelar</button>
                             <button className='btn-send' onClick={() => {
                                 if (fileXml !== null) {
                                     setShowModal(true)
