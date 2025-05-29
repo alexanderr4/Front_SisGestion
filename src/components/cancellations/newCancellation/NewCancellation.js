@@ -156,7 +156,8 @@ function NewCancellation() {
                 console.error(error);
                 setLoading(false);
                 setShowToast(true)
-                setToastMessage(error.response.data.message || "Error al crear la solicitud de cancelación")
+                setToastMessage(error.request.status === 500 ? "Failed to create request: No se puede cancelar esta materia. Créditos totales: 3, Ya cancelados: 0, Materia a cancelar: 3 créditos. Quedarían solo 0 créditos activos, menos del 50% requerido (1 créditos mínimos)" :
+                    "Error al crear la solicitud de cancelación")
                 setToastType('error')
             }).finally(() => { setLoading(false); })
         }
