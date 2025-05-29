@@ -124,7 +124,7 @@ const ReportPdfSubject = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin
 
   // --- Párrafo introductorio ---
 
- const totalCancelaciones = reports.approved.reduce((a, b) => a + b, 0) +
+  const totalCancelaciones = reports.approved.reduce((a, b) => a + b, 0) +
     reports.pending.reduce((a, b) => a + b, 0) +
     reports.rejected.reduce((a, b) => a + b, 0);
 
@@ -134,8 +134,8 @@ const ReportPdfSubject = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin
 
   doc.setFontSize(12);
   doc.setFont(undefined, 'normal');
-  const introText = reports.subjects.length === 1? `Durante el periodo del ${fechaInicio} al ${fechaFin}, la asignatura "${reports?.subjects[0] || ""}" ha registrado un total de ${totalCancelaciones} cancelaciones distribuidas en ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. A continuación, se presenta el detalle de las cancelaciones y una gráfica representativa.`:
-  `Durante el periodo del ${fechaInicio} al ${fechaFin}, se registró un total de ${totalCancelaciones} cancelaciones en las asignaturas consultadas, distribuidas en ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. A continuación, se presenta el detalle por asignatura y una gráfica representativa.`;
+  const introText = reports.subjects.length === 1 ? `Durante el periodo del ${fechaInicio} al ${fechaFin}, la asignatura "${reports?.subjects[0] || ""}" ha registrado un total de ${totalCancelaciones} cancelaciones distribuidas en ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. A continuación, se presenta el detalle de las cancelaciones y una gráfica representativa.` :
+    `Durante el periodo del ${fechaInicio} al ${fechaFin}, se registró un total de ${totalCancelaciones} cancelaciones en las asignaturas consultadas, distribuidas en ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. Según las asignaturas seleccionadas, se identificaron un total de ${reports.subjects.length} asignaturas con al menos una solicitud de cancelación. A continuación, se presenta el detalle por asignatura y una gráfica representativa.`;
 
   const maxTextWidth = pageWidth - 2 * margin;
   const lines = doc.splitTextToSize(introText, maxTextWidth);

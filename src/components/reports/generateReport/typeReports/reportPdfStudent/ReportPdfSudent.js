@@ -147,8 +147,8 @@ const ReportPdfStudent = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin
 
   doc.setFontSize(12);
   doc.setFont(undefined, 'normal');
-  const introText = reports.students.length === 0 ? `Durante la fecha del ${fechaInicio} al ${fechaFin}, el/la estudiante ${reports?.students[0] || ""} ha tenido un total de ${totalCancelaciones} cancelaciones. A continuación, se muestra el detalle de dichas cancelaciones y una gráfica representativa.` :
-    `Durante el periodo del ${fechaInicio} al ${fechaFin}, se registraron un total de ${totalCancelaciones} cancelaciones entre todos los estudiantes. Estas se dividen en ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. A continuación, se presenta el detalle de las cancelaciones y una gráfica representativa.`
+  const introText = reports.students.length === 0 ? `Durante la fecha del ${fechaInicio} al ${fechaFin}, el/la estudiante ${reports?.students[0] || ""} ha tenido un total de ${totalCancelaciones} cancelaciones: ${totalAprobadas} aprobadas, ${totalPendientes}pendientes y ${totalRechazadas} rechazadas. A continuación, se muestra el detalle de dichas cancelaciones y una gráfica representativa.` :
+  `Durante el periodo del ${fechaInicio} al ${fechaFin}, se registraron un total de ${totalCancelaciones} cancelaciones entre todos los estudiantes seleccionados. Estas se dividen en ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. Según los estudiantes seleccionados, se identificaron un total de ${reports.students.length} estudiantes con al menos una solicitud de cancelación. A continuación, se presenta el detalle de las cancelaciones y una gráfica representativa.`;
   const maxTextWidth = pageWidth - 2 * margin;
   const lines = doc.splitTextToSize(introText, maxTextWidth);
   doc.text(lines, margin, margin + 2 * textMargin);
