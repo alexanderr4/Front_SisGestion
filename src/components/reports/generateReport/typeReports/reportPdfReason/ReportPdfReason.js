@@ -136,9 +136,15 @@ const ReportPdfReason = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin,
   // -------------------------------------
   // PÁRRAFO INTRODUCTORIO
   // -------------------------------------
+  const totalCancelaciones = reports.approved.reduce((a, b) => a + b, 0) +
+    reports.pending.reduce((a, b) => a + b, 0) +
+    reports.rejected.reduce((a, b) => a + b, 0);
 
-  const total = reports.approved.reduce((a, b) => a + b, 0);
-  const paragraph = `Durante la fecha del ${fechaInicio} al ${fechaFin}, se han registrado un total de ${total} cancelaciones, distribuidas por los distintos motivos seleccionados. Este informe presenta una visualización gráfica de dicha distribución.`;
+  const totalAprobadas = reports.approved.reduce((a, b) => a + b, 0);
+  const totalPendientes = reports.pending.reduce((a, b) => a + b, 0);
+  const totalRechazadas = reports.rejected.reduce((a, b) => a + b, 0);
+
+const paragraph = `Durante el periodo del ${fechaInicio} al ${fechaFin}, se ha registrado un total de ${totalCancelaciones} cancelaciones, distribuidas en ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. Estas cancelaciones se clasifican en ${reports.justification.length} motivos diferentes. Este informe presenta una visualización gráfica de dicha distribución.`;
 
   // Define ancho máximo del texto según márgenes
   const maxTextWidth = pageWidth - 2 * margin;
@@ -169,9 +175,9 @@ const ReportPdfReason = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin,
 
   const startY = margin + 2 * textMargin + paragraphHeight + 10;
   autoTable(doc, {
-    head: [['#','Motivo', 'Aprobado', 'Pendiente', 'Rechazado', 'Total de cancelaciones']],
+    head: [['#', 'Motivo', 'Aprobado', 'Pendiente', 'Rechazado', 'Total de cancelaciones']],
     body: reports.justification.map((justif, index) => [
-      index +1 ,
+      index + 1,
       justif,
       reports.approved[index] || 0,
       reports.pending[index] || 0,
