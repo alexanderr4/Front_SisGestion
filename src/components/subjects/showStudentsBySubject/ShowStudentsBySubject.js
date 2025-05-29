@@ -231,7 +231,7 @@ function ShowStudentsBySubject() {
                 </div>
                 <div className='col-12 col-lg-6 button-update-list'>
                     {window.location.pathname.includes('subjectManagement') && (
-                        <button onClick={handleButtonLoadFile} disabled={loading}><FontAwesomeIcon className="icon" icon={faUpload} /> Actulizar Lista</button>
+                        <button onClick={handleButtonLoadFile} disabled={loading}><FontAwesomeIcon className="icon" icon={faUpload} /> Actualizar Lista</button>
                     )}
                 </div>
                 <div className='contet-area-subject'>

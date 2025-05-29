@@ -252,7 +252,7 @@ function SubjectManagement() {
                                 if (fileXml !== null) {
                                     setShowModal(true)
                                 }
-                            }}>Enivar lista</button>
+                            }}>Enviar lista</button>
                         </div>
 
                     </div>
