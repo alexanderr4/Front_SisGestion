@@ -149,9 +149,17 @@ const ReportPdfGeneral = async (setDocumentPdf, setCanavas, fechaInicio, fechaFi
   doc.text(title, centerX, margin + textMargin);
 
   // Restaurar tamaño de fuente para el resto del texto
+  const totalCancelaciones = reports.approved.reduce((a, b) => a + b, 0) +
+    reports.pending.reduce((a, b) => a + b, 0) +
+    reports.rejected.reduce((a, b) => a + b, 0);
+
+  const totalAprobadas = reports.approved.reduce((a, b) => a + b, 0);
+  const totalPendientes = reports.pending.reduce((a, b) => a + b, 0);
+  const totalRechazadas = reports.rejected.reduce((a, b) => a + b, 0);
+
   doc.setFontSize(12);
   doc.setFont(undefined, 'normal');
-  const paragraph = `Durante la fecha del ${fechaInicio} al ${fechaFin} se han realizado ${reports.approved.reduce((a, b) => a + b, 0)} cancelaciones aprobadas, ${reports.pending.reduce((a, b) => a + b, 0)} cancelaciones pendientes y ${reports.rejected.reduce((a, b) => a + b, 0)} cancelaciones rechazadas. Las cancelaciones se distribuyen en ${reports.subjects.length} asignaturas. Este informe presenta una visualización gráfica de dicha distribución.`;
+  const paragraph = `Durante el periodo del ${fechaInicio} al ${fechaFin}, se han realizado un total de ${totalCancelaciones} solicitudes de cancelación: ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. Las cancelaciones se distribuyen en ${reports.subjects.length} asignaturas. Este informe presenta una visualización gráfica de dicha distribución.`;
 
   // Define ancho máximo del texto según márgenes
   const maxTextWidth = pageWidth - 2 * margin;
