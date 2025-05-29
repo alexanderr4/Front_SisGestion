@@ -20,9 +20,9 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
                     const row = data[i];
                     const filteredData2 = await loadVerifyStudents(row.id);
                     if (filteredData2.length > 0) {
-                        results[row.id] = true;
+                        results[row.id] = filteredData2.length;
                     } else {
-                        results[row.id] = false;
+                        results[row.id] = 0;
                     }
                     if (i === data.length - 1) {
                         setTimeout(() => {
@@ -71,7 +71,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
             name: 'Asignatura',
             selector: row => row.name,
             sortable: true,
-            grow: 1.4
+            grow: 1.2
 
         },
         {
@@ -80,6 +80,12 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
             sortable: true,
             grow: 0.1
 
+        },
+        {
+            name: 'Inscritos',
+            selector: row => verifiedStudents[row.id] || 0,
+            sortable: true,
+            grow: 0.08
         },
         {
             name: 'Area',
@@ -95,7 +101,7 @@ function TableSubjects({ data, handleButtonLoadFile, handleButtonShowStudentsByS
             name: 'Acciones',
             cell: (row) => <div className='content-button-subject'>
                 <button className="button-view" onClick={() => handleButtonShowStudentsBySubjects(row)}><FontAwesomeIcon className="icon" icon={faEye} /> Ver</button>
-                {verifiedStudents[row.id] ? (<>
+                {verifiedStudents[row.id] > 0 ? (<>
                     <button className="button-load" disabled={true}><FontAwesomeIcon className="icon-check" icon={faCheck} /></button>
                 </>
                 ) : (

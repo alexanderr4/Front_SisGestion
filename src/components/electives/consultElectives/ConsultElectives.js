@@ -6,9 +6,10 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import { getDatesSemester } from '../../util/Util';
 import { getSubjects } from '../../../api/Subjects';
+import { getEnrollmentsBySubject } from '../../../api/Students';
 import CustomToast from '../../toastMessage/CustomToast';
 import "./ConsultElectives.css";
-import { type } from '@testing-library/user-event/dist/type';
+
 
 function ConsultElectives() {
 
@@ -19,7 +20,9 @@ function ConsultElectives() {
     const [showToast, setShowToast] = useState(false);     // Estado para mostrar/ocultar el Toast
     const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
     const [toastType, setToastType] = useState('');
+    const [numberDataStudents, setNumberDataStudents] = useState(0);
     const pathInitial = window.location.pathname;
+
 
     useEffect(() => {
         if (pathInitial === "/admin/electives/electiveManagement/consultElectives") {
@@ -35,8 +38,34 @@ function ConsultElectives() {
             loadSubjects();
         }
         fetchLoadData();
-
     }, [])
+
+
+    useEffect(() => {
+        const fetchLoadDataStudents = async () => {
+            if (dataElectives.length > 0) {
+                const results = [];
+                for (let i = 0; i < dataElectives.length; i++) {
+                    const row = dataElectives[i];
+                    const filteredData2 = await loadtNumberStudentsBySubject(row.id);
+                    if (filteredData2.length > 0) {
+                        results[row.id] = filteredData2.length;
+                    } else {
+                        results[row.id] = 0;
+                    }
+                    if (i === dataElectives.length - 1) {
+                        setTimeout(() => {
+                            setLoading(false);
+                        }, 1000);
+                    }
+                }
+                setNumberDataStudents(current => { return results });
+            }
+        }
+        fetchLoadDataStudents();
+    }, [dataElectives]);
+
+    console.log("estudiantes", numberDataStudents);
 
     const loadSubjects = async () => {
         setLoading(true);
@@ -49,7 +78,7 @@ function ConsultElectives() {
                 const response = await getSubjects(`?page=${currentPage}`);
                 const json = response.data;
                 allSubjects.push(...json.data.data);
-                totalPages = json.data.total_pages;
+                totalPages = json.data.total_pages + 1;
                 currentPage++;
             }
             const filtered = allSubjects.filter(item => {
@@ -69,6 +98,25 @@ function ConsultElectives() {
             setLoading(false);
         }
     };
+
+
+    const loadtNumberStudentsBySubject = async (id) => {
+        if (dataElectives.length > 0) {
+            setLoading(true);
+            try {
+                if (id) {
+                    const response = await getEnrollmentsBySubject(id, '?page=1&page_size=90');
+                    return response.data.data.data;
+                }
+            } catch (error) {
+                console.error("Error al obtener los enrollments:", error);
+                setLoading(false)
+                return [];
+            } finally {
+                //setLoading(false);
+            }
+        }
+    }
 
 
     const columnsTable = [
@@ -96,6 +144,12 @@ function ConsultElectives() {
             sortable: true,
             grow: 1
 
+        },
+        {
+            name: 'Inscritos',
+            selector: row => numberDataStudents[row.id] || 0,
+            sortable: true,
+            grow: 1
         },
         {
             name: 'Acciones',
