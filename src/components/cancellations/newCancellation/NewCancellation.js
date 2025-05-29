@@ -42,7 +42,7 @@ function NewCancellation() {
         }
 
         fetch();
-        
+
     }, []);
 
     // useEffect(() => {
@@ -76,7 +76,7 @@ function NewCancellation() {
             dataRef.current = [];
         } finally {
             //setTimeout(() => {setLoading(false)} , 1000);
-        
+
         }
     };
 
@@ -139,6 +139,7 @@ function NewCancellation() {
             const sendData = {
                 student_id: loadData.student.id,
                 subject_id: loadData.subject.id,
+                group: "01",
                 justification: loadData.justification,
                 comments: loadData.comments
             }

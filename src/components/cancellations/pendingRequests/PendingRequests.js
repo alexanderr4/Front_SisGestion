@@ -163,7 +163,8 @@ function PendingRequests() {
           </button>
           <button onClick={() => {
             setActualRow(row)
-            setShowRejectModal(true)
+            //setShowRejectModal(true)
+            handleUpdateStatus('rejected', row.id);
           }}>
             <FontAwesomeIcon className='icon-Xmark' icon={faXmark} />
           </button>
