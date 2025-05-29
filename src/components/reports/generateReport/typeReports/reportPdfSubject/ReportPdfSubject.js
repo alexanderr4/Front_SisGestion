@@ -1,4 +1,3 @@
-
 import {
   Chart as ChartJS,
   Title,
@@ -11,12 +10,10 @@ import {
   LineElement
 } from 'chart.js';
 import { jsPDF } from 'jspdf';
-
+import autoTable from 'jspdf-autotable'; // Añadido para tabla
 import Chart from 'chart.js/auto';
-
 import TypeReports from './TypeReports';
 
-// 2. Registrar los elementos de Chart.js
 ChartJS.register(
   Title,
   Tooltip,
@@ -28,32 +25,42 @@ ChartJS.register(
   LineElement
 );
 
-
-
-// Configuración de Chart.js
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
-
-const ReportPdfSubject = async (setDocumentPdf, setCanavas, fechaInicio, fechaFin, nameSubject) => {
-
+const ReportPdfSubject = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin, nameSubject) => {
   const reports = await TypeReports(fechaInicio, fechaFin, nameSubject);
-
 
   const canvas = document.createElement('canvas');
   canvas.width = 800;
   canvas.height = 400;
-
   const ctx = canvas.getContext('2d');
 
+  const subjectCount = reports.subjects.length;
+
   const data = {
-    labels: reports.group,
-    datasets: [{
-      label: 'Grupo',
-      data: reports.counts,
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      borderColor: 'rgba(75, 192, 192, 1)',
-      borderWidth: 1
-    }]
-  }
+    labels: reports.subjects,
+    datasets: [
+      {
+        label: 'Aprobadas',
+        data: reports.approved,
+        backgroundColor: 'rgba(104, 177, 45, 0.6)',
+        stack: 'Estado',
+        barThickness: subjectCount <= 3 ? 50 : undefined
+      },
+      {
+        label: 'Pendientes',
+        data: reports.pending,
+        backgroundColor: 'rgba(204, 235, 30, 0.6)',
+        stack: 'Estado',
+        barThickness: subjectCount <= 3 ? 50 : undefined
+      },
+      {
+        label: 'Rechazadas',
+        data: reports.rejected,
+        backgroundColor: 'rgba(250, 61, 61, 0.6)',
+        stack: 'Estado',
+        barThickness: subjectCount <= 3 ? 50 : undefined
+      }
+    ]
+  };
 
   const options = {
     responsive: false,
@@ -76,59 +83,121 @@ const ReportPdfSubject = async (setDocumentPdf, setCanavas, fechaInicio, fechaFi
         }
       }
     }
-  }
-  // 2. Crear el gráfico
+  };
+
   const chart = new Chart(ctx, {
     type: 'bar',
     data: data,
     options: options
   });
 
-  // Espera que el gráfico termine de renderizar
   await new Promise(resolve => setTimeout(resolve, 500));
-
-  // 3. Convertir el gráfico a imagen
   const imgData = canvas.toDataURL('image/png');
 
-  // 4. Crear PDF en orientación horizontal
-  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-
-  // Obtener dimensiones de la página
-  const pageWidth = doc.internal.pageSize.getWidth();   // ~297 mm
-  const pageHeight = doc.internal.pageSize.getHeight(); // ~210 mm
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 20;
-
-  // 5. Insertar texto
   const textMargin = 10;
-  doc.setFontSize(20); // Tamaño de fuente grande
-  doc.setFont(undefined, 'bold'); // Estilo negrita (opcional)
 
+  const getFormattedDate = () => {
+    const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto',
+      'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    const fecha = new Date();
+    return `${fecha.getDate()} de ${meses[fecha.getMonth()]} de ${fecha.getFullYear()}`;
+  };
+
+  const currentDate = getFormattedDate();
+
+  // --- Encabezado con fecha ---
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'bold');
+  doc.text(currentDate, pageWidth - margin, margin, { align: 'right' });
+
+  // --- Título principal ---
+  doc.setFontSize(20);
+  doc.setFont(undefined, 'bold');
   const title = "Reporte de cancelaciones por asignatura";
-  const textWidth = doc.getTextWidth(title);
-  const centerX = (pageWidth - textWidth) / 2;
-
+  const titleWidth = doc.getTextWidth(title);
+  const centerX = (pageWidth - titleWidth) / 2;
   doc.text(title, centerX, margin + textMargin);
 
-  // Restaurar tamaño de fuente para el resto del texto
+  // --- Párrafo introductorio ---
+
+ const totalCancelaciones = reports.approved.reduce((a, b) => a + b, 0) +
+    reports.pending.reduce((a, b) => a + b, 0) +
+    reports.rejected.reduce((a, b) => a + b, 0);
+
+  const totalAprobadas = reports.approved.reduce((a, b) => a + b, 0);
+  const totalPendientes = reports.pending.reduce((a, b) => a + b, 0);
+  const totalRechazadas = reports.rejected.reduce((a, b) => a + b, 0);
+
   doc.setFontSize(12);
   doc.setFont(undefined, 'normal');
-  doc.text(`Durante la fecha del ${fechaInicio} al ${fechaFin} la asignatura ${reports?.subjectNameActual || ""} ha tenido ${reports.counts.reduce((acumulador, actual) => acumulador + actual, 0)} cancelaciones`, margin, margin + 2 * textMargin);
+  const introText = reports.subjects.length === 1? `Durante el periodo del ${fechaInicio} al ${fechaFin}, la asignatura "${reports?.subjects[0] || ""}" ha registrado un total de ${totalCancelaciones} cancelaciones distribuidas en ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. A continuación, se presenta el detalle de las cancelaciones y una gráfica representativa.`:
+  `Durante el periodo del ${fechaInicio} al ${fechaFin}, se registró un total de ${totalCancelaciones} cancelaciones en las asignaturas consultadas, distribuidas en ${totalAprobadas} aprobadas, ${totalPendientes} pendientes y ${totalRechazadas} rechazadas. A continuación, se presenta el detalle por asignatura y una gráfica representativa.`;
 
-  // 6. Calcular tamaño disponible para el gráfico (el resto de la página después del texto)
-  const availableWidth = pageWidth - 2 * margin; // Ancho de la página menos márgenes
-  const availableHeight = pageHeight - (margin + 6 * textMargin); // Resto de la altura
+  const maxTextWidth = pageWidth - 2 * margin;
+  const lines = doc.splitTextToSize(introText, maxTextWidth);
+  doc.text(lines, margin, margin + 2 * textMargin);
 
-  // 7. Insertar imagen del gráfico en el espacio disponible
-  doc.addImage(imgData, 'PNG', margin, margin + 3 * textMargin, availableWidth, availableHeight);
+  // --- Tabla de datos ---
+  const tableTitle = "Detalle de cancelaciones por grupo";
+  doc.setFontSize(14);
+  doc.setFont(undefined, 'bold');
+  const tableTitleWidth = doc.getTextWidth(tableTitle);
+  const paragraphHeight = lines.length * 7;
+  const tableTitleY = margin + 2 * textMargin + paragraphHeight + 10;
+  doc.text(tableTitle, (pageWidth - tableTitleWidth) / 2, tableTitleY);
 
-  // 8. Crear el blob y la URL para vista previa
+  autoTable(doc, {
+    head: [['#', 'Asignatura', 'Aprobadas', 'Pendientes', 'Rechazadas', 'Total cancelaciones']],
+    body: reports.subjects.map((subject, i) => [
+      i + 1,
+      subject,
+      reports.approved[i] || 0,
+      reports.pending[i] || 0,
+      reports.rejected[i] || 0,
+      reports.approved[i] || 0 + reports.pending[i] || 0 + reports.rejected[i] || 0,
+    ]),
+    startY: tableTitleY + 5,
+    theme: 'striped',
+    margin: { left: margin, right: margin },
+    headStyles: {
+      fillColor: [63, 81, 181],
+      textColor: 255,
+      fontStyle: 'bold'
+    }
+  });
+
+  const tableEndY = doc.lastAutoTable.finalY || (tableTitleY + 30);
+
+  // --- Título para la gráfica ---
+  const chartTitle = "Gráfica de cancelaciones por grupo";
+  doc.setFontSize(14);
+  doc.setFont(undefined, 'bold');
+  const chartTitleWidth = doc.getTextWidth(chartTitle);
+  const chartTitleY = tableEndY + 10;
+  doc.text(chartTitle, (pageWidth - chartTitleWidth) / 2, chartTitleY);
+
+  // --- Insertar imagen del gráfico ---
+  const chartWidth = pageWidth - 2 * margin;
+  const chartHeight = 80;
+  const chartY = chartTitleY + 5;
+
+  if (pageHeight - (chartY + chartHeight) < margin) {
+    doc.addPage();
+    doc.text(chartTitle, (pageWidth - chartTitleWidth) / 2, margin);
+    doc.addImage(imgData, 'PNG', margin, margin + 7, chartWidth, chartHeight);
+  } else {
+    doc.addImage(imgData, 'PNG', margin, chartY, chartWidth, chartHeight);
+  }
+
+  // --- Finalizar PDF ---
   const pdfBlob = doc.output('blob');
   const pdfUrl = URL.createObjectURL(pdfBlob);
-
-  // 9. Pasar el PDF al estado
   setDocumentPdf({ blob: pdfBlob, url: pdfUrl });
-
-  // 10. Limpiar el gráfico para liberar memoria
+  setCanvas({ data: data, options: options });
   chart.destroy();
 };
 

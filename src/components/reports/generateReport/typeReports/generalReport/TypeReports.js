@@ -1,7 +1,6 @@
-import { getCancellations } from '../../../../../api/Cancellations'
+import { getCancellations } from '../../../../../api/Cancellations';
 
 async function TypeReports(fechaInicio, fechaFin) {
-
     try {
         const cancellations = await getCancellations().then((response) => {
             const inicio = new Date(fechaInicio + 'T00:00:00');
@@ -11,35 +10,42 @@ async function TypeReports(fechaInicio, fechaFin) {
                 return fechaCreacion >= inicio && fechaCreacion <= fin;
             });
             return filteredData;
-        }).catch((error) => {
+        }).catch(() => {
             return []
         });
 
-        const countBySubject = {};
+        const subjectsSet = new Set();
+        const countsByStatus = {
+            approved: {},
+            pending: {},
+            rejected: {}
+        };
 
         cancellations.forEach(item => {
-            if (item.status === "approved") {
-                const subjectName = item.subject.name;
-                if (countBySubject[subjectName]) {
-                    countBySubject[subjectName]++;
-                } else {
-                    countBySubject[subjectName] = 1;
-                }
+            const subjectName = item.subject.name;
+            const status = item.status;
+
+            subjectsSet.add(subjectName);
+
+            if (!countsByStatus[status]) return; // Ignorar otros estados
+            if (!countsByStatus[status][subjectName]) {
+                countsByStatus[status][subjectName] = 0;
             }
+
+            countsByStatus[status][subjectName]++;
         });
 
-    
-        const subjects = Object.keys(countBySubject);      // ['Materia A', 'Materia B', ...]
-        const counts = Object.values(countBySubject);
+        const subjects = Array.from(subjectsSet);
 
-        return { subjects, counts };
+        // Asegurar que cada materia tenga un valor, aunque sea 0
+        const approved = subjects.map(subj => countsByStatus.approved[subj] || 0);
+        const pending = subjects.map(subj => countsByStatus.pending[subj] || 0);
+        const rejected = subjects.map(subj => countsByStatus.rejected[subj] || 0);
+
+        return { subjects, approved, pending, rejected };
     } catch (error) {
-       return { group: [], counts: []}
+        return { subjects: [], approved: [], pending: [], rejected: [] };
     }
-
 }
-
-
-
 
 export default TypeReports;

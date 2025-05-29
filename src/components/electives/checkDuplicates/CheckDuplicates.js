@@ -116,7 +116,6 @@ function CheckDuplicates({ electives }) {
   const handleConfirmAction = () => {
     setShowModal(false);
     if (localStorage.getItem("ElectivesDuplicate")) {
-      console.log("row", actualRow);
       const listaActual = JSON.parse(localStorage.getItem("ElectivesDuplicate")) || [];
       listaActual.push(actualRow);
       localStorage.setItem("ElectivesDuplicate", JSON.stringify(listaActual));

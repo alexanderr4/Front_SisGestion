@@ -102,6 +102,7 @@ function AdminDashboard() {
   const handleConfirmLogout = () => {
     setLoading(true);
     setLogoutClicked(true);
+    setShowLogoutModal(false);
     //   localStorage.removeItem('authToken');
     //  // window.location.reload();
     //   window.location.href = '/login';

@@ -12,6 +12,7 @@ import ReportPdfSubject from './typeReports/reportPdfSubject/ReportPdfSubject';
 import ReportPdfStudent from './typeReports/reportPdfStudent/ReportPdfSudent';
 import ReportPdfReason from './typeReports/reportPdfReason/ReportPdfReason';
 import './GenerateReport.css';
+import { set } from 'date-fns';
 
 
 function FormGenerateReport({
@@ -36,6 +37,7 @@ function FormGenerateReport({
     const [toastMessage, setToastMessage] = useState('');  // Estado para el mensaje del Toast
     const [toastType, setToastType] = useState('');
     const [loading, setLoading] = useState(false);
+    const [linkDownload, setLinkDownload] = useState('');
 
     const validateForm = () => {
         const errors = [];
@@ -59,41 +61,50 @@ function FormGenerateReport({
     };
 
     const handleGenerate = () => {
-        setLoading(current => { return true });
+        const actualDate = new Date();
+        const pad = (num) => num.toString().padStart(2, '0');
+        const formattedDate = `${pad(actualDate.getDate())}-${pad(actualDate.getMonth() + 1)}-${actualDate.getFullYear()}`;
+        const formattedTime = `${pad(actualDate.getHours())}${pad(actualDate.getMinutes())}`;
+
         const errors = validateForm();
         try {
             if (errors.length > 0) {
                 alert("Corrige los siguientes errores:\n" + errors.join("\n"));
-                return;
-            }
-            switch (formValues.reportType) {
-                case "opcion1":
-                    ReportPdfGeneral(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin);
-                    break;
-                case "opcion2":
-                    ReportPdfSubject(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin, formValues.asignatura);
-                    break;
-                case "opcion3":
-                    ReportPdfStudent(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin, formValues.estudiante);
-                    break
-                case "opcion4":
-                    ReportPdfReason(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin, formValues.motivo);
-                    break;
-                default:
-            }
-            setTimeout(() => {
-                setLoading(false);
-                setShowToast(true);
-                setFormValues(formatData);
-                setActiveTab("preview");
-            }, 1000);
-            setToastMessage(`se generó el reporte`);
-            setToastType('success');
 
-
+            } else {
+                setLoading(current => { return true });
+                switch (formValues.reportType) {
+                    case "opcion1":
+                        ReportPdfGeneral(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin);
+                        setLinkDownload(`Reporte_General_${formattedDate}_${formattedTime}.pdf`);
+                        break;
+                    case "opcion2":
+                        ReportPdfSubject(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin, formValues.asignatura);
+                        setLinkDownload(`Reporte_Asignatura_${formattedDate}_${formattedTime}.pdf`);
+                        break;
+                    case "opcion3":
+                        ReportPdfStudent(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin, formValues.estudiante);
+                        setLinkDownload(`Reporte_Estudiante_${formattedDate}_${formattedTime}.pdf`);
+                        break
+                    case "opcion4":
+                        ReportPdfReason(setDocumentPdf, setCanvas, formValues.fechaInicio, formValues.fechaFin, formValues.motivo);
+                        setLinkDownload(`Reporte_Motivo_${formattedDate}_${formattedTime}.pdf`);
+                        break;
+                    default:
+                }
+                setTimeout(() => {
+                    // setLoading(false);
+                    // setShowToast(true);
+                    setFormValues(formatData);
+                    setActiveTab("preview");
+                    setToastMessage(`se generó el reporte`);
+                    setToastType('success');
+                }, 2000);
+            }
         } catch (error) {
             setShowToast(true);
             setToastMessage(`Error al generar el reporte`);
+            setActiveTab('parameters')
             setToastType('error');
         }
     }
@@ -109,7 +120,7 @@ function FormGenerateReport({
         if (!documentPdf) return;
         const link = document.createElement('a');
         link.href = URL.createObjectURL(documentPdf.blob);
-        link.download = 'reporte.pdf';
+        link.download = linkDownload || 'reporte.pdf'; // Nombre por defecto si no se ha establecido
         link.click();
     };
 
@@ -143,7 +154,11 @@ function FormGenerateReport({
                     )}
 
                     {activeTab === "preview" && (
-                        <Preview document={documentPdf} />
+                        <Preview document={documentPdf} 
+                        setLoading = {setLoading}
+                        loading = {loading}
+                        setShowToast = {setShowToast}
+                        />
                     )}
 
                     {activeTab === "statistics" && (

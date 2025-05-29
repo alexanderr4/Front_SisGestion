@@ -19,6 +19,9 @@ function PendingRequests() {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('');
   const [approvedTransaction, setApprovedTransaction] = useState(false);
+  const [actualRow, setActualRow] = useState({});
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [reasonReject, setReasonReject] = useState('');
 
   const hadleButtonClickBack = () => {
     navigate(-1)
@@ -54,6 +57,17 @@ function PendingRequests() {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setShowRejectModal(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const formattedDate = date.toLocaleDateString('es-ES', {
@@ -64,15 +78,38 @@ function PendingRequests() {
     return formattedDate;
   }
 
+  const handleSendRejectReason = (e) => {
+    e.preventDefault();
+    handleUpdateStatus('rejected', actualRow.id);
+    setShowRejectModal(false);
+  }
+
+  const savedLocalStorageData = () => {
+    const data = {
+      id: actualRow.id,
+      reason: reasonReject,
+    }
+    if (localStorage.getItem("reasonReject")) {
+      const listaActual = JSON.parse(localStorage.getItem("reasonReject")) || [];
+      listaActual.push(data);
+      localStorage.setItem("reasonReject", JSON.stringify(listaActual));
+    } else {
+      localStorage.setItem("reasonReject", JSON.stringify([data]));
+    }
+  };
+
   const handleUpdateStatus = async (status, id) => {
     setLoading(curret => { return true });
-    await updateCancellation(id, status )
+    await updateCancellation(id, status)
       .then((response) => {
         setShowToast(true);
         setToastMessage('Solicitud actualizada correctamente');
         setToastType('success');
         setLoading(false);
         setApprovedTransaction(true);
+        if (status === 'rejected') {
+          savedLocalStorageData();
+        }
       }
       )
       .catch((error) => {
@@ -124,7 +161,10 @@ function PendingRequests() {
           <button onClick={() => handleUpdateStatus('approved', row.id)}>
             <FontAwesomeIcon className='icon-check' icon={faCheck} />
           </button>
-          <button onClick={() => handleUpdateStatus('rejected', row.id)}>
+          <button onClick={() => {
+            setActualRow(row)
+            setShowRejectModal(true)
+          }}>
             <FontAwesomeIcon className='icon-Xmark' icon={faXmark} />
           </button>
         </div>
@@ -137,8 +177,7 @@ function PendingRequests() {
 
   const handleSearch = (e) => {
     try {
-      setRecords(dataCancellations.current.data.filter(record => {
-        console.log("record", record)
+      setRecords(dataCancellations.current.filter(record => {
         return record.student.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
           record.subject.name.toLowerCase().includes(e.target.value.toLowerCase())
       }));
@@ -214,6 +253,36 @@ function PendingRequests() {
           </Spinner>
         </div>
       )}
+
+
+      {showRejectModal && (
+        <div className='container-select-reject-reason' onClick={() => setShowRejectModal(false)}>
+          <div className='content-select-reject-reason' onClick={(e) => e.stopPropagation()}>
+            <h4>¿Por qué desea rechazar la solicitud {actualRow?.id || ""}?</h4>
+            <p>Estudiante: {actualRow?.student?.name.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') || ''} - Asignatura: {actualRow?.subject?.name || ''} </p>
+            <form onSubmit={handleSendRejectReason}>
+              <div className='content-reason-reject-form'>
+                <label> Ingrese el motivo</label>
+                <input
+                  type="text"
+                  name="reason"
+                  placeholder="Motivo del rechazo"
+                  value={reasonReject}
+                  maxLength={100}
+                  minLength={5}
+                  onChange={(e) => setReasonReject(e.target.value)}
+                  required
+                />
+              </div>
+              <div className='content-reason-reject-form-buttons'>
+                <button type='button' onClick={() => { setShowRejectModal(false); setReasonReject(''); setActualRow({}) }} >Cerrar</button>
+                <button type='submit' className='button-reject-send'> Solicitar </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       <CustomToast
         showToast={showToast}
         setShowToast={setShowToast}

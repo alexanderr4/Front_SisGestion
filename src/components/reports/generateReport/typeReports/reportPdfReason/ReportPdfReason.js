@@ -1,4 +1,3 @@
-
 import {
   Chart as ChartJS,
   Title,
@@ -11,12 +10,11 @@ import {
   LineElement
 } from 'chart.js';
 import { jsPDF } from 'jspdf';
-
+import autoTable from 'jspdf-autotable';
 import Chart from 'chart.js/auto';
-
 import TypeReports from './TypeReports';
 
-// 2. Registrar los elementos de Chart.js
+// Registrar elementos necesarios para ChartJS
 ChartJS.register(
   Title,
   Tooltip,
@@ -28,30 +26,41 @@ ChartJS.register(
   LineElement
 );
 
-
-
-// Configuración de Chart.js
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
-
 const ReportPdfReason = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin, reason) => {
-
+  // Obtener datos desde el backend
   const reports = await TypeReports(fechaInicio, fechaFin, reason);
-
+  // Crear canvas para la gráfica
   const canvas = document.createElement('canvas');
   canvas.width = 800;
   canvas.height = 400;
-
   const ctx = canvas.getContext('2d');
-
+  const subjectCount = reports.justification.length;
+  // Configurar datos y opciones del gráfico
   const data = {
     labels: reports.justification,
-    datasets: [{
-      label: "Motivo",
-      data: reports.counts,
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      borderColor: 'rgba(75, 192, 192, 1)',
-      borderWidth: 1
-    }]
+    datasets: [
+      {
+        label: 'Aprobadas',
+        data: reports.approved,
+        backgroundColor: 'rgba(104, 177, 45, 0.6)',
+        stack: 'Estado',
+        barThickness: subjectCount <= 3 ? 50 : undefined
+      },
+      {
+        label: 'Pendientes',
+        data: reports.pending,
+        backgroundColor: 'rgba(204, 235, 30, 0.6)',
+        stack: 'Estado',
+        barThickness: subjectCount <= 3 ? 50 : undefined
+      },
+      {
+        label: 'Rechazadas',
+        data: reports.rejected,
+        backgroundColor: 'rgba(250, 61, 61, 0.6)',
+        stack: 'Estado',
+        barThickness: subjectCount <= 3 ? 50 : undefined
+      }
+    ]
   }
 
   const options = {
@@ -59,103 +68,175 @@ const ReportPdfReason = async (setDocumentPdf, setCanvas, fechaInicio, fechaFin,
     animation: false,
     scales: {
       x: {
-        title: {
-          display: true,
-          text: 'Motivo'
+        title: { display: true, text: 'Motivo' },
+        ticks: {
+          minRotation: 90,
+          maxRotation: 90
         }
       },
       y: {
         beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Cantidad de Cancelaciones'
-        },
-        ticks: {
-          stepSize: 1
-        }
+        title: { display: true, text: 'Cantidad de Cancelaciones' },
+        ticks: { stepSize: 1, },
       }
     }
   }
 
-  // 2. Crear el gráfico
+  // Crear el gráfico
   const chart = new Chart(ctx, {
     type: 'bar',
     data: data,
     options: options
   });
 
-  // Espera que el gráfico termine de renderizar
+  // Esperar a que se renderice el gráfico
   await new Promise(resolve => setTimeout(resolve, 500));
-
-  // 3. Convertir el gráfico a imagen
   const imgData = canvas.toDataURL('image/png');
 
-  // 4. Crear PDF en orientación horizontal
-  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-
-  // Obtener dimensiones de la página
-  const pageWidth = doc.internal.pageSize.getWidth();   // ~297 mm
-  const pageHeight = doc.internal.pageSize.getHeight(); // ~210 mm
+  // Inicializar documento PDF
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 20;
 
-  // 5. Insertar texto
-  doc.setFontSize(20);
+  // -------------------------------------
+  // ENCABEZADO CON FECHA Y TÍTULO
+  // -------------------------------------
+
+  const getFormattedDate = () => {
+    const meses = [
+      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ];
+    const fecha = new Date();
+    const dia = fecha.getDate();
+    const mes = meses[fecha.getMonth()];
+    const año = fecha.getFullYear();
+    return `${dia} de ${mes} de ${año}`;
+  };
+  const currentDate = getFormattedDate();
+
+  doc.setFontSize(12);
   doc.setFont(undefined, 'bold');
+  doc.text(currentDate, pageWidth - margin, margin, { align: 'right' });
+  const textMargin = 10;
+  doc.setFontSize(20); // Tamaño de fuente grande
+  doc.setFont(undefined, 'bold'); // Estilo negrita (opcional)
+
   const title = "Reporte de cancelaciones por motivo";
   const textWidth = doc.getTextWidth(title);
   const centerX = (pageWidth - textWidth) / 2;
-  const titleY = margin + 10;
-  doc.text(title, centerX, titleY);
 
-  // 6. Preparar el texto del resumen
+  doc.text(title, centerX, margin + textMargin);
+
+  // Restaurar tamaño de fuente para el resto del texto
   doc.setFontSize(12);
   doc.setFont(undefined, 'normal');
-  const motivosContados = reports?.justification.reduce((acc, item) => {
-    const motivo = item;
-    if (motivo) {
-      acc[motivo] = (acc[motivo] || 0) + 1;
-    }
-    return acc;
-  }, {});
 
-  const motivosTexto = Object.keys(motivosContados)
-    .map(motivo => `${motivo}: ${motivosContados[motivo]}`)
-    .join('\n');
+  // -------------------------------------
+  // PÁRRAFO INTRODUCTORIO
+  // -------------------------------------
 
-  const textoResumen = `Durante la fecha del ${fechaInicio} al ${fechaFin}, los motivos de las cancelaciones fueron:\n${motivosTexto}\n\nHa tenido un total de ${reports.counts.reduce((a, b) => a + b, 0)} cancelaciones.`;
+  const total = reports.approved.reduce((a, b) => a + b, 0);
+  const paragraph = `Durante la fecha del ${fechaInicio} al ${fechaFin}, se han registrado un total de ${total} cancelaciones, distribuidas por los distintos motivos seleccionados. Este informe presenta una visualización gráfica de dicha distribución.`;
 
+  // Define ancho máximo del texto según márgenes
   const maxTextWidth = pageWidth - 2 * margin;
-  const textLines = doc.splitTextToSize(textoResumen, maxTextWidth);
 
-  const textStartY = titleY + 10;
-  const lineHeight = 6;
-  const totalTextHeight = textLines.length * lineHeight;
+  // Divide el texto en líneas ajustadas al ancho permitido
+  const lines = doc.splitTextToSize(paragraph, maxTextWidth);
 
-  doc.text(textLines, margin, textStartY);
+  // Escribir el texto en múltiples líneas (alineado a la izquierda)
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'normal');
+  doc.text(lines, margin, margin + 2 * textMargin);
 
-  // 7. Insertar imagen del gráfico según el espacio disponible
-  const chartStartY = textStartY + totalTextHeight + 10;
-  const availableHeight = pageHeight - chartStartY - margin;
-  const availableWidth = pageWidth - 2 * margin;
+  // -------------------------------------
+  // TABLA DE DATOS
+  // -------------------------------------
 
-  if (availableHeight > 100) { // espacio mínimo para que no se vea aplastado
-    // Cabe en la misma página
-    doc.addImage(imgData, 'PNG', margin, chartStartY, availableWidth, availableHeight);
-  } else {
-    // No cabe, crear una nueva página
+
+  const tableTitle = 'Distribución detallada de cancelaciones por motivo';
+  doc.setFontSize(14);
+  doc.setFont(undefined, 'bold');
+  const tableTitleWidth = doc.getTextWidth(tableTitle);
+  const tableTitleX = (pageWidth - tableTitleWidth) / 2;
+  const tableTitleY = margin + 5 * textMargin - 5; // Un poco antes del inicio de la tabla
+  doc.text(tableTitle, tableTitleX, tableTitleY);
+
+  const lineHeight = 7; // en mm, puede variar según el tamaño de fuente y fuente
+  const paragraphHeight = lines.length * lineHeight;
+
+  const startY = margin + 2 * textMargin + paragraphHeight + 10;
+  autoTable(doc, {
+    head: [['#','Motivo', 'Aprobado', 'Pendiente', 'Rechazado', 'Total de cancelaciones']],
+    body: reports.justification.map((justif, index) => [
+      index +1 ,
+      justif,
+      reports.approved[index] || 0,
+      reports.pending[index] || 0,
+      reports.rejected[index] || 0,
+      (reports.approved[index] || 0) + (reports.pending[index] || 0) + (reports.rejected[index] || 0)
+    ]),
+    startY: startY,
+    theme: 'striped',
+    margin: { left: margin, right: margin },
+    headStyles: {
+      fillColor: [63, 81, 181],
+      textColor: 255,
+      fontStyle: 'bold'
+    }
+  });
+
+  const tableEndY = doc.lastAutoTable.finalY || startY + 20;
+
+
+  // -------------------------------------
+  // TÍTULO DE LA GRÁFICA
+  // -------------------------------------
+
+  const chartTitle = 'Gráfica de Cancelaciones por Motivo';
+  const chartTitleWidth = doc.getTextWidth(chartTitle);
+  doc.setFontSize(14);
+  doc.setFont(undefined, 'bold');
+
+  // Separación extra debajo de la tabla
+  const spaceAfterTable = 10;
+
+  const chartTitleY = tableEndY + spaceAfterTable;
+  doc.text(chartTitle, (pageWidth - chartTitleWidth) / 2, chartTitleY);
+
+  // -------------------------------------
+  // IMAGEN DE LA GRÁFICA
+  // -------------------------------------
+
+  const chartWidth = 140;
+  const chartHeight = 80;
+  const chartY = chartTitleY + 5;  // un poco debajo del título
+  const centerXChart = (pageWidth - chartWidth) / 2;
+
+  // Verificar si hay espacio para la gráfica, si no, nueva página
+  if (pageHeight - (chartY + chartHeight) < margin) {
     doc.addPage();
-    doc.addImage(imgData, 'PNG', margin, margin, availableWidth, pageHeight - 2 * margin);
+    doc.setFontSize(14);
+    doc.setFont(undefined, 'bold');
+    doc.text(chartTitle, (pageWidth - chartTitleWidth) / 2, margin);
+    doc.addImage(imgData, 'PNG', centerXChart, margin + 7, chartWidth, chartHeight);
+  } else {
+    doc.addImage(imgData, 'PNG', centerXChart, chartY, chartWidth, chartHeight);
   }
 
-  // 8. Crear el blob y la URL para vista previa
+  // -------------------------------------
+  // CREAR PDF Y PASARLO A LA INTERFAZ
+  // -------------------------------------
+
   const pdfBlob = doc.output('blob');
   const pdfUrl = URL.createObjectURL(pdfBlob);
 
-  // 9. Pasar el PDF al estado
   setDocumentPdf({ blob: pdfBlob, url: pdfUrl });
   setCanvas({ data: data, options: options });
 
-  // 10. Limpiar el gráfico para liberar memoria
+  // Limpiar el gráfico para liberar memoria
   chart.destroy();
 };
 

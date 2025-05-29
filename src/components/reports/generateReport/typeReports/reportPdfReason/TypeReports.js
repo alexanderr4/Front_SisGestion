@@ -1,40 +1,51 @@
-import { getCancellations } from '../../../../../api/Cancellations'
+import { getCancellations } from '../../../../../api/Cancellations';
 
-async function TypeReports(fechaInicio, fechaFin, reason) {
-    try {
-        const inicio = new Date(fechaInicio + 'T00:00:00');
-        const fin = new Date(fechaFin + 'T23:59:59');
+async function TypeReports(fechaInicio, fechaFin) {
+  try {
+    const response = await getCancellations();
+    const inicio = new Date(fechaInicio + 'T00:00:00');
+    const fin = new Date(fechaFin + 'T23:59:59');
 
-        const response = await getCancellations();
-        const filteredData = response.data.data.filter(item => {
-            const fechaCreacion = new Date(item.created_at);
-            return (
-                fechaCreacion >= inicio &&
-                fechaCreacion <= fin
-            );
-        });
+    // Filtrar por rango de fechas
+    const filteredData = response.data.data.filter(item => {
+      const fechaCreacion = new Date(item.created_at);
+      return fechaCreacion >= inicio && fechaCreacion <= fin;
+    });
 
-        // Obtener el primer subject.name coincidente si existe
-        const reasonNameActual = filteredData.length > 0
-            ? filteredData[0].justification
-            : "";
+    const subjectsSet = new Set();
+    const countsByStatus = {
+      approved: {},
+      pending: {},
+      rejected: {}
+    };
 
-        const countBySubject = {};
-        filteredData.forEach(item => {
-            if (item.status === "approved") {
-                const groupSubject = item.justification;
-                countBySubject[groupSubject] = (countBySubject[groupSubject] || 0) + 1;
-            }
-        });
+    filteredData.forEach(item => {
+      const subjectName = item?.justification || "Sin motivo"; // Por si no existe subject
+      const status = item.status;
 
-        const justification = Object.keys(countBySubject);
-        const counts = Object.values(countBySubject);
+      subjectsSet.add(subjectName);
 
-        return { justification, counts };
-    } catch (error) {
-        return { group: [], counts: [] };
-    }
+      if (!countsByStatus[status]) return; // Ignorar estados no contemplados
+
+      if (!countsByStatus[status][subjectName]) {
+        countsByStatus[status][subjectName] = 0;
+      }
+      countsByStatus[status][subjectName]++;
+    });
+
+    const justification = Array.from(subjectsSet);
+
+    // Mapear a arrays con valores 0 si no existen
+    const approved = justification.map(subj => countsByStatus.approved[subj] || 0);
+    const pending = justification.map(subj => countsByStatus.pending[subj] || 0);
+    const rejected = justification.map(subj => countsByStatus.rejected[subj] || 0);
+
+    return { justification, approved, pending, rejected };
+
+  } catch (error) {
+    // En caso de error devolver arrays vacíos
+    return { justification: [], approved: [], pending: [], rejected: [] };
+  }
 }
-
 
 export default TypeReports;

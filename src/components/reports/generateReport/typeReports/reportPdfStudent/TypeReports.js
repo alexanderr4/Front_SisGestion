@@ -17,24 +17,41 @@ async function TypeReports(fechaInicio, fechaFin, nameStudent) {
         });
 
         // Obtener el primer subject.name coincidente si existe
-        const studentNameActual = filteredData.length > 0
-            ? filteredData[0].student.name
-            : "";
+        // const studentNameActual = filteredData.length > 0
+        //     ? filteredData[0].student.name
+        //     : "";
 
-        const countBySubject = {};
+        const groupSet = new Set();
+        const countsByStatus = {
+            approved: {},
+            pending: {},
+            rejected: {}
+        };
+
+        // 4. Clasificar por estado y agrupar por grupo
         filteredData.forEach(item => {
-            if (item.status === "approved") {
-                const groupSubject = item.group;
-                countBySubject[groupSubject] = (countBySubject[groupSubject] || 0) + 1;
+            const groupName = item.student.name;
+            const status = item.status;
+
+            groupSet.add(groupName);
+
+            if (!countsByStatus[status]) return; // Ignorar estados no esperados
+
+            if (!countsByStatus[status][groupName]) {
+                countsByStatus[status][groupName] = 0;
             }
+            countsByStatus[status][groupName]++;
         });
 
-        const group = Object.keys(countBySubject);
-        const counts = Object.values(countBySubject);
+        // 5. Unificar grupos y mapear valores
+        const students = Array.from(groupSet);
+        const approved = students.map(grp => countsByStatus.approved[grp] || 0);
+        const pending = students.map(grp => countsByStatus.pending[grp] || 0);
+        const rejected = students.map(grp => countsByStatus.rejected[grp] || 0);
 
-        return { group, counts, studentNameActual };
+        return { students, approved, pending, rejected };
     } catch (error) {
-        return { group: [], counts: [], StudentNameActual: "" };
+        return {students: [], approved: [], pending: [], rejected: []};
     }
 }
 

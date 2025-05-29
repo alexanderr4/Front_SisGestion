@@ -17,24 +17,39 @@ async function TypeReports(fechaInicio, fechaFin, nameSubject) {
         });
 
         // Obtener el primer subject.name coincidente si existe
-        const subjectNameActual = filteredData.length > 0
-            ? filteredData[0].subject.name
-            : "";
+        // const subjectNameActual = filteredData.length > 0
+        //     ? filteredData[0].subject.name
+        //     : "";
 
-        const countBySubject = {};
+        const groupSet = new Set();
+        const countsByStatus = {
+            approved: {},
+            pending: {},
+            rejected: {}
+        };
+
         filteredData.forEach(item => {
-            if (item.status === "approved") {
-                const groupSubject = item.group;
-                countBySubject[groupSubject] = (countBySubject[groupSubject] || 0) + 1;
+            const groupName = item.subject.name;
+            const status = item.status;
+
+            groupSet.add(groupName);
+
+            if (!countsByStatus[status]) return;
+
+            if (!countsByStatus[status][groupName]) {
+                countsByStatus[status][groupName] = 0;
             }
+            countsByStatus[status][groupName]++;
         });
 
-        const group = Object.keys(countBySubject);
-        const counts = Object.values(countBySubject);
+        const subjects = Array.from(groupSet);
+        const approved = subjects.map(grp => countsByStatus.approved[grp] || 0);
+        const pending = subjects.map(grp => countsByStatus.pending[grp] || 0);
+        const rejected = subjects.map(grp => countsByStatus.rejected[grp] || 0);
 
-        return { group, counts, subjectNameActual };
+        return { subjects, approved, pending, rejected };
     } catch (error) {
-        return { group: [], counts: [], subjectNameActual: "" };
+        return { subjects: [], approved: [], pending: [], rejected: [] };
     }
 }
 

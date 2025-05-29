@@ -1,8 +1,18 @@
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSheetPlastic } from '@fortawesome/free-solid-svg-icons';
 import './Preview.css';
 
-function Preview({ document }) {
+function Preview({ document, setLoading, setShowToast, loading }) {
+useEffect (() => {
+  if (document && loading) {
+    setLoading(false)
+    setShowToast(true)
+  }
+}, [document])
+
+  
+
   return (
     <div className="preview">
       {document === null ? (<>
