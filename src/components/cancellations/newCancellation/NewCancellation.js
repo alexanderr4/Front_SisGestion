@@ -143,7 +143,6 @@ function NewCancellation() {
                 justification: loadData.justification,
                 comments: loadData.comments
             }
-            console.log("sendData", sendData);
             createCancellation(sendData).then((response) => {
                 setShowToast(true)
                 setToastMessage("Solicitud de cancelación creada con éxito")
@@ -154,6 +153,7 @@ function NewCancellation() {
                 }, 1000)
 
             }).catch((error) => {
+                console.error(error);
                 setLoading(false);
                 setShowToast(true)
                 setToastMessage(error.response.data.message || "Error al crear la solicitud de cancelación")
