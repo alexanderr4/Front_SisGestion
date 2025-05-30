@@ -77,7 +77,7 @@ function SubjectManagement() {
 
     const loadSubjects = async () => {
         setLoading(true);
-        const { startDate, endDate } = getDatesSemester(activeTabSubject);
+        const { startDate, endDate } = getDatesSemester();
         try {
             const res = await getSubjectBySemester(Number(activeTabSubject));
             const filteredSubjectsBySemesters = VerifySubjects(res.data.data.filter((subject) => new Date(subject.created_at) >= startDate && new Date(subject.created_at) <= endDate));
